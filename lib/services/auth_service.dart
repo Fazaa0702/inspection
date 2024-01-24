@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants.dart';
+
 class AuthService {
   // String apiUrl = '';
 
@@ -28,8 +30,7 @@ class AuthService {
 
   Future<String> loginService(String id) async {
     try {
-      var url =
-          Uri.parse('https://485a-103-159-203-219.ngrok-free.app/api/login');
+      var url = Uri.parse('${Constants.apiUrl}/api/login');
       var headers = {'Content-Type': 'application/json'};
       var body = json.encode(createData(id));
 

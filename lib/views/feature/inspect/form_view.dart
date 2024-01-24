@@ -1,26 +1,38 @@
 import 'package:einspection/controllers/feature/inspect/form_controller.dart';
 import 'package:einspection/models/dept_model.dart';
 import 'package:einspection/models/inspection_model.dart';
+import 'package:einspection/routes/route_name.dart';
+import 'package:einspection/views/feature/inspect/form_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FormView extends GetView<FormController> {
   FormView({super.key});
 
-  @override
   final FormController controller = Get.put(FormController());
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Inspeksi',
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                color: Colors.white),
+          automaticallyImplyLeading: false,
+          title: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Get.offAllNamed(RouteName.home);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+              const Text(
+                'Inspeksi',
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+            ],
           ),
-          titleSpacing: 0,
+          titleSpacing: 10,
           iconTheme: const IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -40,16 +52,6 @@ class FormView extends GetView<FormController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 25.0, bottom: 5),
-                  child: Text(
-                    'Departemen',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Poppins'),
-                  ),
-                ),
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 15, right: 15, bottom: 5),
@@ -59,11 +61,17 @@ class FormView extends GetView<FormController> {
                         : DropdownButtonFormField<DeptModel>(
                             isExpanded: true,
                             decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF47B347))),
+                              hintText: 'Departemen',
+                              hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            value: controller.dept[0],
+                            // value: controller.dept[0],
                             // onTap: () => controller.fetchDeptData(),
                             items: controller.dept.map((DeptModel dept) {
                               return DropdownMenuItem<DeptModel>(
@@ -77,28 +85,24 @@ class FormView extends GetView<FormController> {
                           ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 25.0, top: 15, bottom: 5),
-                  child: Text(
-                    'Inspeksi',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Poppins'),
-                  ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
                   child: Obx(
                     () => controller.inspect.isEmpty
                         ? const CircularProgressIndicator()
                         : DropdownButtonFormField<InspectionModel>(
                             decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF47B347))),
+                              hintText: 'Inspeksi',
+                              hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            value: controller.inspect[0],
+                            // value: controller.inspect[0],
                             // onTap: () => controller.fetchDeptData(),
                             items: controller.inspect
                                 .map((InspectionModel inspect) {
@@ -108,11 +112,15 @@ class FormView extends GetView<FormController> {
                               );
                             }).toList(),
                             onChanged: (InspectionModel? newValue) {
-                              controller.inspectValue.value;
+                              if (newValue != null) {
+                                controller.fetchQuestionData(newValue.id);
+                                print(newValue.id);
+                              }
                             },
                           ),
                   ),
                 ),
+                FormSection(),
               ],
             ),
           ),
