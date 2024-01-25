@@ -1,15 +1,16 @@
 import 'package:einspection/models/answer_model.dart';
+import 'package:einspection/models/question_answer_model.dart';
+import 'package:einspection/models/question_model.dart';
 import 'package:einspection/services/form_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SubmitFormController extends GetxController {
   final FormService formService = FormService();
+  var answer = <QuestionAnswerModel>[];
+  final Map<String, TextEditingController> textControllers = {};
 
-  // Future<void> submitAnswer(Map<String, dynamic> answer) async {
-  //   try {
-  //     await formService.submitAnswerService(answer);
-  //   } catch (error) {
-  //     print("Error submitting answer: $error");
-  //   }
-  // }
+  void addFormData(String questionId, String answerText) {
+    answer.add;
+  }
 }

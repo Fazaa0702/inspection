@@ -6,16 +6,35 @@ import '../../../controllers/feature/inspect/submit_form_controller.dart';
 import '../../../models/question_answer_model.dart';
 import '../../../models/question_model.dart';
 
-class FormSection extends StatelessWidget {
+class FormSection extends StatefulWidget {
   FormSection({super.key});
+
+  @override
+  State<FormSection> createState() => _FormSectionState();
+}
+
+class _FormSectionState extends State<FormSection> {
   final FormController controller = Get.put(FormController());
+  final Map<String, bool> idSentStatus = {};
+
   final SubmitFormController submitFormController =
       Get.put(SubmitFormController());
 
-  final List<TextEditingController> textControllers = [];
+  late QuestionAnswerModel currentAnswer;
+
+  List<QuestionAnswerModel> answers = [];
+
+  final Map<String, TextEditingController> textControllers = {};
+  @override
+  void initState() {
+    super.initState();
+    currentAnswer = QuestionAnswerModel(questionId: '', answerText: '');
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Padding(
         padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
         child: Column(
@@ -33,8 +52,14 @@ class FormSection extends StatelessWidget {
               child: SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    // await buildFormField(question);
+                  onPressed: () {
+                    setState(() {
+                      answers.add(currentAnswer);
+                    });
+                    for (QuestionAnswerModel answer in answers) {
+                      print(
+                          'Question ID: ${answer.questionId}, Answer: ${answer.answerText}');
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF47B347),
@@ -75,10 +100,21 @@ class FormSection extends StatelessWidget {
             SizedBox(
               height: 40,
               child: TextField(
+                onTap: () {
+                  setState(() {
+                    answers.add(currentAnswer);
+                  });
+                },
+                controller: textControllers[questionId],
                 onChanged: (value) {
-                  controller.setSelectedValue(questionId, value);
-                  print(value);
-                  print(questionId);
+                  if (value == '') {
+                    print(value);
+                    print(questionId);
+                  }
+                  setState(() {
+                    currentAnswer = QuestionAnswerModel(
+                        questionId: question.id.toString(), answerText: value);
+                  });
                 },
                 style: const TextStyle(
                     fontSize: 14,
@@ -126,20 +162,36 @@ class FormSection extends StatelessWidget {
     }
   }
 
-  Widget buildRadio(String questionId, String value) {
+  Widget buildRadio(String questionId, String nilai) {
     return Row(
       children: [
         Radio(
           activeColor: const Color(0xFF47B347),
-          value: value,
+          value: nilai,
           groupValue: controller.selectedValue[questionId]?.value,
           onChanged: (value) {
-            controller.setSelectedValue(questionId, value.toString());
-            print(value);
             print(questionId);
+            // print(idSentStatus[questionId]);
+
+            if (value != '' && idSentStatus.containsKey(questionId) == true) {
+              setState(() {
+                answers.remove(currentAnswer);
+                answers.add(currentAnswer);
+              });
+            }
+            if (value != '' && idSentStatus.containsKey(questionId)) {
+              answers.remove(value);
+            }
+            setState(() {
+              currentAnswer = QuestionAnswerModel(
+                questionId: questionId,
+                answerText: nilai,
+              );
+            });
+            controller.setSelectedValue(questionId, value.toString());
           },
         ),
-        Text(value),
+        Text(nilai),
       ],
     );
   }
