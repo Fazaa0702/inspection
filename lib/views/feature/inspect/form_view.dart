@@ -6,10 +6,22 @@ import 'package:einspection/views/feature/inspect/form_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FormView extends GetView<FormController> {
+class FormView extends StatefulWidget {
   FormView({super.key});
 
+  @override
+  State<FormView> createState() => _FormViewState();
+}
+
+class _FormViewState extends State<FormView> {
   final FormController controller = Get.put(FormController());
+
+  late int inspectionId = 0;
+  late int departmentId = 0;
+
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +93,11 @@ class FormView extends GetView<FormController> {
                             }).toList(),
                             onChanged: (DeptModel? newValue) {
                               controller.deptValue.value;
+                              (newValue != null)
+                                  ? setState(() {
+                                      departmentId = newValue.id;
+                                    })
+                                  : null;
                             },
                           ),
                   ),
@@ -114,13 +131,17 @@ class FormView extends GetView<FormController> {
                             onChanged: (InspectionModel? newValue) {
                               if (newValue != null) {
                                 controller.fetchQuestionData(newValue.id);
+                                setState(() {
+                                  inspectionId = newValue.id;
+                                });
                                 print(newValue.id);
                               }
                             },
                           ),
                   ),
                 ),
-                FormSection(),
+                FormSection(
+                    departmentId: departmentId, inspectionId: inspectionId),
               ],
             ),
           ),

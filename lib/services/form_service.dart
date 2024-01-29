@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:einspection/models/answer_model.dart';
 import 'package:einspection/models/question_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
@@ -23,17 +25,35 @@ class FormService {
     }
   }
 
-  Future submitAnswerService(AnswerModel answer) async {
-    final res = await http.post(
-      Uri.parse('${Constants.apiUrl}/api/inspectionResult'),
-      body: jsonEncode(answer.toJson()),
-    );
+  Future submitAnswerService(Map<String, dynamic> answer) async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("answerwrewrr : ${answer}");
 
+    var jsonData = jsonEncode({
+      "UserId": answer["UserId"],
+      "DepartmentId": answer["DepartmentId"],
+      "InspectionId": answer["InspectionId"],
+      "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
+    });
+
+    print("kson dat a = ${jsonData}");
+    // Update the answer map
+
+    print("answerssadsasdsansdjfj h : ${answer["QuestionAnswers"]}");
+
+    final res = await http.post(
+        Uri.parse('${Constants.apiUrl}/api/inspectionResult'),
+        body: jsonData,
+        headers: {'Content-Type': 'application/json'});
+
+    print('resbody : ${res.body}');
+    print("json data = ${jsonData}");
     if (res.statusCode == 200) {
-      print("result: ${res.body}");
+      // await prefs.setString('user', res.body);
+      //print("result: ${res.body}");
       return 'Sukses';
     } else {
-      throw Exception('Failed to submit answer');
+      print("errror : ${e}");
     }
   }
 }

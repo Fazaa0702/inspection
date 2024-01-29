@@ -18,9 +18,8 @@ class FormController extends GetxController {
   RxMap<String, dynamic> formData = <String, dynamic>{}.obs;
   TextEditingController textController = TextEditingController();
 
-  var deptValue = "".obs;
-  var inspectValue = "".obs;
-  var inspectionId = '';
+  var deptValue = 0.obs;
+  var inspectValue = 0.obs;
   final RxMap<String, RxString> selectedValue = <String, RxString>{}.obs;
   RxMap textControllers = {}.obs;
 

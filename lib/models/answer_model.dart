@@ -9,19 +9,19 @@ String questionModelToJson(AnswerModel data) => json.encode(data.toJson());
 
 class AnswerModel {
   String userId;
-  String department;
+  int departmentId;
   int inspectionId;
-  List<QuestionAnswerModel> questionAnswers;
+  String questionAnswers;
 
   AnswerModel({
     required this.userId,
-    required this.department,
+    required this.departmentId,
     required this.inspectionId,
     required this.questionAnswers,
   });
   factory AnswerModel.fromJson(Map<String, dynamic> json) => AnswerModel(
         userId: json["userId"],
-        department: json["department"],
+        departmentId: json["departmentId"],
         inspectionId: json["inspectionId"],
         questionAnswers: json["questionAnswers"],
       );
@@ -29,9 +29,9 @@ class AnswerModel {
   get questionId => null;
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "department": department,
-        "inspectionId": inspectionId,
-        "questionAnswers": questionAnswers,
+        "UserId": userId,
+        "DepartmentId": departmentId,
+        "InspectionId": inspectionId,
+        "QuestionAnswers": questionAnswers,
       };
 }

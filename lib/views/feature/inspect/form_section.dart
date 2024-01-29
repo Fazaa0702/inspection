@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:einspection/models/answer_model.dart';
+import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/feature/inspect/form_controller.dart';
 import '../../../controllers/feature/inspect/submit_form_controller.dart';
@@ -7,7 +12,13 @@ import '../../../models/question_answer_model.dart';
 import '../../../models/question_model.dart';
 
 class FormSection extends StatefulWidget {
-  FormSection({super.key});
+  final int departmentId;
+  final int inspectionId;
+  FormSection({
+    super.key,
+    required this.departmentId,
+    required this.inspectionId,
+  });
 
   @override
   State<FormSection> createState() => _FormSectionState();
@@ -52,12 +63,38 @@ class _FormSectionState extends State<FormSection> {
               child: SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    print("current answer: ${currentAnswer}");
-                    for (QuestionAnswerModel answer in answers) {
-                      print(
-                          'Question ID: ${answer.questionId}, Answer: ${answer.answerText}');
-                    }
+                  onPressed: () async {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    var dataUser = prefs.getString("user").toString();
+                    Map<String, dynamic> userData = json.decode(dataUser);
+                    List<Map<String, dynamic>> answersMapList =
+                        answers.map((obj) => obj.toJson()).toList();
+
+                    // Convert the list of Map<String, dynamic> to a JSON string
+                    String json_data_questionAnswers =
+                        jsonEncode(answersMapList);
+                    // setState(() {
+                    //   answers.add(currentAnswer);
+                    // });
+
+                    // for (QuestionAnswerModel answer in answers) {
+                    //   // setState(() {
+                    //   //   answers.add(currentAnswer);
+                    //   // });
+                    //   print(
+                    //       'Question ID: ${answer.questionId}, Answer: ${answer.answerText}');
+                    // }
+                    print("data user : ${userData['id']}");
+                    print(
+                        "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                    late AnswerModel answerModel = new AnswerModel(
+                        userId: userData['id'],
+                        departmentId: widget.departmentId.toInt(),
+                        inspectionId: widget.inspectionId.toInt(),
+                        questionAnswers: json_data_questionAnswers);
+                    submitFormController.submitAnswer(answerModel);
+                    // Get.offAllNamed(RouteName.home);
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF47B347),
@@ -165,8 +202,8 @@ class _FormSectionState extends State<FormSection> {
                     fontFamily: 'Poppins'),
               ),
             ),
-            buildRadio(questionId, 'Baik'),
-            buildRadio(questionId, 'Tidak Baik'),
+            buildRadio(questionId, 'bagus'),
+            buildRadio(questionId, 'rusak'),
             SizedBox(height: 20),
           ],
         );

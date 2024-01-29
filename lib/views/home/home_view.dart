@@ -7,7 +7,6 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   @override
-  final FormController controller = Get.put(FormController());
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox(
