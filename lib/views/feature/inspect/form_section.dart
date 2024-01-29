@@ -53,9 +53,7 @@ class _FormSectionState extends State<FormSection> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      answers.add(currentAnswer);
-                    });
+                    print("current answer: ${currentAnswer}");
                     for (QuestionAnswerModel answer in answers) {
                       print(
                           'Question ID: ${answer.questionId}, Answer: ${answer.answerText}');
@@ -81,6 +79,10 @@ class _FormSectionState extends State<FormSection> {
     final questionText = question.questionText;
     final questionType = question.questionType;
     final questionId = question.id;
+    if (!textControllers.containsKey(questionId)) {
+      // Jika belum ada, buat controller baru
+      textControllers[questionId] = TextEditingController();
+    }
 
     switch (questionType) {
       case 'Text':
@@ -100,13 +102,10 @@ class _FormSectionState extends State<FormSection> {
             SizedBox(
               height: 40,
               child: TextField(
-                onTap: () {
-                  setState(() {
-                    answers.add(currentAnswer);
-                  });
-                },
                 controller: textControllers[questionId],
                 onChanged: (value) {
+                  print(
+                      "textController : ${textControllers[questionId]?.text}");
                   if (value == '') {
                     print(value);
                     print(questionId);
@@ -115,6 +114,21 @@ class _FormSectionState extends State<FormSection> {
                     currentAnswer = QuestionAnswerModel(
                         questionId: question.id.toString(), answerText: value);
                   });
+                  int index = answers.indexWhere(
+                      (qa) => qa.questionId == currentAnswer.questionId);
+                  print("index : ${index}");
+                  if (index != -1) {
+                    // Jika sudah ada, ganti data yang lama dengan yang baru
+                    setState(() {
+                      answers[index] = currentAnswer;
+                    });
+                  } else {
+                    // Jika belum ada, tambahkan data baru
+                    setState(() {
+                      answers.add(currentAnswer);
+                    });
+                  }
+                  print("answers : ${answers[0].questionId}");
                 },
                 style: const TextStyle(
                     fontSize: 14,
@@ -172,16 +186,6 @@ class _FormSectionState extends State<FormSection> {
           onChanged: (value) {
             print(questionId);
             // print(idSentStatus[questionId]);
-
-            if (value != '' && idSentStatus.containsKey(questionId) == true) {
-              setState(() {
-                answers.remove(currentAnswer);
-                answers.add(currentAnswer);
-              });
-            }
-            if (value != '' && idSentStatus.containsKey(questionId)) {
-              answers.remove(value);
-            }
             setState(() {
               currentAnswer = QuestionAnswerModel(
                 questionId: questionId,
@@ -189,6 +193,22 @@ class _FormSectionState extends State<FormSection> {
               );
             });
             controller.setSelectedValue(questionId, value.toString());
+
+            int index = answers
+                .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+            print("index : ${index}");
+            if (index != -1) {
+              // Jika sudah ada, ganti data yang lama dengan yang baru
+              setState(() {
+                answers[index] = currentAnswer;
+              });
+            } else {
+              // Jika belum ada, tambahkan data baru
+              setState(() {
+                answers.add(currentAnswer);
+              });
+            }
+            print("answers : ${answers[0].questionId}");
           },
         ),
         Text(nilai),
