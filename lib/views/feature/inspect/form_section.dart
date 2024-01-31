@@ -61,13 +61,32 @@ class _FormSectionState extends State<FormSection> {
               child: SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () async {
+                  onPressed: () {
                     CommonDialog().confirmDialog(
                         'Konfirmasi',
-                        'Anda akan submit data',
-                        'Data yang anda submit akan terkirim di website', () {
-                      formController.submitAnswer(
-                          widget.departmentId, widget.inspectionId);
+                        'Apakah anda yakin ?',
+                        'Data yang anda inputkan akan terkirim di web',
+                        () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var dataUser = prefs.getString("user").toString();
+                      Map<String, dynamic> userData = json.decode(dataUser);
+                      List<Map<String, dynamic>> answersMapList =
+                          answers.map((obj) => obj.toJson()).toList();
+
+                      // Convert the list of Map<String, dynamic> to a JSON string
+                      String json_data_questionAnswers =
+                          jsonEncode(answersMapList);
+
+                      print("data user : ${userData['id']}");
+                      print(
+                          "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                      late AnswerModel answerModel = new AnswerModel(
+                          userId: userData['id'],
+                          departmentId: widget.departmentId.toInt(),
+                          inspectionId: widget.inspectionId.toInt(),
+                          questionAnswers: json_data_questionAnswers);
+                      formController.submitAnswerCondition(answerModel);
                       Get.offAllNamed(RouteName.home);
                     });
                   },

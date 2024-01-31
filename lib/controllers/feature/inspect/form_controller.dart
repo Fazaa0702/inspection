@@ -58,7 +58,8 @@ class FormController extends GetxController {
           .assignAll(data.map((inspect) => InspectionModel.fromJson(inspect)));
       print(res.body);
     } else {
-      throw Exception('Failed to load data');
+      // throw Exception('Failed to load data');
+      print('gagal mendapatkan data');
     }
   }
 
@@ -96,20 +97,21 @@ class FormController extends GetxController {
     }
   }
 
-  Future<void> submitAnswer(int departmentId, int inspectionId) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var dataUser = prefs.getString("user").toString();
-    Map<String, dynamic> userData = json.decode(dataUser);
-    List<Map<String, dynamic>> answersMapList =
-        answers.map((obj) => obj.toJson()).toList();
+  // Future<void> submitAnswer(int departmentId, int inspectionId) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var dataUser = prefs.getString("user").toString();
+  //   Map<String, dynamic> userData = json.decode(dataUser);
+  //   List<Map<String, dynamic>> answersMapList =
+  //       answers.map((obj) => obj.toJson()).toList();
 
-    String jsonDataQuestionanswers = jsonEncode(answersMapList);
-    AnswerModel answerModel = AnswerModel(
-        userId: userData['id'],
-        departmentId: departmentId,
-        inspectionId: inspectionId,
-        questionAnswers: jsonDataQuestionanswers);
-    submitAnswerCondition(answerModel);
-    CommonSnackbar.successSnackbar('Success', 'Data anda telah tersimpan');
-  }
+  //   String jsonDataQuestionanswers = jsonEncode(answersMapList);
+  //   AnswerModel answerModel = AnswerModel(
+  //       userId: userData['id'],
+  //       departmentId: departmentId,
+  //       inspectionId: inspectionId,
+  //       questionAnswers: jsonDataQuestionanswers);
+  //   submitAnswerCondition(answerModel);
+  //   print(jsonDataQuestionanswers);
+  //   CommonSnackbar.successSnackbar('Success', 'Data anda telah tersimpan');
+  // }
 }

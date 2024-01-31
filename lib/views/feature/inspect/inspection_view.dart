@@ -14,7 +14,7 @@ class InspectionView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: Color(0xFF32A632),
+        backgroundColor: const Color(0xFF32A632),
         automaticallyImplyLeading: false,
         title: Row(
           children: [
@@ -57,7 +57,7 @@ class InspectionView extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // const Padding(padding: EdgeInsets.only(bottom: 20)),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 8, top: 8, bottom: 20),
                     child: SizedBox(
                       height: 25,

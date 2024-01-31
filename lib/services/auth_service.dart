@@ -30,7 +30,7 @@ class AuthService {
 
   Future<String> loginService(String id) async {
     try {
-      var url = Uri.parse('${Constants.apiUrl}/api/login');
+      var url = Uri.parse('${Constants.apiUrl}/api/loginApi');
       var headers = {'Content-Type': 'application/json'};
       var body = json.encode(createData(id));
 
