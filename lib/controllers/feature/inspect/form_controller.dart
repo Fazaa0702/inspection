@@ -7,19 +7,24 @@ import 'package:einspection/services/form_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../component/common_snackbar.dart';
 import '../../../constants.dart';
+import '../../../models/answer_model.dart';
+import '../../../models/question_answer_model.dart';
 
 class FormController extends GetxController {
   RxList<DeptModel> dept = <DeptModel>[].obs;
   RxList<InspectionModel> inspect = <InspectionModel>[].obs;
   final FormService _formService = FormService();
   final RxList<QuestionModel> questions = <QuestionModel>[].obs;
-  RxMap<String, dynamic> formData = <String, dynamic>{}.obs;
-  TextEditingController textController = TextEditingController();
+  List<QuestionAnswerModel> answers = [];
 
   var deptValue = 0.obs;
   var inspectValue = 0.obs;
+  var userId = '';
+
   final RxMap<String, RxString> selectedValue = <String, RxString>{}.obs;
   RxMap textControllers = {}.obs;
 
@@ -30,21 +35,8 @@ class FormController extends GetxController {
     super.onInit();
   }
 
-  // void selity() {
-  //   selectedValue.value = !selectedValue.value;
-  // }
-
   void setSelectedValue(String questionId, String value) {
     selectedValue[questionId] = value.obs;
-  }
-
-  void setTextController(String questionId, TextEditingController controller) {
-    textControllers[questionId] = controller.obs;
-  }
-
-  TextEditingController? getActualTextController(String questionId) {
-    final rxController = textControllers[questionId];
-    return rxController?.value;
   }
 
   Future<void> fetchDeptData() async {
@@ -78,5 +70,46 @@ class FormController extends GetxController {
     } catch (e) {
       print('Error fetching questions: $e');
     }
+  }
+
+  getUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('id')) {
+      var data = jsonDecode(prefs.getString('id')!);
+      userId = data['id'];
+    }
+  }
+
+  Future<void> submitAnswerCondition(AnswerModel answerModel) async {
+    //print("answer object : ${answerModel.toJson()}");
+    try {
+      bool success =
+          await _formService.submitAnswerService(answerModel.toJson());
+      print("success value : ${success}");
+      if (success) {
+        print('Data terkirim ke database');
+      } else {
+        print('Gagal mengirim data ke database');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> submitAnswer(int departmentId, int inspectionId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var dataUser = prefs.getString("user").toString();
+    Map<String, dynamic> userData = json.decode(dataUser);
+    List<Map<String, dynamic>> answersMapList =
+        answers.map((obj) => obj.toJson()).toList();
+
+    String jsonDataQuestionanswers = jsonEncode(answersMapList);
+    AnswerModel answerModel = AnswerModel(
+        userId: userData['id'],
+        departmentId: departmentId,
+        inspectionId: inspectionId,
+        questionAnswers: jsonDataQuestionanswers);
+    submitAnswerCondition(answerModel);
+    CommonSnackbar.successSnackbar('Success', 'Data anda telah tersimpan');
   }
 }

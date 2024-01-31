@@ -1,3 +1,4 @@
+import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/controllers/feature/inspect/form_controller.dart';
 import 'package:einspection/models/dept_model.dart';
 import 'package:einspection/models/inspection_model.dart';
@@ -27,12 +28,19 @@ class _FormViewState extends State<FormView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: 70,
+          backgroundColor: Color(0xFF32A632),
           automaticallyImplyLeading: false,
           title: Row(
             children: [
               IconButton(
                   onPressed: () {
-                    Get.offAllNamed(RouteName.home);
+                    CommonDialog().confirmDialog(
+                        'Konfirmasi',
+                        'Anda akan keluar dari form',
+                        'Data yang anda inputkan akan terhapus', () {
+                      Get.offAllNamed(RouteName.inspection);
+                    });
                   },
                   icon: const Icon(Icons.arrow_back)),
               const Text(
@@ -46,16 +54,16 @@ class _FormViewState extends State<FormView> {
           ),
           titleSpacing: 10,
           iconTheme: const IconThemeData(color: Colors.white),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF47B347),
-                  Color(0xFF7FCC1E)
-                ], // Set your gradient colors
-              ),
-            ),
-          ),
+          // flexibleSpace: Container(
+          //   decoration: const BoxDecoration(
+          //     gradient: LinearGradient(
+          //       colors: [
+          //         Color(0xFF47B347),
+          //         Color(0xFF7FCC1E)
+          //       ], // Set your gradient colors
+          //     ),
+          //   ),
+          // ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -83,8 +91,6 @@ class _FormViewState extends State<FormView> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            // value: controller.dept[0],
-                            // onTap: () => controller.fetchDeptData(),
                             items: controller.dept.map((DeptModel dept) {
                               return DropdownMenuItem<DeptModel>(
                                 value: dept,

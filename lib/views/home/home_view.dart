@@ -1,10 +1,13 @@
 import 'package:einspection/controllers/feature/inspect/form_controller.dart';
+import 'package:einspection/controllers/login/login_controller.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
+
+  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,148 +20,384 @@ class HomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                color: const Color(0xFF32A632),
+                height: Get.height * 0.3,
                 width: Get.width,
-                height: Get.height * 0.4,
-                color: const Color(0xFF7ACC7A),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8, right: 0, top: 8, bottom: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 3),
-                          child: Text(
-                            'Selamat Datang',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins'),
+                        const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              // Icon(
+                              //   Icons.logout,
+                              //   color: Colors.white,
+                              //   size: 25,
+                              // ),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20)),
+                              Text(
+                                'HSE Connect',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
+                                  overflow: TextOverflow.visible,
+                                  // maxLines: 3,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(
-                            'Fazaa Hanifan Hidayatullah',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ),
+                        SizedBox(
+                            width: 132,
+                            height: 130,
+                            child: Image.asset(
+                              'assets/images/home1.png',
+                            ))
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25),
-                      child: SizedBox(
-                        height: Get.height * 0.39,
-                        width: Get.width * 0.39,
-                        child: Image.asset('assets/images/home1.png'),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(10)),
-              const SizedBox(
-                height: 25,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text('Menu',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins')),
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 20)),
-              Center(
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.toNamed(RouteName.form);
-                      },
-                      child: Container(
-                        width: Get.width * 0.9,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                                colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Image.asset(
-                                  'assets/images/home2.png',
-                                  width: 80,
-                                )),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 40),
-                              child: Text(
-                                'Input Manual',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 20)),
-                    const Text('Or',
+              const Padding(
+                padding: EdgeInsets.only(left: 8, top: 20, bottom: 5),
+                child: SizedBox(
+                  height: 25,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text('Menu',
                         style: TextStyle(
                             fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins',
-                            color: Colors.grey)),
-                    const Padding(padding: EdgeInsets.only(top: 20)),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: Get.width * 0.9,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                                colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Image.asset(
-                                  'assets/images/home3.png',
-                                  width: 90,
-                                )),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Text(
-                                'Scan QR Code',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins')),
+                  ),
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Container(
+                  height: Get.height * 0.25,
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.2), // warna bayangan
+                        spreadRadius: 3, // seberapa tersebar bayangan
+                        blurRadius: 7, // seberapa kabur bayangan
+                        blurStyle: BlurStyle.outer
+                        // offset: Offset(), // posisi bayangan (x, y)
+                        )
+                  ], borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: const Color(0xFFD4F4FE)),
+                              onPressed: () {
+                                Get.toNamed(RouteName.inspection);
+                              },
+                              child: SizedBox(
+                                width: 50,
+                                height: 100,
+                                child: Image.asset(
+                                  'assets/images/homeButton1.png',
+                                  // height: 125,
+                                ),
+                              )),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'e-Inspection',
+                              overflow: TextOverflow.visible,
+                              // maxLines: 3,
+                              softWrap: true,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: const Color(0xFFFDF0CC)),
+                              onPressed: () {
+                                Get.toNamed(RouteName.inspection);
+                              },
+                              child: SizedBox(
+                                width: 50,
+                                height: 100,
+                                child: Image.asset(
+                                  'assets/images/homeButton2.png',
+                                ),
+                              )),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Work Permit',
+                              overflow: TextOverflow.visible,
+                              // maxLines: 3,
+                              softWrap: true,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 8, top: 10, bottom: 5),
+                child: SizedBox(
+                  height: 25,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text('Documentations',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins')),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 20, bottom: 20),
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: Get.height * 0.20,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                          color:
+                              Colors.black.withOpacity(0.2), // warna bayangan
+                          spreadRadius: 3, // seberapa tersebar bayangan
+                          blurRadius: 7, // seberapa kabur bayangan
+                          blurStyle: BlurStyle.outer
+                          // offset: Offset(), // posisi bayangan (x, y)
+                          )
+                    ], borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.grey.withOpacity(0.17),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'HSE Connect',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 160,
+                                  child: Text(
+                                    '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 20, bottom: 20),
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: Get.height * 0.20,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                          color:
+                              Colors.black.withOpacity(0.2), // warna bayangan
+                          spreadRadius: 3, // seberapa tersebar bayangan
+                          blurRadius: 7, // seberapa kabur bayangan
+                          blurStyle: BlurStyle.outer
+                          // offset: Offset(), // posisi bayangan (x, y)
+                          )
+                    ], borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.grey.withOpacity(0.17),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Work Permit',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 160,
+                                  child: Text(
+                                    '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: Get.height * 0.20,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                          color:
+                              Colors.black.withOpacity(0.2), // warna bayangan
+                          spreadRadius: 3, // seberapa tersebar bayangan
+                          blurRadius: 7, // seberapa kabur bayangan
+                          blurStyle: BlurStyle.outer
+                          // offset: Offset(), // posisi bayangan (x, y)
+                          )
+                    ], borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.grey.withOpacity(0.17),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'e-Inspection',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 160,
+                                  child: Text(
+                                    '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

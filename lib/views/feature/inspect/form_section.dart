@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:einspection/component/common_dialog.dart';
+import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/answer_model.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +9,13 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/feature/inspect/form_controller.dart';
-import '../../../controllers/feature/inspect/submit_form_controller.dart';
 import '../../../models/question_answer_model.dart';
 import '../../../models/question_model.dart';
 
 class FormSection extends StatefulWidget {
   final int departmentId;
   final int inspectionId;
-  FormSection({
+  const FormSection({
     super.key,
     required this.departmentId,
     required this.inspectionId,
@@ -25,11 +26,8 @@ class FormSection extends StatefulWidget {
 }
 
 class _FormSectionState extends State<FormSection> {
-  final FormController controller = Get.put(FormController());
-  final Map<String, bool> idSentStatus = {};
-
-  final SubmitFormController submitFormController =
-      Get.put(SubmitFormController());
+  final FormController formController = Get.put(FormController());
+  // final Map<String, bool> idSentStatus = {};
 
   late QuestionAnswerModel currentAnswer;
 
@@ -52,7 +50,7 @@ class _FormSectionState extends State<FormSection> {
           children: [
             Obx(
               () => Column(
-                children: controller.questions
+                children: formController.questions
                     .map((question) => buildFormField(question))
                     .toList(),
               ),
@@ -64,37 +62,14 @@ class _FormSectionState extends State<FormSection> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    var dataUser = prefs.getString("user").toString();
-                    Map<String, dynamic> userData = json.decode(dataUser);
-                    List<Map<String, dynamic>> answersMapList =
-                        answers.map((obj) => obj.toJson()).toList();
-
-                    // Convert the list of Map<String, dynamic> to a JSON string
-                    String json_data_questionAnswers =
-                        jsonEncode(answersMapList);
-                    // setState(() {
-                    //   answers.add(currentAnswer);
-                    // });
-
-                    // for (QuestionAnswerModel answer in answers) {
-                    //   // setState(() {
-                    //   //   answers.add(currentAnswer);
-                    //   // });
-                    //   print(
-                    //       'Question ID: ${answer.questionId}, Answer: ${answer.answerText}');
-                    // }
-                    print("data user : ${userData['id']}");
-                    print(
-                        "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                    late AnswerModel answerModel = new AnswerModel(
-                        userId: userData['id'],
-                        departmentId: widget.departmentId.toInt(),
-                        inspectionId: widget.inspectionId.toInt(),
-                        questionAnswers: json_data_questionAnswers);
-                    submitFormController.submitAnswer(answerModel);
-                    // Get.offAllNamed(RouteName.home);
+                    CommonDialog().confirmDialog(
+                        'Konfirmasi',
+                        'Anda akan submit data',
+                        'Data yang anda submit akan terkirim di website', () {
+                      formController.submitAnswer(
+                          widget.departmentId, widget.inspectionId);
+                      Get.offAllNamed(RouteName.home);
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF47B347),
@@ -116,10 +91,10 @@ class _FormSectionState extends State<FormSection> {
     final questionText = question.questionText;
     final questionType = question.questionType;
     final questionId = question.id;
-    if (!textControllers.containsKey(questionId)) {
-      // Jika belum ada, buat controller baru
-      textControllers[questionId] = TextEditingController();
-    }
+    // if (!textControllers.containsKey(questionId)) {
+    //   // Jika belum ada, buat controller baru
+    //   textControllers[questionId] = TextEditingController();
+    // }
 
     switch (questionType) {
       case 'Text':
@@ -143,13 +118,9 @@ class _FormSectionState extends State<FormSection> {
                 onChanged: (value) {
                   print(
                       "textController : ${textControllers[questionId]?.text}");
-                  if (value == '') {
-                    print(value);
-                    print(questionId);
-                  }
                   setState(() {
                     currentAnswer = QuestionAnswerModel(
-                        questionId: question.id.toString(), answerText: value);
+                        questionId: question.id, answerText: value);
                   });
                   int index = answers.indexWhere(
                       (qa) => qa.questionId == currentAnswer.questionId);
@@ -219,17 +190,16 @@ class _FormSectionState extends State<FormSection> {
         Radio(
           activeColor: const Color(0xFF47B347),
           value: nilai,
-          groupValue: controller.selectedValue[questionId]?.value,
+          groupValue: formController.selectedValue[questionId]?.value,
           onChanged: (value) {
             print(questionId);
-            // print(idSentStatus[questionId]);
             setState(() {
               currentAnswer = QuestionAnswerModel(
                 questionId: questionId,
                 answerText: nilai,
               );
             });
-            controller.setSelectedValue(questionId, value.toString());
+            formController.setSelectedValue(questionId, value.toString());
 
             int index = answers
                 .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
