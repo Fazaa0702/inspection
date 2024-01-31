@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
             children: [
               Container(
                 color: const Color(0xFF32A632),
-                height: Get.height * 0.3,
+                height: Get.height * 0.28,
                 width: Get.width,
                 child: SafeArea(
                   child: Padding(
@@ -32,10 +32,11 @@ class HomeView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const Padding(
-                          padding: EdgeInsets.all(10.0),
+                          padding:
+                              EdgeInsets.only(left: 8, right: 0, bottom: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               // Icon(
                               //   Icons.logout,
@@ -44,20 +45,23 @@ class HomeView extends StatelessWidget {
                               // ),
                               Padding(
                                   padding: EdgeInsets.symmetric(vertical: 20)),
-                              Text(
-                                'HSE Connect',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w700),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  'HSE Connect',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700),
+                                ),
                               ),
                               SizedBox(
                                 width: 200,
                                 child: Text(
                                   '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
-                                  overflow: TextOverflow.visible,
-                                  // maxLines: 3,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 4,
                                   softWrap: true,
                                   style: TextStyle(
                                       color: Colors.white,
@@ -70,10 +74,11 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            width: 132,
-                            height: 130,
+                            width: Get.width * 0.4,
+                            height: Get.height * 0.4,
                             child: Image.asset(
                               'assets/images/home1.png',
+                              fit: BoxFit.fill,
                             ))
                       ],
                     ),
@@ -117,6 +122,7 @@ class HomeView extends StatelessWidget {
                         children: [
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   backgroundColor: const Color(0xFFD4F4FE)),
@@ -158,7 +164,7 @@ class HomeView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(20)),
                                   backgroundColor: const Color(0xFFFDF0CC)),
                               onPressed: () {
-                                Get.toNamed(RouteName.inspection);
+                                // Get.toNamed(RouteName.inspection);
                               },
                               child: SizedBox(
                                 width: 50,
@@ -227,11 +233,15 @@ class HomeView extends StatelessWidget {
                           Container(
                             height: 100,
                             width: 100,
-                            color: Colors.grey.withOpacity(0.17),
+                            // color: Colors.grey.withOpacity(0.17),
+                            child: Image.asset(
+                              'assets/images/logo1.png',
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Column(
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -293,11 +303,15 @@ class HomeView extends StatelessWidget {
                           Container(
                             height: 100,
                             width: 100,
-                            color: Colors.grey.withOpacity(0.17),
+                            // color: Colors.white,
+                            child: Image.asset(
+                              'assets/images/homeButton2.png',
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Column(
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -334,7 +348,8 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 20, bottom: 20),
                 child: InkWell(
                   onTap: () {},
                   child: Container(
@@ -358,11 +373,15 @@ class HomeView extends StatelessWidget {
                           Container(
                             height: 100,
                             width: 100,
-                            color: Colors.grey.withOpacity(0.17),
+                            // color: Colors.white,
+                            child: Image.asset(
+                              'assets/images/splash1.png',
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Column(
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
