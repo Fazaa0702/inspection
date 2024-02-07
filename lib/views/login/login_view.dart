@@ -7,17 +7,16 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).padding.top;
+    // double topPadding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      body: SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: Padding(
-          padding: EdgeInsets.only(top: topPadding),
+      body: SafeArea(
+        child: SizedBox(
+          height: Get.height,
+          width: Get.width,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(top: topPadding, left: 20, right: 20),
+              padding: EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +27,7 @@ class LoginView extends GetView<LoginController> {
                   Center(
                     child: Image.asset(
                       'assets/images/login1.png',
-                      width: 300,
+                      width: Get.width,
                     ),
                   ),
                   const SizedBox(
@@ -59,6 +58,7 @@ class LoginView extends GetView<LoginController> {
                   SizedBox(
                     height: 40,
                     child: TextField(
+                      enableSuggestions: false,
                       controller: controller.userIdController,
                       style: const TextStyle(
                           fontSize: 14,
@@ -87,7 +87,7 @@ class LoginView extends GetView<LoginController> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF47B347),
-                          fixedSize: const Size(500, 40)),
+                          fixedSize: Size(Get.width, 40)),
                       child: const Text('Login',
                           style: TextStyle(
                               color: Colors.white,

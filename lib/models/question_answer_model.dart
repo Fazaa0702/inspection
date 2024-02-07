@@ -20,8 +20,6 @@ class QuestionAnswerModel {
         answerText: json["answerText"],
       );
 
-  get id => null;
-
   Map<String, dynamic> toJson() => {
         "QuestionID": questionId,
         "AnswerText": answerText,

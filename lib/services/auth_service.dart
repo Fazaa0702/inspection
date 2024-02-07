@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
+import '../models/user_model.dart';
 
 class AuthService {
   // String apiUrl = '';
@@ -21,8 +22,13 @@ class AuthService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var message = '';
     if (res.statusCode == 200) {
-      await prefs.setString('user', res.body);
-      return ConditionalService().authConditionalMessage(res, message);
+      var userModel = UserModel.fromJson(json.decode(res.body));
+      if (userModel.userLevelId == 2) {
+        await prefs.setString('user', res.body);
+        return ConditionalService().authConditionalMessage(res, message);
+      } else {
+        return 'Anda tidak memiliki akses untuk login';
+      }
     } else {
       return 'salah';
     }
@@ -44,5 +50,10 @@ class AuthService {
       }
       return 'Inputan salah, silahkan coba kembali';
     }
+  }
+
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
   }
 }

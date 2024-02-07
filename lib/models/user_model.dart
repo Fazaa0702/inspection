@@ -25,8 +25,8 @@ class UserModel {
       name: json["name"],
       email: json["email"],
       password: json["password"],
-      departmentId: json["departmentID"],
-      userLevelId: json["userLevelId"]);
+      departmentId: json["departmentID"] ?? 0,
+      userLevelId: json["userLevelId"] ?? 0);
 
   Map<String, dynamic> toJson() => {
         "id": id,

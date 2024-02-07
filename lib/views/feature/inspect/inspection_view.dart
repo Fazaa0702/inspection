@@ -51,7 +51,7 @@ class InspectionView extends StatelessWidget {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -61,14 +61,11 @@ class InspectionView extends StatelessWidget {
                     padding: EdgeInsets.only(left: 8, top: 8, bottom: 20),
                     child: SizedBox(
                       height: 25,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text('Select Method',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins')),
-                      ),
+                      child: Text('Select Method',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins')),
                     ),
                   ),
                   Center(
@@ -79,7 +76,7 @@ class InspectionView extends StatelessWidget {
                             Get.toNamed(RouteName.form);
                           },
                           child: Container(
-                            width: Get.width * 0.9,
+                            width: Get.width,
                             height: 100,
                             decoration: BoxDecoration(
                                 gradient: const LinearGradient(colors: [
@@ -123,7 +120,7 @@ class InspectionView extends StatelessWidget {
                         InkWell(
                           onTap: () {},
                           child: Container(
-                            width: Get.width * 0.9,
+                            width: Get.width,
                             height: 100,
                             decoration: BoxDecoration(
                                 gradient: const LinearGradient(colors: [

@@ -24,9 +24,11 @@ class FormController extends GetxController {
   var deptValue = 0.obs;
   var inspectValue = 0.obs;
   var userId = '';
+  // var isFieldEmpty = true.obs;
+  final RxBool isFieldEmpty = true.obs;
 
   final RxMap<String, RxString> selectedValue = <String, RxString>{}.obs;
-  RxMap textControllers = {}.obs;
+  // RxMap textControllers = {}.obs;
 
   @override
   void onInit() {
@@ -95,6 +97,11 @@ class FormController extends GetxController {
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  // Metode untuk validasi dan mengatur status isFieldEmpty
+  void validateField(String value) {
+    isFieldEmpty.value = value.isEmpty;
   }
 
   // Future<void> submitAnswer(int departmentId, int inspectionId) async {

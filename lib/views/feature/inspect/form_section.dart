@@ -28,12 +28,15 @@ class FormSection extends StatefulWidget {
 class _FormSectionState extends State<FormSection> {
   final FormController formController = Get.put(FormController());
   // final Map<String, bool> idSentStatus = {};
+  final _formKey = GlobalKey<FormState>();
 
   late QuestionAnswerModel currentAnswer;
 
   List<QuestionAnswerModel> answers = [];
+  bool _isAllRadioSelected = false;
 
   final Map<String, TextEditingController> textControllers = {};
+
   @override
   void initState() {
     super.initState();
@@ -44,76 +47,87 @@ class _FormSectionState extends State<FormSection> {
   Widget build(
     BuildContext context,
   ) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-        child: Column(
-          children: [
-            Obx(
-              () => Column(
-                children: formController.questions
-                    .map((question) => buildFormField(question))
-                    .toList(),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    CommonDialog().confirmDialog(
-                        'Konfirmasi',
-                        'Apakah anda yakin ?',
-                        'Data yang anda inputkan akan terkirim di web',
-                        () async {
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      var dataUser = prefs.getString("user").toString();
-                      Map<String, dynamic> userData = json.decode(dataUser);
-                      List<Map<String, dynamic>> answersMapList =
-                          answers.map((obj) => obj.toJson()).toList();
-
-                      // Convert the list of Map<String, dynamic> to a JSON string
-                      String json_data_questionAnswers =
-                          jsonEncode(answersMapList);
-
-                      print("data user : ${userData['id']}");
-                      print(
-                          "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                      late AnswerModel answerModel = new AnswerModel(
-                          userId: userData['id'],
-                          departmentId: widget.departmentId.toInt(),
-                          inspectionId: widget.inspectionId.toInt(),
-                          questionAnswers: json_data_questionAnswers);
-                      formController.submitAnswerCondition(answerModel);
-                      Get.offAllNamed(RouteName.home);
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF47B347),
-                      fixedSize: const Size(500, 40)),
-                  child: const Text('Submit',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins')),
+    return Form(
+      key: _formKey,
+      child: Padding(
+          padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+          child: Column(
+            children: [
+              Obx(
+                () => Column(
+                  children: formController.questions
+                      .map((question) => buildFormField(question))
+                      .toList(),
                 ),
               ),
-            )
-          ],
-        ));
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print("Is All Radio Selected: $_isAllRadioSelected");
+
+                      // ignore: unrelated_type_equality_checks
+                      if (_formKey.currentState!.validate()) {
+                        _isAllRadioSelected =
+                            true; // Set the variable accordingly
+
+                        CommonDialog().confirmDialog(
+                            'Konfirmasi',
+                            'Apakah anda yakin ?',
+                            'Data yang anda inputkan akan terkirim di web',
+                            () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          var dataUser = prefs.getString("user").toString();
+                          Map<String, dynamic> userData = json.decode(dataUser);
+                          List<Map<String, dynamic>> answersMapList =
+                              answers.map((obj) => obj.toJson()).toList();
+
+                          // Convert the list of Map<String, dynamic> to a JSON string
+                          String json_data_questionAnswers =
+                              jsonEncode(answersMapList);
+
+                          print("data user : ${userData['id']}");
+                          print(
+                              "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                          late AnswerModel answerModel = new AnswerModel(
+                              userId: userData['id'],
+                              departmentId: widget.departmentId.toInt(),
+                              inspectionId: widget.inspectionId.toInt(),
+                              questionAnswers: json_data_questionAnswers);
+                          formController.submitAnswerCondition(answerModel);
+                          print('Answers: ${jsonEncode(answers)}');
+                          Get.offAllNamed(RouteName.home);
+                        });
+                      } else {
+                        CommonSnackbar.failedSnackbar(
+                            'Gagal', 'Semua pertanyaan harus terjawab');
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF47B347),
+                        fixedSize: Size(Get.width, 40)),
+                    child: const Text('Submit',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Poppins')),
+                  ),
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   Widget buildFormField(QuestionModel question) {
     final questionText = question.questionText;
     final questionType = question.questionType;
     final questionId = question.id;
-    // if (!textControllers.containsKey(questionId)) {
-    //   // Jika belum ada, buat controller baru
-    //   textControllers[questionId] = TextEditingController();
-    // }
 
     switch (questionType) {
       case 'Text':
@@ -130,49 +144,52 @@ class _FormSectionState extends State<FormSection> {
                     fontFamily: 'Poppins'),
               ),
             ),
-            SizedBox(
-              height: 40,
-              child: TextField(
-                controller: textControllers[questionId],
-                onChanged: (value) {
-                  print(
-                      "textController : ${textControllers[questionId]?.text}");
+            TextFormField(
+              maxLength: 100,
+              controller: textControllers[questionId],
+              // validator: (value) {
+              //   if (value == null || value.isEmpty) {
+              //     return 'Please enter a value';
+              //   }
+              //   return null;
+              // },
+              onChanged: (value) {
+                print("textController : ${textControllers[questionId]?.text}");
+                setState(() {
+                  currentAnswer = QuestionAnswerModel(
+                      questionId: question.id, answerText: value);
+                });
+                int index = answers.indexWhere(
+                    (qa) => qa.questionId == currentAnswer.questionId);
+                print("index : ${index}");
+                if (index != -1) {
+                  // Jika sudah ada, ganti data yang lama dengan yang baru
                   setState(() {
-                    currentAnswer = QuestionAnswerModel(
-                        questionId: question.id, answerText: value);
+                    answers[index] = currentAnswer;
                   });
-                  int index = answers.indexWhere(
-                      (qa) => qa.questionId == currentAnswer.questionId);
-                  print("index : ${index}");
-                  if (index != -1) {
-                    // Jika sudah ada, ganti data yang lama dengan yang baru
-                    setState(() {
-                      answers[index] = currentAnswer;
-                    });
-                  } else {
-                    // Jika belum ada, tambahkan data baru
-                    setState(() {
-                      answers.add(currentAnswer);
-                    });
-                  }
-                  print("answers : ${answers[0].questionId}");
-                },
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Poppins'),
-                // maxLines: null,
-                cursorColor: const Color(0xFF47B347),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
+                } else {
+                  // Jika belum ada, tambahkan data baru
+                  setState(() {
+                    answers.add(currentAnswer);
+                  });
+                }
+                print("answers : ${answers[0].answerText}");
+              },
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Poppins'),
+              // maxLines: null,
+              cursorColor: const Color(0xFF47B347),
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide:
-                            const BorderSide(color: Color(0xFF47B347)))),
-              ),
+                      borderSide: const BorderSide(color: Color(0xFF47B347)))),
             ),
             const Padding(padding: EdgeInsets.only(top: 10)),
           ],
@@ -192,8 +209,13 @@ class _FormSectionState extends State<FormSection> {
                     fontFamily: 'Poppins'),
               ),
             ),
-            buildRadio(questionId, 'bagus'),
-            buildRadio(questionId, 'rusak'),
+            Column(
+              children: [
+                buildRadio(questionId, 'Baik'),
+                buildRadio(questionId, 'Tidak baik'),
+                buildRadio(questionId, 'Tidak pakai'),
+              ],
+            ),
             SizedBox(height: 20),
           ],
         );
@@ -201,6 +223,13 @@ class _FormSectionState extends State<FormSection> {
         // Handle other question types as needed
         return SizedBox.shrink();
     }
+  }
+
+  String? validateRadio(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select an option';
+    }
+    return null;
   }
 
   Widget buildRadio(String questionId, String nilai) {
@@ -212,6 +241,7 @@ class _FormSectionState extends State<FormSection> {
           groupValue: formController.selectedValue[questionId]?.value,
           onChanged: (value) {
             print(questionId);
+
             setState(() {
               currentAnswer = QuestionAnswerModel(
                 questionId: questionId,
@@ -234,10 +264,20 @@ class _FormSectionState extends State<FormSection> {
                 answers.add(currentAnswer);
               });
             }
-            print("answers : ${answers[0].questionId}");
+
+            // setState(() {
+            //   _isAllRadioSelected = answers
+            //           .where((qa) => qa.questionId.startsWith('radio_'))
+            //           .length ==
+            //       formController.questions
+            //           .where((q) => q.questionType == 'Option Condition')
+            //           .length;
+            // });
           },
         ),
-        Text(nilai),
+        Text(
+          nilai,
+        ),
       ],
     );
   }

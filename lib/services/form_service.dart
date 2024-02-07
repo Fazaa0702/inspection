@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/answer_model.dart';
 import 'package:einspection/models/question_model.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +12,8 @@ import '../constants.dart';
 class FormService {
   Future<List<QuestionModel>> getQuestions(int inspectionId) async {
     final response = await http.post(
-      Uri.parse('${Constants.apiUrl}/api/inspection/question'),
+      Uri.parse(
+          '${Constants.apiUrl}/api/inspection/question?id=${inspectionId}'),
       body: jsonEncode({'id': inspectionId}),
       headers: {'Content-Type': 'application/json'},
     );
@@ -21,7 +23,8 @@ class FormService {
       print("result: ${data}");
       return data.map((json) => QuestionModel.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to load questions');
+      CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+      return [];
     }
   }
 

@@ -44,7 +44,7 @@ class _FormViewState extends State<FormView> {
                   },
                   icon: const Icon(Icons.arrow_back)),
               const Text(
-                'Inspeksi',
+                'Input Forms',
                 style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
@@ -69,7 +69,7 @@ class _FormViewState extends State<FormView> {
           child: Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
@@ -77,7 +77,9 @@ class _FormViewState extends State<FormView> {
                       const EdgeInsets.only(left: 15, right: 15, bottom: 5),
                   child: Obx(
                     () => controller.dept.isEmpty
-                        ? const CircularProgressIndicator()
+                        ? const CircularProgressIndicator(
+                            color: Color(0xFF47B347),
+                          )
                         : DropdownButtonFormField<DeptModel>(
                             isExpanded: true,
                             decoration: InputDecoration(
@@ -112,7 +114,9 @@ class _FormViewState extends State<FormView> {
                   padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
                   child: Obx(
                     () => controller.inspect.isEmpty
-                        ? const CircularProgressIndicator()
+                        ? const CircularProgressIndicator(
+                            color: Color(0xFF47B347),
+                          )
                         : DropdownButtonFormField<InspectionModel>(
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
