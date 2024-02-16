@@ -4,6 +4,7 @@ import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/answer_model.dart';
 import 'package:einspection/routes/route_name.dart';
+import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -213,6 +214,9 @@ class _FormSectionState extends State<FormSection> {
               children: [
                 buildRadio(questionId, 'Baik'),
                 buildRadio(questionId, 'Tidak baik'),
+                if (formController.selectedValue[questionId]?.value ==
+                    'Tidak baik')
+                  ImagePickerSection(),
                 buildRadio(questionId, 'Tidak pakai'),
               ],
             ),
@@ -253,6 +257,7 @@ class _FormSectionState extends State<FormSection> {
             int index = answers
                 .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
             print("index : ${index}");
+            print("nilai : ${formController.selectedValue[questionId]?.value}");
             if (index != -1) {
               // Jika sudah ada, ganti data yang lama dengan yang baru
               setState(() {
@@ -278,6 +283,7 @@ class _FormSectionState extends State<FormSection> {
         Text(
           nilai,
         ),
+        // if (nilai == 'Tidak baik') ImagePickerSection(),
       ],
     );
   }

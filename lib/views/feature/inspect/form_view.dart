@@ -110,46 +110,48 @@ class _FormViewState extends State<FormView> {
                           ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                  child: Obx(
-                    () => controller.inspect.isEmpty
-                        ? const CircularProgressIndicator(
-                            color: Color(0xFF47B347),
-                          )
-                        : DropdownButtonFormField<InspectionModel>(
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFF47B347))),
-                              hintText: 'Inspeksi',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
+                if (departmentId != 0)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    child: Obx(
+                      () => controller.inspect.isEmpty
+                          ? const CircularProgressIndicator(
+                              color: Color(0xFF47B347),
+                            )
+                          : DropdownButtonFormField<InspectionModel>(
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF47B347))),
+                                hintText: 'Inspeksi',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               ),
+                              // value: controller.inspect[0],
+                              // onTap: () => controller.fetchDeptData(),
+                              items: controller.inspect
+                                  .map((InspectionModel inspect) {
+                                return DropdownMenuItem<InspectionModel>(
+                                  value: inspect,
+                                  child: Text(inspect.name),
+                                );
+                              }).toList(),
+                              onChanged: (InspectionModel? newValue) {
+                                if (newValue != null) {
+                                  controller.fetchQuestionData(newValue.id);
+                                  setState(() {
+                                    inspectionId = newValue.id;
+                                  });
+                                  print(newValue.id);
+                                }
+                              },
                             ),
-                            // value: controller.inspect[0],
-                            // onTap: () => controller.fetchDeptData(),
-                            items: controller.inspect
-                                .map((InspectionModel inspect) {
-                              return DropdownMenuItem<InspectionModel>(
-                                value: inspect,
-                                child: Text(inspect.name),
-                              );
-                            }).toList(),
-                            onChanged: (InspectionModel? newValue) {
-                              if (newValue != null) {
-                                controller.fetchQuestionData(newValue.id);
-                                setState(() {
-                                  inspectionId = newValue.id;
-                                });
-                                print(newValue.id);
-                              }
-                            },
-                          ),
+                    ),
                   ),
-                ),
                 FormSection(
                     departmentId: departmentId, inspectionId: inspectionId),
               ],

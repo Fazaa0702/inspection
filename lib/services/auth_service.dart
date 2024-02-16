@@ -27,6 +27,7 @@ class AuthService {
         await prefs.setString('user', res.body);
         return ConditionalService().authConditionalMessage(res, message);
       } else {
+        print('userlevelllllll: ${userModel.userLevelId}');
         return 'Anda tidak memiliki akses untuk login';
       }
     } else {

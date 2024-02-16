@@ -17,7 +17,7 @@ class CommonSnackbar {
   }
 
   static successSnackbar(String title, String message) {
-    Get.closeAllSnackbars();
+    // Get.closeAllSnackbars();
     return Get.snackbar(
       title,
       message,

@@ -1,3 +1,4 @@
+import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/controllers/feature/inspect/form_controller.dart';
 import 'package:einspection/controllers/login/login_controller.dart';
 import 'package:einspection/routes/route_name.dart';
@@ -41,7 +42,13 @@ class HomeView extends StatelessWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  controller.logout();
+                                  CommonDialog().confirmDialog(
+                                      'Confirm',
+                                      'Are you sure ?',
+                                      'you will be redirected to the login page',
+                                      () {
+                                    controller.logout();
+                                  });
                                 },
                                 icon: const Icon(
                                   // textDirection: TextDirection.ltr,

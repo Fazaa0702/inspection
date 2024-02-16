@@ -89,7 +89,7 @@ class CommonDialog {
                               Get.back();
                             },
                             child: const Text(
-                              'Tidak',
+                              'No',
                               style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 20,
@@ -118,7 +118,7 @@ class CommonDialog {
                               ),
                               onPressed: onTap,
                               child: const Text(
-                                'Ya',
+                                'Yes',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,

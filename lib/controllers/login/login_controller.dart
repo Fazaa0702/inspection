@@ -35,7 +35,6 @@ class LoginController extends GetxController {
     } else {
       CommonSnackbar.failedSnackbar(
           'Failed', 'Sorry you dont have any permissions');
-      print('gagal');
     }
   }
 
@@ -55,10 +54,10 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<bool> isUserLevel2(UserModel userModel) async {
-    // Pastikan user tidak null dan userLevelId = 2
-    return userModel.userLevelId == 2;
-  }
+  // Future<bool> isUserLevel2(UserModel userModel) async {
+  //   // Pastikan user tidak null dan userLevelId = 2
+  //   return userModel.userLevelId == 2;
+  // }
 
   Future<void> logout() async {
     await authService.logout();
