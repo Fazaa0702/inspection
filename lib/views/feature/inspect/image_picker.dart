@@ -8,8 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ImagePickerSection extends StatefulWidget {
-  final void Function(String?) onImageSelected;
-  const ImagePickerSection({super.key, required this.onImageSelected});
+  final void Function(String) onImageSelected;
+  final TextEditingController? textEditingController;
+  const ImagePickerSection(
+      {super.key, required this.onImageSelected, this.textEditingController});
 
   @override
   State<ImagePickerSection> createState() => _ImagePickerSectionState();
@@ -51,6 +53,7 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
+      controller: widget.textEditingController,
       // maxLength: 100,
       onTap: () {
         showModalBottomSheet<void>(
@@ -221,6 +224,7 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
       String? base64String = imageToBase64(selectedImage);
       if (base64String != null) {
         widget.onImageSelected(base64String);
+
         print('Base64 Image: $base64String');
       } else {
         print('Failed to convert image to base64');
@@ -245,7 +249,7 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
     if (imageFile == null) return null;
     try {
       List<int> imageBytes = imageFile.readAsBytesSync();
-      String base64Image = base64Encode(imageBytes);
+      String base64Image = base64UrlEncode(imageBytes).substring(0, 10);
       return base64Image;
     } catch (e) {
       print('Error converting image to base64: $e');

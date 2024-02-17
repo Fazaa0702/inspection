@@ -30,7 +30,7 @@ class FormService {
 
   Future submitAnswerService(Map<String, dynamic> answer) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("answerwrewrr : ${answer}");
+    // print("answerwrewrr : ${answer}");
 
     var jsonData = jsonEncode({
       "UserId": answer["UserId"],
@@ -39,10 +39,10 @@ class FormService {
       "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
     });
 
-    print("kson dat a = ${jsonData}");
+    // print("kson dat a = ${jsonData}");
     // Update the answer map
 
-    print("answerssadsasdsansdjfj h : ${answer["QuestionAnswers"]}");
+    // print("answerssadsasdsansdjfj h : ${answer["QuestionAnswers"]}");
 
     final res = await http.post(
         Uri.parse('${Constants.apiUrl}/api/inspectionResult'),

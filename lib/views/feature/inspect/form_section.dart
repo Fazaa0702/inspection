@@ -41,7 +41,8 @@ class _FormSectionState extends State<FormSection> {
   @override
   void initState() {
     super.initState();
-    currentAnswer = QuestionAnswerModel(questionId: '', answerText: '');
+    currentAnswer =
+        QuestionAnswerModel(questionId: '', answerText: '', imageBase64: '');
   }
 
   @override
@@ -158,7 +159,9 @@ class _FormSectionState extends State<FormSection> {
                 print("textController : ${textControllers[questionId]?.text}");
                 setState(() {
                   currentAnswer = QuestionAnswerModel(
-                      questionId: question.id, answerText: value);
+                      questionId: question.id,
+                      answerText: value,
+                      imageBase64: '');
                 });
                 int index = answers.indexWhere(
                     (qa) => qa.questionId == currentAnswer.questionId);
@@ -212,12 +215,47 @@ class _FormSectionState extends State<FormSection> {
             ),
             Column(
               children: [
-                buildRadio(questionId, 'Baik'),
-                buildRadio(questionId, 'Tidak baik'),
+                buildRadio(questionId, 'Baik', currentAnswer.imageBase64),
+                buildRadio(questionId, 'Tidak baik', currentAnswer.imageBase64),
                 if (formController.selectedValue[questionId]?.value ==
                     'Tidak baik')
-                  ImagePickerSection(),
-                buildRadio(questionId, 'Tidak pakai'),
+                  ImagePickerSection(
+                    textEditingController: textControllers[questionId],
+                    onImageSelected: (imageBase64) {
+                      String nilai =
+                          formController.selectedValue[questionId]?.value ?? '';
+                      setState(() {
+                        currentAnswer = QuestionAnswerModel(
+                          questionId: questionId,
+                          answerText: nilai,
+                          imageBase64: imageBase64,
+                        );
+                      });
+                      int index = answers.indexWhere(
+                          (qa) => qa.questionId == currentAnswer.questionId);
+                      print("index : ${index}");
+                      print(
+                          "nilai : ${formController.selectedValue[questionId]?.value}");
+                      if (index != -1) {
+                        // Jika sudah ada, ganti data yang lama dengan yang baru
+                        setState(() {
+                          answers[index] = currentAnswer;
+                        });
+                      } else {
+                        // Jika belum ada, tambahkan data baru
+                        setState(() {
+                          answers.add(currentAnswer);
+                        });
+                      }
+
+                      print("QID: $questionId");
+                      print('nilai: $nilai');
+
+                      print("Cekkkk: ${imageBase64}");
+                    },
+                  ),
+                buildRadio(
+                    questionId, 'Tidak pakai', currentAnswer.imageBase64),
               ],
             ),
             SizedBox(height: 20),
@@ -236,7 +274,7 @@ class _FormSectionState extends State<FormSection> {
     return null;
   }
 
-  Widget buildRadio(String questionId, String nilai) {
+  Widget buildRadio(String questionId, String nilai, String? imageBase64) {
     return Row(
       children: [
         Radio(
@@ -250,8 +288,13 @@ class _FormSectionState extends State<FormSection> {
               currentAnswer = QuestionAnswerModel(
                 questionId: questionId,
                 answerText: nilai,
+                imageBase64: imageBase64,
               );
             });
+            print("QID: $questionId");
+            print('nilai: $nilai');
+
+            print("Cekkkk: $imageBase64");
             formController.setSelectedValue(questionId, value.toString());
 
             int index = answers
