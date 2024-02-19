@@ -198,9 +198,8 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
     } catch (e) {
       print('Error picking image from gallery: $e');
     }
-    Navigator.of(context).pop();
 
-    // Get.back();
+    Get.back();
   }
 
   Future getImageFromCamera() async {
@@ -240,9 +239,8 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
         });
       }
     }
-    Navigator.of(context).pop();
 
-    // Get.back();
+    Get.back();
   }
 
   String? imageToBase64(File? imageFile) {

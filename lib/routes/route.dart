@@ -27,7 +27,7 @@ class Routes {
     ),
     GetPage(
       name: RouteName.form,
-      page: () => FormView(),
+      page: () => const FormView(),
       // binding: InspectBinding()
     )
   ];

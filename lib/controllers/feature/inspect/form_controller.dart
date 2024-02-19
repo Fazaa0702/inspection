@@ -4,12 +4,10 @@ import 'package:einspection/models/dept_model.dart';
 import 'package:einspection/models/inspection_model.dart';
 import 'package:einspection/models/question_model.dart';
 import 'package:einspection/services/form_service.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../component/common_snackbar.dart';
 import '../../../constants.dart';
 import '../../../models/answer_model.dart';
 import '../../../models/question_answer_model.dart';
@@ -88,7 +86,7 @@ class FormController extends GetxController {
     try {
       bool success =
           await _formService.submitAnswerService(answerModel.toJson());
-      print("success value : ${success}");
+      print("success value : $success");
       if (success) {
         print('Data terkirim ke database');
       } else {

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FormView extends StatefulWidget {
-  FormView({super.key});
+  const FormView({super.key});
 
   @override
   State<FormView> createState() => _FormViewState();
@@ -20,6 +20,7 @@ class _FormViewState extends State<FormView> {
   late int inspectionId = 0;
   late int departmentId = 0;
 
+  @override
   void initState() {
     super.initState();
   }
@@ -29,7 +30,7 @@ class _FormViewState extends State<FormView> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          backgroundColor: Color(0xFF32A632),
+          backgroundColor: const Color(0xFF32A632),
           automaticallyImplyLeading: false,
           title: Row(
             children: [
@@ -88,7 +89,7 @@ class _FormViewState extends State<FormView> {
                                   borderSide: const BorderSide(
                                       color: Color(0xFF47B347))),
                               hintText: 'Departemen',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: const TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
@@ -126,7 +127,7 @@ class _FormViewState extends State<FormView> {
                                     borderSide: const BorderSide(
                                         color: Color(0xFF47B347))),
                                 hintText: 'Inspeksi',
-                                hintStyle: TextStyle(color: Colors.grey),
+                                hintStyle: const TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),

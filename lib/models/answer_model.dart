@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:einspection/models/question_answer_model.dart';
-
 AnswerModel questionModelFromJson(String str) =>
     AnswerModel.fromJson(json.decode(str));
 

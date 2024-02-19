@@ -34,15 +34,13 @@ class _FormSectionState extends State<FormSection> {
   late QuestionAnswerModel currentAnswer;
 
   List<QuestionAnswerModel> answers = [];
-  bool _isAllRadioSelected = false;
 
   final Map<String, TextEditingController> textControllers = {};
 
   @override
   void initState() {
     super.initState();
-    currentAnswer =
-        QuestionAnswerModel(questionId: '', answerText: '', imageBase64: '');
+    currentAnswer = QuestionAnswerModel(questionId: '', answerText: '');
   }
 
   @override
@@ -69,13 +67,9 @@ class _FormSectionState extends State<FormSection> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      print("Is All Radio Selected: $_isAllRadioSelected");
 
                       // ignore: unrelated_type_equality_checks
                       if (_formKey.currentState!.validate()) {
-                        _isAllRadioSelected =
-                            true; // Set the variable accordingly
-
                         CommonDialog().confirmDialog(
                             'Konfirmasi',
                             'Apakah anda yakin ?',
@@ -95,7 +89,7 @@ class _FormSectionState extends State<FormSection> {
                           print("data user : ${userData['id']}");
                           print(
                               "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                          late AnswerModel answerModel = new AnswerModel(
+                          late AnswerModel answerModel = AnswerModel(
                               userId: userData['id'],
                               departmentId: widget.departmentId.toInt(),
                               inspectionId: widget.inspectionId.toInt(),
@@ -137,10 +131,10 @@ class _FormSectionState extends State<FormSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 12.0, bottom: 3),
+              padding: const EdgeInsets.only(left: 12.0, bottom: 3),
               child: Text(
                 questionText,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Poppins'),
@@ -159,13 +153,13 @@ class _FormSectionState extends State<FormSection> {
                 print("textController : ${textControllers[questionId]?.text}");
                 setState(() {
                   currentAnswer = QuestionAnswerModel(
-                      questionId: question.id,
-                      answerText: value,
-                      imageBase64: '');
+                    questionId: question.id,
+                    answerText: value,
+                  );
                 });
                 int index = answers.indexWhere(
                     (qa) => qa.questionId == currentAnswer.questionId);
-                print("index : ${index}");
+                print("index : $index");
                 if (index != -1) {
                   // Jika sudah ada, ganti data yang lama dengan yang baru
                   setState(() {
@@ -228,12 +222,13 @@ class _FormSectionState extends State<FormSection> {
                         currentAnswer = QuestionAnswerModel(
                           questionId: questionId,
                           answerText: nilai,
-                          imageBase64: imageBase64,
+                          imageBase64:
+                              nilai == 'Tidak baik' ? imageBase64 : null,
                         );
                       });
                       int index = answers.indexWhere(
                           (qa) => qa.questionId == currentAnswer.questionId);
-                      print("index : ${index}");
+                      print("index : $index");
                       print(
                           "nilai : ${formController.selectedValue[questionId]?.value}");
                       if (index != -1) {
@@ -247,23 +242,21 @@ class _FormSectionState extends State<FormSection> {
                           answers.add(currentAnswer);
                         });
                       }
-
                       print("QID: $questionId");
                       print('nilai: $nilai');
-
-                      print("Cekkkk: ${imageBase64}");
+                      print("Cekkkk: $imageBase64");
                     },
                   ),
                 buildRadio(
                     questionId, 'Tidak pakai', currentAnswer.imageBase64),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         );
       default:
         // Handle other question types as needed
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 
@@ -288,18 +281,16 @@ class _FormSectionState extends State<FormSection> {
               currentAnswer = QuestionAnswerModel(
                 questionId: questionId,
                 answerText: nilai,
-                imageBase64: imageBase64,
               );
             });
             print("QID: $questionId");
             print('nilai: $nilai');
-
             print("Cekkkk: $imageBase64");
             formController.setSelectedValue(questionId, value.toString());
 
             int index = answers
                 .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-            print("index : ${index}");
+            print("index : $index");
             print("nilai : ${formController.selectedValue[questionId]?.value}");
             if (index != -1) {
               // Jika sudah ada, ganti data yang lama dengan yang baru
@@ -326,7 +317,6 @@ class _FormSectionState extends State<FormSection> {
         Text(
           nilai,
         ),
-        // if (nilai == 'Tidak baik') ImagePickerSection(),
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,18 +50,15 @@ class CommonDialog {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  // padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Text(
-                    description,
-                    softWrap: true,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                    // style: textTheme.titleMedium,
+                child: Text(
+                  description,
+                  softWrap: true,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
                   ),
+                  // style: textTheme.titleMedium,
                 ),
               ),
               Container(

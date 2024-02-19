@@ -1,10 +1,8 @@
 import 'package:einspection/component/common_dialog.dart';
-import 'package:einspection/controllers/feature/inspect/form_controller.dart';
 import 'package:einspection/controllers/login/login_controller.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -70,7 +68,7 @@ class HomeView extends StatelessWidget {
                               ),
                               SizedBox(
                                 width: Get.width * 0.5,
-                                child: Text(
+                                child: const Text(
                                   '"Prioritizing health preserves lives, while safeguarding the environment ensures a sustainable future for all."',
                                   textAlign: TextAlign.left,
                                   maxLines: 4,

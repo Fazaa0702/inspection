@@ -16,7 +16,7 @@ class LoginView extends GetView<LoginController> {
           width: Get.width,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
