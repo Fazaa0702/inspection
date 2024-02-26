@@ -1,8 +1,10 @@
 import 'package:einspection/routes/route_name.dart';
+import 'package:einspection/views/feature/qr/scan_view.dart';
 import 'package:get/get.dart';
 
 import '../views/feature/inspect/inspection_view.dart';
 import '../views/feature/inspect/form_view.dart';
+import '../views/feature/qr/scan_binding.dart';
 import '../views/home/home_view.dart';
 import '../views/login/login_binding.dart';
 import '../views/login/login_view.dart';
@@ -29,6 +31,11 @@ class Routes {
       name: RouteName.form,
       page: () => const FormView(),
       // binding: InspectBinding()
+    ),
+    GetPage(
+      name: RouteName.scan,
+      page: () => ScanView(),
+      binding: ScanBinding(),
     )
   ];
 }

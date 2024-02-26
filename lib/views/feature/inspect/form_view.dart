@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/controllers/feature/inspect/form_controller.dart';
 import 'package:einspection/models/dept_model.dart';
@@ -6,6 +8,9 @@ import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/form_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:einspection/global_var.dart';
+
+import '../../../models/item_model.dart';
 
 class FormView extends StatefulWidget {
   const FormView({super.key});
@@ -19,6 +24,7 @@ class _FormViewState extends State<FormView> {
 
   late int inspectionId = 0;
   late int departmentId = 0;
+  late String itemId = "";
 
   @override
   void initState() {
@@ -143,18 +149,70 @@ class _FormViewState extends State<FormView> {
                               }).toList(),
                               onChanged: (InspectionModel? newValue) {
                                 if (newValue != null) {
-                                  controller.fetchQuestionData(newValue.id);
                                   setState(() {
                                     inspectionId = newValue.id;
                                   });
-                                  print(newValue.id);
+                                  print('insID: $inspectionId');
+                                  print('DeptID: $departmentId');
+                                  controller.fetchItemData(
+                                      inspectionId, departmentId);
                                 }
                               },
                             ),
                     ),
                   ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                  child: Obx(
+                    () => controller.item.isEmpty
+                        ? const CircularProgressIndicator(
+                            color: Color(0xFF47B347),
+                          )
+                        : DropdownButtonFormField<ItemModel>(
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF47B347))),
+                              hintText: 'Item',
+                              hintStyle: const TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                            // value: controller.inspect[0],
+                            // onTap: () => controller.fetchDeptData(),
+                            items: controller.item.map((ItemModel item) {
+                              return DropdownMenuItem<ItemModel>(
+                                value: item,
+                                child: Text(item.itemName),
+                              );
+                            }).toList(),
+                            onChanged: (ItemModel? newValue) {
+                              controller.fetchQuestionData(inspectionId);
+
+                              if (newValue != null) {
+                                setState(() {
+                                  a = jsonEncode(newValue);
+                                  itemId = newValue.itemId;
+                                });
+
+                                print('itemID: $itemId');
+                                print('DeptID: $departmentId');
+                                print('InsID: $inspectionId');
+
+                                //   controller.fetchItemData(
+                                //       inspectionId, departmentId);
+                              }
+                            },
+                          ),
+                  ),
+                ),
                 FormSection(
-                    departmentId: departmentId, inspectionId: inspectionId),
+                  departmentId: departmentId,
+                  inspectionId: inspectionId,
+                  itemId: itemId,
+                ),
               ],
             ),
           ),

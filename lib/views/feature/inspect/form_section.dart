@@ -1,14 +1,17 @@
 import 'dart:convert';
 
 import 'package:einspection/component/common_dialog.dart';
+import 'package:einspection/component/common_form_field.dart';
 import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/answer_model.dart';
+import 'package:einspection/models/item_model.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:einspection/global_var.dart';
 import '../../../controllers/feature/inspect/form_controller.dart';
 import '../../../models/question_answer_model.dart';
 import '../../../models/question_model.dart';
@@ -16,10 +19,12 @@ import '../../../models/question_model.dart';
 class FormSection extends StatefulWidget {
   final int departmentId;
   final int inspectionId;
+  final String itemId;
   const FormSection({
     super.key,
     required this.departmentId,
     required this.inspectionId,
+    required this.itemId,
   });
 
   @override
@@ -61,60 +66,67 @@ class _FormSectionState extends State<FormSection> {
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
+              if (widget.inspectionId != 0 &&
+                  widget.departmentId != 0 &&
+                  widget.itemId != '')
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          CommonDialog().confirmDialog(
+                              'Konfirmasi',
+                              'Apakah anda yakin ?',
+                              'Data yang anda inputkan akan terkirim di web',
+                              () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            var dataUser = prefs.getString("user").toString();
+                            Map<String, dynamic> userData =
+                                json.decode(dataUser);
+                            List<Map<String, dynamic>> answersMapList =
+                                answers.map((obj) => obj.toJson()).toList();
 
-                      // ignore: unrelated_type_equality_checks
-                      if (_formKey.currentState!.validate()) {
-                        CommonDialog().confirmDialog(
-                            'Konfirmasi',
-                            'Apakah anda yakin ?',
-                            'Data yang anda inputkan akan terkirim di web',
-                            () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          var dataUser = prefs.getString("user").toString();
-                          Map<String, dynamic> userData = json.decode(dataUser);
-                          List<Map<String, dynamic>> answersMapList =
-                              answers.map((obj) => obj.toJson()).toList();
+                            // Convert the list of Map<String, dynamic> to a JSON string
+                            String jsonDataQuestionanswers =
+                                jsonEncode(answersMapList);
+                            var itemData = json.decode(a);
 
-                          // Convert the list of Map<String, dynamic> to a JSON string
-                          String json_data_questionAnswers =
-                              jsonEncode(answersMapList);
-
-                          print("data user : ${userData['id']}");
-                          print(
-                              "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                          late AnswerModel answerModel = AnswerModel(
-                              userId: userData['id'],
-                              departmentId: widget.departmentId.toInt(),
-                              inspectionId: widget.inspectionId.toInt(),
-                              questionAnswers: json_data_questionAnswers);
-                          formController.submitAnswerCondition(answerModel);
-                          print('Answers: ${jsonEncode(answers)}');
-                          Get.offAllNamed(RouteName.home);
-                        });
-                      } else {
-                        CommonSnackbar.failedSnackbar(
-                            'Gagal', 'Semua pertanyaan harus terjawab');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF47B347),
-                        fixedSize: Size(Get.width, 40)),
-                    child: const Text('Submit',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Poppins')),
+                            print("data user : ${userData['id']}");
+                            print(
+                                "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                            late AnswerModel answerModel = AnswerModel(
+                                userId: userData['id'],
+                                departmentId: widget.departmentId.toInt(),
+                                inspectionId: widget.inspectionId.toInt(),
+                                questionAnswers: jsonDataQuestionanswers,
+                                picItemId: itemData["picItemId"],
+                                itemId: widget.itemId);
+                            formController.submitAnswerCondition(answerModel);
+                            print('Answers: ${jsonEncode(answers)}');
+                            CommonSnackbar.successSnackbar(
+                                'Success', 'The answer has been sent');
+                            Get.offAllNamed(RouteName.home);
+                          });
+                        } else {
+                          CommonSnackbar.failedSnackbar(
+                              'Gagal', 'Semua pertanyaan harus terjawab');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF47B347),
+                          fixedSize: Size(Get.width, 40)),
+                      child: const Text('Submit',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Poppins')),
+                    ),
                   ),
-                ),
-              )
+                )
             ],
           )),
     );
@@ -125,73 +137,138 @@ class _FormSectionState extends State<FormSection> {
     final questionType = question.questionType;
     final questionId = question.id;
 
+    var initValue = "";
+
+    var itemData = json.decode(a);
+    switch (questionText) {
+      case "Lokasi Penempatan":
+        initValue = itemData["location"];
+        currentAnswer = QuestionAnswerModel(
+          questionId: question.id,
+          answerText: initValue,
+        );
+        int index = answers
+            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+        print("index : $index");
+        if (index != -1) {
+          // Jika sudah ada, ganti data yang lama dengan yang baru
+          answers[index] = currentAnswer;
+        } else {
+          // Jika belum ada, tambahkan data baru
+          answers.add(currentAnswer);
+        }
+        break;
+      case "Tanggal Terakhir Pengecekan":
+        initValue =
+            itemData["lastInspection"] ?? DateTime.now().toIso8601String();
+        currentAnswer = QuestionAnswerModel(
+          questionId: question.id,
+          answerText: initValue,
+        );
+        int index = answers
+            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+        print("index : $index");
+        if (index != -1) {
+          // Jika sudah ada, ganti data yang lama dengan yang baru
+          answers[index] = currentAnswer;
+        } else {
+          // Jika belum ada, tambahkan data baru
+          answers.add(currentAnswer);
+        }
+        break;
+      case "Nomor Apar":
+        initValue = itemData["number"] ?? "0";
+
+        currentAnswer = QuestionAnswerModel(
+          questionId: question.id,
+          answerText: initValue,
+        );
+        int index = answers
+            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+        print("index : $index");
+        if (index != -1) {
+          // Jika sudah ada, ganti data yang lama dengan yang baru
+          answers[index] = currentAnswer;
+        } else {
+          // Jika belum ada, tambahkan data baru
+          answers.add(currentAnswer);
+        }
+        break;
+      case "Model/Type":
+        initValue = itemData["modelOrType"] ?? "0";
+        currentAnswer = QuestionAnswerModel(
+          questionId: question.id,
+          answerText: initValue,
+        );
+        int index = answers
+            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+        print("index : $index");
+        if (index != -1) {
+          // Jika sudah ada, ganti data yang lama dengan yang baru
+          answers[index] = currentAnswer;
+        } else {
+          // Jika belum ada, tambahkan data baru
+          answers.add(currentAnswer);
+        }
+        break;
+      case "Jumlah Pengecekan":
+        initValue = itemData["jumlahPengecekan"] ?? "0";
+        currentAnswer = QuestionAnswerModel(
+          questionId: question.id,
+          answerText: initValue,
+        );
+        int index = answers
+            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+        print("index : $index");
+        if (index != -1) {
+          // Jika sudah ada, ganti data yang lama dengan yang baru
+          answers[index] = currentAnswer;
+        } else {
+          // Jika belum ada, tambahkan data baru
+          answers.add(currentAnswer);
+        }
+        break;
+    }
+
     switch (questionType) {
       case 'Text':
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0, bottom: 3),
-              child: Text(
-                questionText,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins'),
-              ),
-            ),
-            TextFormField(
-              maxLength: 100,
-              controller: textControllers[questionId],
-              // validator: (value) {
-              //   if (value == null || value.isEmpty) {
-              //     return 'Please enter a value';
-              //   }
-              //   return null;
-              // },
-              onChanged: (value) {
-                print("textController : ${textControllers[questionId]?.text}");
-                setState(() {
-                  currentAnswer = QuestionAnswerModel(
-                    questionId: question.id,
-                    answerText: value,
-                  );
-                });
-                int index = answers.indexWhere(
-                    (qa) => qa.questionId == currentAnswer.questionId);
-                print("index : $index");
-                if (index != -1) {
-                  // Jika sudah ada, ganti data yang lama dengan yang baru
-                  setState(() {
-                    answers[index] = currentAnswer;
-                  });
-                } else {
-                  // Jika belum ada, tambahkan data baru
-                  setState(() {
-                    answers.add(currentAnswer);
-                  });
-                }
-                print("answers : ${answers[0].answerText}");
-              },
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Poppins'),
-              // maxLines: null,
-              cursorColor: const Color(0xFF47B347),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: Color(0xFF47B347)))),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 10)),
-          ],
+        return CommonFormField(
+          initValue: initValue,
+          question: questionText,
+          readOnly: (questionText == "Lokasi Penempatan" ||
+                  questionText == 'Tanggal Terakhir Pengecekan' ||
+                  questionText == 'Jumlah Pengecekan' ||
+                  questionText == 'Nomor Apar' ||
+                  questionText == 'Model/Type')
+              ? true
+              : false,
+          controller: textControllers[questionId],
+          onChanged: (value) {
+            print("textController : ${textControllers[questionId]?.text}");
+            setState(() {
+              currentAnswer = QuestionAnswerModel(
+                questionId: question.id,
+                answerText: value,
+              );
+            });
+            int index = answers
+                .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+            print("index : $index");
+            if (index != -1) {
+              // Jika sudah ada, ganti data yang lama dengan yang baru
+              setState(() {
+                answers[index] = currentAnswer;
+              });
+            } else {
+              // Jika belum ada, tambahkan data baru
+              setState(() {
+                answers.add(currentAnswer);
+              });
+            }
+            print("answers : ${answers[0].answerText}");
+          },
         );
+
       case 'Option Condition':
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -260,20 +337,14 @@ class _FormSectionState extends State<FormSection> {
     }
   }
 
-  String? validateRadio(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please select an option';
-    }
-    return null;
-  }
-
   Widget buildRadio(String questionId, String nilai, String? imageBase64) {
     return Row(
       children: [
         Radio(
           activeColor: const Color(0xFF47B347),
-          value: nilai,
-          groupValue: formController.selectedValue[questionId]?.value,
+          value: nilai, //required
+          groupValue:
+              formController.selectedValue[questionId]?.value, //required
           onChanged: (value) {
             print(questionId);
 
@@ -303,15 +374,6 @@ class _FormSectionState extends State<FormSection> {
                 answers.add(currentAnswer);
               });
             }
-
-            // setState(() {
-            //   _isAllRadioSelected = answers
-            //           .where((qa) => qa.questionId.startsWith('radio_'))
-            //           .length ==
-            //       formController.questions
-            //           .where((q) => q.questionType == 'Option Condition')
-            //           .length;
-            // });
           },
         ),
         Text(

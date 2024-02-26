@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:einspection/component/common_snackbar.dart';
+import 'package:einspection/models/item_model.dart';
 import 'package:einspection/models/question_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,9 +10,10 @@ import '../constants.dart';
 
 class FormService {
   Future<List<QuestionModel>> getQuestions(int inspectionId) async {
-    final response = await http.post(
-      Uri.parse('${Constants.apiUrl}/api/inspection/question?id=$inspectionId'),
-      body: jsonEncode({'id': inspectionId}),
+    final response = await http.get(
+      Uri.parse(
+          '${Constants.apiUrl}/api/inspection/question?inspectionId=$inspectionId'),
+      // body: jsonEncode({'id': inspectionId}),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -25,22 +27,26 @@ class FormService {
     }
   }
 
-  Future submitAnswerService(Map<String, dynamic> answer) async {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print("answerwrewrr : ${answer}");
+  // Future<List<ItemModel>> getItemData(
+  //     int inspectionId, int departmentId) async {
+  //   final res = await http.get(Uri.parse(
+  //       '${Constants.apiUrl}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
+  //   if (res.statusCode == 200) {
+  //     final List<dynamic> data = json.decode(res.body);
+  //     print("res: $data");
+  //     return data.map((json) => ItemModel.fromJson(json)).toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
+  Future submitAnswerService(Map<String, dynamic> answer) async {
     var jsonData = jsonEncode({
       "UserId": answer["UserId"],
       "DepartmentId": answer["DepartmentId"],
       "InspectionId": answer["InspectionId"],
       "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
     });
-
-    // print("kson dat a = ${jsonData}");
-    // Update the answer map
-
-    // print("answerssadsasdsansdjfj h : ${answer["QuestionAnswers"]}");
-
     final res = await http.post(
         Uri.parse('${Constants.apiUrl}/api/inspectionResult'),
         body: jsonData,

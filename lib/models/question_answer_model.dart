@@ -25,6 +25,6 @@ class QuestionAnswerModel {
   Map<String, dynamic> toJson() => {
         "QuestionID": questionId,
         "AnswerText": answerText,
-        "imageBase64": imageBase64,
+        "Image": imageBase64,
       };
 }

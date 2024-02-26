@@ -21,6 +21,7 @@ class LoginController extends GetxController {
       message = await authService.loginService(userId);
       _enterHome();
     } else {
+      CommonSnackbar.failedSnackbar('Failed', 'UserId not found');
       print("Tidak ada ID pengguna yang ditemukan");
     }
     // message = await authService.loginService(userId);
@@ -32,15 +33,16 @@ class LoginController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
       CommonSnackbar.successSnackbar('Success', 'Welcome to HSE Connect');
       Get.offAllNamed(RouteName.home);
-    } else {
-      CommonSnackbar.failedSnackbar(
-          'Failed', 'Sorry you dont have any permissions');
-    }
+    } //else {
+    //   CommonSnackbar.failedSnackbar(
+    //       'Failed', 'Sorry you dont have any permissions');
+    // }
   }
 
   void emptyForm() {
     userId = userIdController.text;
     if (userId == '') {
+      CommonSnackbar.failedSnackbar('Failed', 'UserId cannot be empty');
       print("coba lagi");
     }
     _login();

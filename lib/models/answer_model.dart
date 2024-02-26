@@ -10,18 +10,23 @@ class AnswerModel {
   int departmentId;
   int inspectionId;
   String questionAnswers;
+  String picItemId;
+  String itemId;
 
-  AnswerModel({
-    required this.userId,
-    required this.departmentId,
-    required this.inspectionId,
-    required this.questionAnswers,
-  });
+  AnswerModel(
+      {required this.userId,
+      required this.departmentId,
+      required this.inspectionId,
+      required this.questionAnswers,
+      required this.picItemId,
+      required this.itemId});
   factory AnswerModel.fromJson(Map<String, dynamic> json) => AnswerModel(
         userId: json["userId"],
         departmentId: json["departmentId"],
         inspectionId: json["inspectionId"],
         questionAnswers: json["questionAnswers"],
+        picItemId: json["picItemId"] ?? "",
+        itemId: json["itemId"] ?? "",
       );
 
   get questionId => null;
@@ -31,5 +36,7 @@ class AnswerModel {
         "DepartmentId": departmentId,
         "InspectionId": inspectionId,
         "QuestionAnswers": questionAnswers,
+        "picItemId": picItemId,
+        "ItemId": itemId,
       };
 }

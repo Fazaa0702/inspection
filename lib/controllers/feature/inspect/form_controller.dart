@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/dept_model.dart';
 import 'package:einspection/models/inspection_model.dart';
 import 'package:einspection/models/question_model.dart';
@@ -8,15 +9,20 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:einspection/global_var.dart';
 import '../../../constants.dart';
 import '../../../models/answer_model.dart';
+import '../../../models/item_model.dart';
 import '../../../models/question_answer_model.dart';
 
 class FormController extends GetxController {
   RxList<DeptModel> dept = <DeptModel>[].obs;
   RxList<InspectionModel> inspect = <InspectionModel>[].obs;
+  RxList<ItemModel> item = <ItemModel>[].obs;
+
   final FormService _formService = FormService();
   final RxList<QuestionModel> questions = <QuestionModel>[].obs;
+
   List<QuestionAnswerModel> answers = [];
 
   var deptValue = 0.obs;
@@ -46,7 +52,7 @@ class FormController extends GetxController {
       dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
       print(res.body);
     } else {
-      throw Exception('Failed to load data');
+      CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
     }
   }
 
@@ -70,6 +76,20 @@ class FormController extends GetxController {
       questions.assignAll(result);
     } catch (e) {
       print('Error fetching questions: $e');
+    }
+  }
+
+  Future<void> fetchItemData(int inspectionId, int departmentId) async {
+    final res = await http.get(Uri.parse(
+        '${Constants.apiUrl}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
+    if (res.statusCode == 200) {
+      final List<dynamic> data = json.decode(res.body);
+      a = res.body;
+      print("ini data item = " + a);
+      item.assignAll(data.map((item) => ItemModel.fromJson(item)));
+      print('resssss: ${res.body}');
+    } else {
+      print('gagal mendapatkan data');
     }
   }
 

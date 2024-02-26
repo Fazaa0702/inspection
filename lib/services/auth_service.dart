@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/services/conditional_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -27,10 +28,14 @@ class AuthService {
         await prefs.setString('user', res.body);
         return ConditionalService().authConditionalMessage(res, message);
       } else {
+        CommonSnackbar.failedSnackbar(
+            'Failed', "you don't have any permissions");
         print('userlevelllllll: ${userModel.userLevelId}');
         return 'Anda tidak memiliki akses untuk login';
       }
     } else {
+      CommonSnackbar.failedSnackbar(
+          'Failed', 'Server error, please try again later');
       return 'salah';
     }
   }

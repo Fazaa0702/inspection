@@ -117,7 +117,9 @@ class InspectionView extends StatelessWidget {
                                 color: Colors.grey)),
                         const Padding(padding: EdgeInsets.only(top: 20)),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(RouteName.scan);
+                          },
                           child: Container(
                             width: Get.width,
                             height: 100,
