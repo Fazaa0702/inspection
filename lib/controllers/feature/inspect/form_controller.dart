@@ -7,7 +7,6 @@ import 'package:einspection/models/question_model.dart';
 import 'package:einspection/services/form_service.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:einspection/global_var.dart';
 import '../../../constants.dart';
@@ -36,7 +35,6 @@ class FormController extends GetxController {
 
   @override
   void onInit() {
-    fetchInspectionData();
     fetchDeptData();
     super.onInit();
   }
@@ -93,13 +91,13 @@ class FormController extends GetxController {
     }
   }
 
-  getUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('id')) {
-      var data = jsonDecode(prefs.getString('id')!);
-      userId = data['id'];
-    }
-  }
+  // getUserId() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if (prefs.containsKey('id')) {
+  //     var data = jsonDecode(prefs.getString('id')!);
+  //     userId = data['id'];
+  //   }
+  // }
 
   Future<void> submitAnswerCondition(AnswerModel answerModel) async {
     //print("answer object : ${answerModel.toJson()}");

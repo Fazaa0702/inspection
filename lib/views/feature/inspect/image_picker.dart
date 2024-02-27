@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:einspection/component/common_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -147,7 +148,7 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
               height: 300,
               child: Image.file(selectedImage!),
             ),
-          )
+          ),
       ],
     );
   }

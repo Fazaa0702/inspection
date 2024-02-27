@@ -113,6 +113,12 @@ class _FormViewState extends State<FormView> {
                                       departmentId = newValue.id;
                                     })
                                   : null;
+                              controller.item.clear();
+                              controller.questions.clear();
+                              controller.inspect.clear();
+                              controller.fetchInspectionData();
+                              controller.fetchItemData(
+                                  inspectionId, departmentId);
                             },
                           ),
                   ),
@@ -154,6 +160,8 @@ class _FormViewState extends State<FormView> {
                                   });
                                   print('insID: $inspectionId');
                                   print('DeptID: $departmentId');
+                                  controller.questions.clear();
+                                  controller.item.clear();
                                   controller.fetchItemData(
                                       inspectionId, departmentId);
                                 }
@@ -189,20 +197,16 @@ class _FormViewState extends State<FormView> {
                               );
                             }).toList(),
                             onChanged: (ItemModel? newValue) {
-                              controller.fetchQuestionData(inspectionId);
-
                               if (newValue != null) {
                                 setState(() {
                                   a = jsonEncode(newValue);
                                   itemId = newValue.itemId;
                                 });
-
+                                controller.questions.clear();
+                                controller.fetchQuestionData(inspectionId);
                                 print('itemID: $itemId');
                                 print('DeptID: $departmentId');
                                 print('InsID: $inspectionId');
-
-                                //   controller.fetchItemData(
-                                //       inspectionId, departmentId);
                               }
                             },
                           ),
