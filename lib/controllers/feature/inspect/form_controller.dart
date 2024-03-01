@@ -12,12 +12,14 @@ import 'package:einspection/global_var.dart';
 import '../../../constants.dart';
 import '../../../models/answer_model.dart';
 import '../../../models/item_model.dart';
+import '../../../models/option_condition_model.dart';
 import '../../../models/question_answer_model.dart';
 
 class FormController extends GetxController {
   RxList<DeptModel> dept = <DeptModel>[].obs;
   RxList<InspectionModel> inspect = <InspectionModel>[].obs;
   RxList<ItemModel> item = <ItemModel>[].obs;
+  RxList<OptionConditionModel> option = <OptionConditionModel>[].obs;
 
   final FormService _formService = FormService();
   final RxList<QuestionModel> questions = <QuestionModel>[].obs;
@@ -49,6 +51,20 @@ class FormController extends GetxController {
       final List<dynamic> data = json.decode(res.body);
       dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
       print(res.body);
+    } else {
+      CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+    }
+  }
+
+  Future<void> fetchOptionConditions(int inspectionId) async {
+    final response = await http.get(Uri.parse(
+        '${Constants.apiUrl}/api/inspection/option-conditions?inspectionId=$inspectionId'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = jsonDecode(response.body);
+      option.assignAll(
+          responseData.map((option) => OptionConditionModel.fromJson(option)));
+      print('ressssssssssssss: ${response.body}');
     } else {
       CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
     }
@@ -91,14 +107,6 @@ class FormController extends GetxController {
     }
   }
 
-  // getUserId() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (prefs.containsKey('id')) {
-  //     var data = jsonDecode(prefs.getString('id')!);
-  //     userId = data['id'];
-  //   }
-  // }
-
   Future<void> submitAnswerCondition(AnswerModel answerModel) async {
     //print("answer object : ${answerModel.toJson()}");
     try {
@@ -115,26 +123,7 @@ class FormController extends GetxController {
     }
   }
 
-  // Metode untuk validasi dan mengatur status isFieldEmpty
   void validateField(String value) {
     isFieldEmpty.value = value.isEmpty;
   }
-
-  // Future<void> submitAnswer(int departmentId, int inspectionId) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var dataUser = prefs.getString("user").toString();
-  //   Map<String, dynamic> userData = json.decode(dataUser);
-  //   List<Map<String, dynamic>> answersMapList =
-  //       answers.map((obj) => obj.toJson()).toList();
-
-  //   String jsonDataQuestionanswers = jsonEncode(answersMapList);
-  //   AnswerModel answerModel = AnswerModel(
-  //       userId: userData['id'],
-  //       departmentId: departmentId,
-  //       inspectionId: inspectionId,
-  //       questionAnswers: jsonDataQuestionanswers);
-  //   submitAnswerCondition(answerModel);
-  //   print(jsonDataQuestionanswers);
-  //   CommonSnackbar.successSnackbar('Success', 'Data anda telah tersimpan');
-  // }
 }

@@ -197,17 +197,26 @@ class _FormViewState extends State<FormView> {
                               );
                             }).toList(),
                             onChanged: (ItemModel? newValue) {
-                              if (newValue != null) {
-                                setState(() {
-                                  a = jsonEncode(newValue);
-                                  itemId = newValue.itemId;
-                                });
-                                controller.questions.clear();
-                                controller.fetchQuestionData(inspectionId);
-                                print('itemID: $itemId');
-                                print('DeptID: $departmentId');
-                                print('InsID: $inspectionId');
-                              }
+                              CommonDialog().confirmDialog(
+                                  'Confirm',
+                                  'Apakah data yang dipilih sudah benar ?',
+                                  'Perubahan dapat menghapus data yang sudah anda isikan di form',
+                                  () {
+                                if (newValue != null) {
+                                  setState(() {
+                                    a = jsonEncode(newValue);
+                                    itemId = newValue.itemId;
+                                  });
+                                  controller.questions.clear();
+                                  controller.fetchQuestionData(inspectionId);
+                                  controller
+                                      .fetchOptionConditions(inspectionId);
+                                  print('itemID: $itemId');
+                                  print('DeptID: $departmentId');
+                                  print('InsID: $inspectionId');
+                                  Get.back();
+                                }
+                              });
                             },
                           ),
                   ),

@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/component/common_form_field.dart';
 import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/models/answer_model.dart';
-import 'package:einspection/models/item_model.dart';
+import 'package:einspection/models/option_condition_model.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,10 @@ class FormSection extends StatefulWidget {
 
 class _FormSectionState extends State<FormSection> {
   final FormController formController = Get.put(FormController());
-  // final Map<String, bool> idSentStatus = {};
   final _formKey = GlobalKey<FormState>();
-
   late QuestionAnswerModel currentAnswer;
-
   List<QuestionAnswerModel> answers = [];
+
   var image = '';
   var description = '';
   var recommendation = '';
@@ -88,6 +87,7 @@ class _FormSectionState extends State<FormSection> {
                               () async {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
+
                             var dataUser = prefs.getString("user").toString();
                             Map<String, dynamic> userData =
                                 json.decode(dataUser);
@@ -248,7 +248,6 @@ class _FormSectionState extends State<FormSection> {
               : false,
           controller: textControllers[questionId],
           onChanged: (value) {
-            print("textController : ${textControllers[questionId]?.text}");
             setState(() {
               currentAnswer = QuestionAnswerModel(
                 questionId: question.id,
@@ -289,190 +288,161 @@ class _FormSectionState extends State<FormSection> {
               ),
             ),
             Column(
-              children: [
-                buildRadio(questionId, 'Baik', null),
-                buildRadio(questionId, 'Tidak baik', currentAnswer.imageBase64),
-                if (formController.selectedValue[questionId]?.value ==
-                    'Tidak baik')
-                  Column(
-                    children: [
-                      ImagePickerSection(
-                        textEditingController: textControllers[questionId],
-                        onImageSelected: (imageBase64) {
-                          image = imageBase64;
-                          String nilai =
-                              formController.selectedValue[questionId]?.value ??
-                                  '';
-                          setState(() {
-                            currentAnswer = QuestionAnswerModel(
-                              questionId: questionId,
-                              answerText: nilai,
-                              imageBase64: nilai == 'Tidak baik' ? image : null,
-                            );
-                          });
-                          int index = answers.indexWhere((qa) =>
-                              qa.questionId == currentAnswer.questionId);
-                          print("index : $index");
-                          print(
-                              "nilai : ${formController.selectedValue[questionId]?.value}");
-                          if (index != -1) {
-                            // Jika sudah ada, ganti data yang lama dengan yang baru
-                            setState(() {
-                              answers[index] = currentAnswer;
-                            });
-                          } else {
-                            // Jika belum ada, tambahkan data baru
-                            setState(() {
-                              answers.add(currentAnswer);
-                            });
-                          }
-                          print("QID: $questionId");
-                          print('nilai: $nilai');
-                          print("Cekkkk: $imageBase64");
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10)),
-                      CommonFormField(
-                        question: 'Description',
-                        readOnly: false,
-                        controller: descriptionTextController[questionId],
-                        onChanged: (value) {
-                          description = value;
-                          print(
-                              "description controller text : ${descriptionTextController[questionId]?.text}");
-                          String nilai =
-                              formController.selectedValue[questionId]?.value ??
-                                  '';
-                          setState(() {
-                            currentAnswer = QuestionAnswerModel(
-                                questionId: questionId,
-                                answerText: nilai,
-                                imageBase64: image,
-                                description:
-                                    nilai == 'Tidak baik' ? description : null);
-                          });
-                          currentAnswer.description = value;
-                          int index = answers.indexWhere((qa) =>
-                              qa.questionId == currentAnswer.questionId);
-                          print("index : $index");
-                          print(
-                              "nilai : ${formController.selectedValue[questionId]?.value}");
-                          if (index != -1) {
-                            // Jika sudah ada, ganti data yang lama dengan yang baru
-                            setState(() {
-                              answers[index] = currentAnswer;
-                            });
-                          } else {
-                            // Jika belum ada, tambahkan data baru
-                            setState(() {
-                              answers.add(currentAnswer);
-                            });
-                          }
-                          print("QID: $questionId");
-                          print('nilai: $nilai');
-                          print("Cekkkk: $value");
-                        },
-                      ),
-                      CommonFormField(
-                        question: 'Recommendation',
-                        readOnly: false,
-                        controller: recommendationTextController[questionId],
-                        onChanged: (value) {
-                          recommendation = value;
-                          String nilai =
-                              formController.selectedValue[questionId]?.value ??
-                                  '';
-                          setState(() {
-                            currentAnswer = QuestionAnswerModel(
-                                questionId: questionId,
-                                answerText: nilai,
-                                imageBase64: image,
-                                description:
-                                    nilai == 'Tidak baik' ? description : null,
-                                recommendation: nilai == 'Tidak baik'
-                                    ? recommendation
-                                    : null);
-                          });
-                          int index = answers.indexWhere((qa) =>
-                              qa.questionId == currentAnswer.questionId);
-                          print("index : $index");
-                          print(
-                              "nilai : ${formController.selectedValue[questionId]?.value}");
-                          if (index != -1) {
-                            // Jika sudah ada, ganti data yang lama dengan yang baru
-                            setState(() {
-                              answers[index] = currentAnswer;
-                            });
-                          } else {
-                            // Jika belum ada, tambahkan data baru
-                            setState(() {
-                              answers.add(currentAnswer);
-                            });
-                          }
-                          print("QID: $questionId");
-                          print('nilai: $nilai');
-                          print("Cekkkk: $value");
-                          print("image: $image");
-                          print('desc: $description');
-                          print("recom: $recommendation");
-                        },
-                      ),
-                    ],
-                  ),
-                buildRadio(questionId, 'Tidak pakai', null),
-              ],
+              children: formController.option.map((optionCondition) {
+                return buildRadio(questionId, optionCondition, null);
+              }).toList(),
             ),
             const SizedBox(height: 20),
           ],
         );
       default:
-        // Handle other question types as needed
         return const SizedBox.shrink();
     }
   }
 
-  Widget buildRadio(String questionId, String nilai, String? imageBase64) {
-    return Row(
+  Widget buildRadio(
+      String questionId, OptionConditionModel option, String? imageBase64) {
+    bool isSelected =
+        formController.selectedValue[questionId]?.value == option.condition;
+
+    return Column(
       children: [
-        Radio(
-          activeColor: const Color(0xFF47B347),
-          value: nilai, //required
-          groupValue:
-              formController.selectedValue[questionId]?.value, //required
-          onChanged: (value) {
-            print(questionId);
+        Row(
+          children: [
+            Radio(
+              activeColor: const Color(0xFF47B347),
+              value: option.condition, //required
+              groupValue:
+                  formController.selectedValue[questionId]?.value, //required
+              onChanged: (value) {
+                var cek = false;
+                if (option.condition != '') {
+                  cek = true;
+                }
+                print('cekkkkkkk: $cek');
+                print(questionId);
 
-            setState(() {
-              currentAnswer = QuestionAnswerModel(
-                questionId: questionId,
-                answerText: nilai,
-              );
-            });
-            print("QID: $questionId");
-            print('nilai: $nilai');
-            print("Cekkkk: $imageBase64");
-            formController.setSelectedValue(questionId, value.toString());
+                setState(() {
+                  currentAnswer = QuestionAnswerModel(
+                    questionId: questionId,
+                    answerText: option.condition,
+                  );
+                });
+                print("QID: $questionId");
+                print('nilai: ${option.condition}');
+                print("Cekkkk: $imageBase64");
+                formController.setSelectedValue(questionId, value.toString());
 
-            int index = answers
-                .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-            print("index : $index");
-            print("nilai : ${formController.selectedValue[questionId]?.value}");
-            if (index != -1) {
-              // Jika sudah ada, ganti data yang lama dengan yang baru
-              setState(() {
-                answers[index] = currentAnswer;
-              });
-            } else {
-              // Jika belum ada, tambahkan data baru
-              setState(() {
-                answers.add(currentAnswer);
-              });
-            }
-          },
+                int index = answers.indexWhere(
+                    (qa) => qa.questionId == currentAnswer.questionId);
+                print("index : $index");
+                print(
+                    "nilai : ${formController.selectedValue[questionId]?.value}");
+                if (index != -1) {
+                  // Jika sudah ada, ganti data yang lama dengan yang baru
+                  setState(() {
+                    answers[index] = currentAnswer;
+                  });
+                } else {
+                  // Jika belum ada, tambahkan data baru
+                  setState(() {
+                    answers.add(currentAnswer);
+                  });
+                }
+              },
+            ),
+            Text(
+              option.condition,
+            ),
+          ],
         ),
-        Text(
-          nilai,
-        ),
+        if (isSelected && option.isNeedNcr == true)
+          Column(
+            children: [
+              ImagePickerSection(
+                initValue: imageBase64,
+                textEditingController: textControllers[questionId],
+                onImageSelected: (imageBase64) async {
+                  image = imageBase64;
+                  setState(() {
+                    currentAnswer = QuestionAnswerModel(
+                      questionId: questionId,
+                      answerText: option.condition,
+                      imageBase64: option.isNeedNcr == true ? image : '',
+                    );
+                  });
+                  int index = answers.indexWhere(
+                      (qa) => qa.questionId == currentAnswer.questionId);
+                  if (index != -1) {
+                    setState(() {
+                      answers[index] = currentAnswer;
+                    });
+                  } else {
+                    setState(() {
+                      answers.add(currentAnswer);
+                    });
+                  }
+                },
+              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              CommonFormField(
+                question: 'Description',
+                readOnly: false,
+                controller: descriptionTextController[questionId],
+                onChanged: (value) {
+                  description = value;
+                  setState(() {
+                    currentAnswer = QuestionAnswerModel(
+                      questionId: questionId,
+                      answerText: option.condition,
+                      imageBase64: image,
+                      description: option.isNeedNcr == true ? description : '',
+                    );
+                  });
+                  int index = answers.indexWhere(
+                      (qa) => qa.questionId == currentAnswer.questionId);
+                  if (index != -1) {
+                    setState(() {
+                      answers[index] = currentAnswer;
+                    });
+                  } else {
+                    setState(() {
+                      answers.add(currentAnswer);
+                    });
+                  }
+                },
+              ),
+              CommonFormField(
+                question: 'Recommendation',
+                readOnly: false,
+                controller: recommendationTextController[questionId],
+                onChanged: (value) {
+                  recommendation = value;
+                  setState(() {
+                    currentAnswer = QuestionAnswerModel(
+                      questionId: questionId,
+                      answerText: option.condition,
+                      imageBase64: image,
+                      description: description,
+                      recommendation:
+                          option.isNeedNcr == true ? recommendation : '',
+                    );
+                  });
+                  int index = answers.indexWhere(
+                      (qa) => qa.questionId == currentAnswer.questionId);
+                  if (index != -1) {
+                    setState(() {
+                      answers[index] = currentAnswer;
+                    });
+                  } else {
+                    setState(() {
+                      answers.add(currentAnswer);
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
       ],
     );
   }

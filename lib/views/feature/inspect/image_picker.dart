@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:einspection/component/common_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,8 +9,13 @@ import 'package:permission_handler/permission_handler.dart';
 class ImagePickerSection extends StatefulWidget {
   final void Function(String) onImageSelected;
   final TextEditingController? textEditingController;
-  const ImagePickerSection(
-      {super.key, required this.onImageSelected, this.textEditingController});
+  final String? initValue;
+  const ImagePickerSection({
+    super.key,
+    required this.onImageSelected,
+    this.textEditingController,
+    this.initValue,
+  });
 
   @override
   State<ImagePickerSection> createState() => _ImagePickerSectionState();

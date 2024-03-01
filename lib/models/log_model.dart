@@ -1,38 +1,49 @@
 import 'dart:convert';
 
-import 'package:einspection/models/user_model.dart';
 
 LogModel logModelFromJson(String str) => LogModel.fromJson(json.decode(str));
 
 String logModelToJson(LogModel data) => json.encode(data.toJson());
 
 class LogModel {
-  String userId;
-  DateTime? time;
-  int departmentId;
-  int inspectionId;
+  String id;
   String description;
+  int departmentId;
+  String itemId;
+  String? picItemId;
+  int inspectionId;
+  String userId;
+  DateTime time;
 
-  LogModel({
-    required this.userId,
-    this.time,
-    required this.departmentId,
-    required this.inspectionId,
-    required this.description
-  });
+  LogModel(
+      {required this.id,
+      required this.description,
+      required this.departmentId,
+      required this.itemId,
+      this.picItemId,
+      required this.inspectionId,
+      required this.userId,
+      required this.time});
+
   factory LogModel.fromJson(Map<String, dynamic> json) => LogModel(
-        userId: json["userId"],
-        time: json["time"],
+        id: json["id"],
+        description: json["description"],
         departmentId: json["departmentId"],
+        itemId: json["itemId"],
+        picItemId: json["picItemId"],
         inspectionId: json["inspectionId"],
-        description: json["description"]
+        userId: json["userId"],
+        time: DateTime.parse(json["time"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "UserId": userId,
-        "Time": time,
-        "DepartmentId": departmentId,
-        "InspectionId": inspectionId,
-        "Description": description,
+        "id": id,
+        "description": description,
+        "departmentId": departmentId,
+        "itemId": itemId,
+        "picItemId": picItemId,
+        "inspectionId": inspectionId,
+        "userId": userId,
+        "time": time,
       };
 }

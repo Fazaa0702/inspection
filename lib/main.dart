@@ -1,4 +1,6 @@
+import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:einspection/app_binding.dart';
+import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,12 +20,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'E-Inspection',
-      debugShowCheckedModeBanner: false,
-      getPages: Routes.pages,
-      initialRoute: RouteName.splashView,
-      initialBinding: AppBinding(),
-    );
+    return DoubleTapToExit(
+        snackBar: const SnackBar(
+          content: Text('Tap again to exit !'),
+        ),
+        child: GetMaterialApp(
+          title: 'E-Inspection',
+          debugShowCheckedModeBanner: false,
+          getPages: Routes.pages,
+          initialRoute: RouteName.splashView,
+          initialBinding: AppBinding(),
+        ));
   }
 }

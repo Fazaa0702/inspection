@@ -48,13 +48,13 @@ class LoginController extends GetxController {
     _login();
   }
 
-  getUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('id')) {
-      var data = jsonDecode(prefs.getString('id')!);
-      userId = data['id'];
-    }
-  }
+  // getUserId() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if (prefs.containsKey('id')) {
+  //     var data = jsonDecode(prefs.getString('id')!);
+  //     userId = data['id'];
+  //   }
+  // }
 
   // Future<bool> isUserLevel2(UserModel userModel) async {
   //   // Pastikan user tidak null dan userLevelId = 2

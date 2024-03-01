@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:einspection/component/common_snackbar.dart';
-import 'package:einspection/models/item_model.dart';
 import 'package:einspection/models/question_model.dart';
 import 'package:http/http.dart' as http;
 

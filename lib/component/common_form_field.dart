@@ -31,6 +31,8 @@ class CommonFormField extends StatelessWidget {
           ),
         ),
         TextFormField(
+          maxLines: 5,
+          minLines: 1,
           initialValue: initValue,
           readOnly: readOnly,
           // maxLength: 100,
