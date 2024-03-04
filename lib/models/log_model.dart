@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 LogModel logModelFromJson(String str) => LogModel.fromJson(json.decode(str));
 
 String logModelToJson(LogModel data) => json.encode(data.toJson());
@@ -26,13 +25,13 @@ class LogModel {
       required this.time});
 
   factory LogModel.fromJson(Map<String, dynamic> json) => LogModel(
-        id: json["id"],
-        description: json["description"],
-        departmentId: json["departmentId"],
-        itemId: json["itemId"],
-        picItemId: json["picItemId"],
-        inspectionId: json["inspectionId"],
-        userId: json["userId"],
+        id: json["id"] ?? '',
+        description: json["description"] ?? '',
+        departmentId: json["departmentId"] ?? '',
+        itemId: json["itemId"] ?? "",
+        picItemId: json["picItemId"] ?? "",
+        inspectionId: json["inspectionId"] ?? '',
+        userId: json["userId"] ?? "",
         time: DateTime.parse(json["time"]),
       );
 

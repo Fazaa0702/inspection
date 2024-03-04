@@ -1,6 +1,5 @@
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:einspection/app_binding.dart';
-import 'package:einspection/component/common_snackbar.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

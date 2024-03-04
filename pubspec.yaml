@@ -25,6 +25,7 @@ dependencies:
   image: ^4.1.7
   flutter_datawedge: ^2.1.0
   double_tap_to_exit: ^1.0.1
+  intl: ^0.19.0
 
 flutter_icons:
   android: true

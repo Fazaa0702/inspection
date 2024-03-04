@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/component/common_form_field.dart';

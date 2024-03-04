@@ -1,7 +1,9 @@
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:einspection/component/common_dialog.dart';
+import 'package:einspection/controllers/home/home_controller.dart';
 import 'package:einspection/controllers/login/login_controller.dart';
 import 'package:einspection/routes/route_name.dart';
+import 'package:einspection/views/home/log_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +11,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final LoginController controller = Get.put(LoginController());
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -217,14 +220,25 @@ class HomeView extends StatelessWidget {
                     height: 30,
                     child: Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text('Inspection Log',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins')),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Inspection Log',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins')),
+                         
+                        ],
+                      ),
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8, top: 10, bottom: 5, right: 8),
+                  child: LogView(),
+                )
                 // Padding(
                 //   padding: const EdgeInsets.only(
                 //       left: 25, right: 25, top: 20, bottom: 20),

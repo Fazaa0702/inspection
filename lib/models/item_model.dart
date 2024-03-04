@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:einspection/models/user_model.dart';
 
 ItemModel itemModelFromJson(String str) => ItemModel.fromJson(json.decode(str));
 
