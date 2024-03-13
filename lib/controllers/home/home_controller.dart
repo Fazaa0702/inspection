@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:einspection/component/common_snackbar.dart';
+import 'package:einspection/models/inspection_model.dart';
 import 'package:einspection/models/log_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -9,11 +10,13 @@ import '../../constants.dart';
 
 class HomeController extends GetxController {
   var log = <LogModel>[].obs;
+  var inspectionName = <InspectionModel>[];
   var isLoading = true.obs;
 
   @override
   void onInit() {
     fetchLogData();
+    fetchInspectionName();
     super.onInit();
   }
 
@@ -29,16 +32,19 @@ class HomeController extends GetxController {
     }
   }
 
-  // Future<String> getInspectionName(int inspectionId) async {
-  //   final res = await http.get(Uri.parse('${Constants.apiUrl}/api/inspection'));
-  //   if (res.statusCode == 200) {
-  //     final inspectionData = jsonDecode(res.body);
-  //     dynamic inspectionNameData = inspectionData['name'];
-  //     String inspectName = inspectionNameData.toString();
-  //     inspectionName = inspectName;
-  //     return inspectionName;
-  //   } else {
-  //     return '';
-  //   }
-  // }
+  Future<void> fetchInspectionName() async {
+    var res = await http.get(Uri.parse('${Constants.apiUrl}/api/inspection'));
+    if (res.statusCode == 200) {
+      final List<dynamic> response = json.decode(res.body);
+      inspectionName =
+          response.map((data) => InspectionModel.fromJson(data)).toList();
+      print('inspectionName: $inspectionName');
+      print('resBOdy: ${res.body}');
+    } else {
+      print('gagal');
+    }
+    return null;
+  }
+
+ 
 }

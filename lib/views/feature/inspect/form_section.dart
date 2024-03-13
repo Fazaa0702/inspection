@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:einspection/component/common_button.dart';
 import 'package:einspection/component/common_dialog.dart';
 import 'package:einspection/component/common_form_field.dart';
 import 'package:einspection/component/common_snackbar.dart';
@@ -9,6 +10,7 @@ import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:einspection/global_var.dart';
@@ -19,12 +21,12 @@ import '../../../models/question_model.dart';
 class FormSection extends StatefulWidget {
   final int departmentId;
   final int inspectionId;
-  final String itemId;
+  final String? itemId;
   const FormSection({
     super.key,
     required this.departmentId,
     required this.inspectionId,
-    required this.itemId,
+    this.itemId,
   });
 
   @override
@@ -72,68 +74,64 @@ class _FormSectionState extends State<FormSection> {
                   widget.departmentId != 0 &&
                   widget.itemId != '')
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        print('itemiddddd: ${widget.itemId}');
-                        if (_formKey.currentState!.validate()) {
-                          CommonDialog().confirmDialog(
-                              'Konfirmasi',
-                              'Apakah anda yakin ?',
-                              'Data yang anda inputkan akan terkirim di web',
-                              () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                    padding: const EdgeInsets.all(8.0),
+                    child: CommonButton(
+                        text: 'Submit',
+                        onPressed: () {
+                          print('itemiddddd: ${widget.itemId}');
+                          if (_formKey.currentState!.validate()) {
+                            CommonDialog().confirmDialog(
+                                'Konfirmasi',
+                                'Apakah anda yakin ?',
+                                'Data yang anda inputkan akan terkirim di web',
+                                () async {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
 
-                            var dataUser = prefs.getString("user").toString();
-                            Map<String, dynamic> userData =
-                                json.decode(dataUser);
-                            List<Map<String, dynamic>> answersMapList =
-                                answers.map((obj) => obj.toJson()).toList();
+                              var dataUser = prefs.getString("user").toString();
+                              Map<String, dynamic> userData =
+                                  json.decode(dataUser);
+                              List<Map<String, dynamic>> answersMapList =
+                                  answers.map((obj) => obj.toJson()).toList();
 
-                            // Convert the list of Map<String, dynamic> to a JSON string
-                            String jsonDataQuestionanswers =
-                                jsonEncode(answersMapList);
-                            var itemData = json.decode(a);
+                              // Convert the list of Map<String, dynamic> to a JSON string
+                              String jsonDataQuestionanswers =
+                                  jsonEncode(answersMapList);
+                              var itemData = json.decode(a);
 
-                            print("data user : ${userData['id']}");
-                            print(
-                                "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                            late AnswerModel answerModel = AnswerModel(
-                                userId: userData['id'],
-                                departmentId: widget.departmentId.toInt(),
-                                inspectionId: widget.inspectionId.toInt(),
-                                questionAnswers: jsonDataQuestionanswers,
-                                picItemId: itemData["picItemId"],
-                                itemId: widget.itemId);
-                            formController.submitAnswerCondition(answerModel);
-                            print('Answers: ${jsonEncode(answers)}');
-                            CommonSnackbar.successSnackbar(
-                                'Success', 'The answer has been sent');
-                            Get.offAllNamed(RouteName.home);
-                          });
-                        } else {
-                          CommonSnackbar.failedSnackbar(
-                              'Gagal', 'Semua pertanyaan harus terjawab');
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF47B347),
-                          fixedSize: Size(Get.width, 40)),
-                      child: const Text('Submit',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Poppins')),
-                    ),
-                  ),
-                )
+                              print("data user : ${userData['id']}");
+                              print(
+                                  "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                              late AnswerModel answerModel = AnswerModel(
+                                  userId: userData['id'],
+                                  departmentId: widget.departmentId.toInt(),
+                                  inspectionId: widget.inspectionId.toInt(),
+                                  questionAnswers: jsonDataQuestionanswers,
+                                  picItemId: itemData["picItemId"],
+                                  itemId: widget.itemId);
+                              formController.submitAnswerCondition(answerModel);
+                              print('Answers: ${jsonEncode(answers)}');
+                              CommonSnackbar.successSnackbar(
+                                  'Success', 'The answer has been sent');
+                              Get.offAllNamed(RouteName.home);
+                            });
+                          } else {
+                            CommonSnackbar.failedSnackbar(
+                                'Gagal', 'Semua pertanyaan harus terjawab');
+                          }
+                        }))
             ],
           )),
     );
+  }
+
+  String formatDateTime(String dateTimeString) {
+    if (dateTimeString == '' || dateTimeString.isEmpty) {
+      return '';
+    }
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(dateTime);
+    return formattedDateTime;
   }
 
   Widget buildFormField(QuestionModel question) {
@@ -163,8 +161,8 @@ class _FormSectionState extends State<FormSection> {
         }
         break;
       case "Tanggal Terakhir Pengecekan":
-        initValue =
-            itemData["lastInspection"] ?? DateTime.now().toIso8601String();
+        initValue = formatDateTime(
+            itemData["lastInspection"] ?? DateTime.now().toIso8601String());
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
           answerText: initValue,
@@ -238,11 +236,11 @@ class _FormSectionState extends State<FormSection> {
         return CommonFormField(
           initValue: initValue,
           question: questionText,
-          readOnly: (questionText == "Lokasi Penempatan" ||
+          readOnly: (initValue == itemData["location"] ||
                   questionText == 'Tanggal Terakhir Pengecekan' ||
-                  questionText == 'Jumlah Pengecekan' ||
-                  questionText == 'Nomor Apar' ||
-                  questionText == 'Model/Type')
+                  initValue == itemData["number"] ||
+                  initValue == itemData["modelOrType"] ||
+                  initValue == itemData["jumlahPengecekan"])
               ? true
               : false,
           controller: textControllers[questionId],

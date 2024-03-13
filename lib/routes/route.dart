@@ -34,7 +34,7 @@ class Routes {
     ),
     GetPage(
       name: RouteName.scan,
-      page: () => ScanView(),
+      page: () => const ScanView(),
       binding: ScanBinding(),
     )
   ];

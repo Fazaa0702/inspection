@@ -130,7 +130,6 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
           },
           style: const TextStyle(
               fontSize: 14, fontWeight: FontWeight.w400, fontFamily: 'Poppins'),
-          // maxLines: null,
           cursorColor: const Color(0xFF47B347),
           decoration: InputDecoration(
               hintText: hintText,
@@ -157,12 +156,9 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
   }
 
   Future getImageFromGallery() async {
-    var status = await Permission.camera.status;
+    var status = await Permission.photos.status;
     if (!status.isGranted) {
-      status = await Permission.camera.request();
-      if (!status.isGranted) {
-        return;
-      }
+      status = await Permission.photos.request();
     }
 
     try {
@@ -190,9 +186,6 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
     var status = await Permission.camera.status;
     if (!status.isGranted) {
       status = await Permission.camera.request();
-      if (!status.isGranted) {
-        return;
-      }
     }
 
     try {

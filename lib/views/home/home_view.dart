@@ -20,6 +20,9 @@ class HomeView extends StatelessWidget {
         content: Text('Tap again to exit !'),
       ),
       child: Scaffold(
+        // appBar: AppBar(
+        //   elevation: 100,
+        // ),
         body: SizedBox(
           height: Get.height,
           width: Get.width,
@@ -46,21 +49,24 @@ class HomeView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IconButton(
-                                  onPressed: () {
-                                    CommonDialog().confirmDialog(
-                                        'Confirm',
-                                        'Are you sure ?',
-                                        'you will be redirected to the login page',
-                                        () {
-                                      controller.logout();
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    // textDirection: TextDirection.ltr,
-                                    Icons.logout,
-                                    color: Colors.white,
-                                    size: 25,
+                                Transform.rotate(
+                                  angle: -3.14,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      CommonDialog().confirmDialog(
+                                          'Confirm',
+                                          'Are you sure ?',
+                                          'you will be redirected to the login page',
+                                          () {
+                                        controller.logout();
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      // textDirection: TextDirection.ltr,
+                                      Icons.logout,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
                                   ),
                                 ),
                                 const Padding(
@@ -228,15 +234,14 @@ class HomeView extends StatelessWidget {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Poppins')),
-                         
                         ],
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8, top: 10, bottom: 5, right: 8),
+                  padding:
+                      const EdgeInsets.only(left: 8, top: 10, bottom: 5, right: 8),
                   child: LogView(),
                 )
                 // Padding(

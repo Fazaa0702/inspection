@@ -21,7 +21,7 @@ class CommonSnackbar {
     return Get.snackbar(
       title,
       message,
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xFF1F991F),
       colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
       margin: const EdgeInsets.all(20),

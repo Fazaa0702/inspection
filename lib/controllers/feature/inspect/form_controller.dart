@@ -108,7 +108,6 @@ class FormController extends GetxController {
   }
 
   Future<void> submitAnswerCondition(AnswerModel answerModel) async {
-    //print("answer object : ${answerModel.toJson()}");
     try {
       bool success =
           await _formService.submitAnswerService(answerModel.toJson());

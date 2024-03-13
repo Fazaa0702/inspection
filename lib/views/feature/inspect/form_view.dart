@@ -84,42 +84,46 @@ class _FormViewState extends State<FormView> {
                       const EdgeInsets.only(left: 15, right: 15, bottom: 5),
                   child: Obx(
                     () => controller.dept.isEmpty
-                        ? const CircularProgressIndicator(
-                            color: Color(0xFF47B347),
-                          )
-                        : DropdownButtonFormField<DeptModel>(
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFF47B347))),
-                              hintText: 'Departemen',
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
+                        ? const Center(
+                            child: const CircularProgressIndicator(
+                              color: Color(0xFF47B347),
                             ),
-                            items: controller.dept.map((DeptModel dept) {
-                              return DropdownMenuItem<DeptModel>(
-                                value: dept,
-                                child: Text(dept.name),
-                              );
-                            }).toList(),
-                            onChanged: (DeptModel? newValue) {
-                              controller.deptValue.value;
-                              (newValue != null)
-                                  ? setState(() {
-                                      departmentId = newValue.id;
-                                    })
-                                  : null;
-                              controller.item.clear();
-                              controller.questions.clear();
-                              controller.inspect.clear();
-                              controller.fetchInspectionData();
-                              controller.fetchItemData(
-                                  inspectionId, departmentId);
-                            },
+                          )
+                        : Center(
+                            child: DropdownButtonFormField<DeptModel>(
+                              isExpanded: true,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF47B347))),
+                                hintText: 'Departemen',
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              items: controller.dept.map((DeptModel dept) {
+                                return DropdownMenuItem<DeptModel>(
+                                  value: dept,
+                                  child: Text(dept.name),
+                                );
+                              }).toList(),
+                              onChanged: (DeptModel? newValue) {
+                                controller.deptValue.value;
+                                (newValue != null)
+                                    ? setState(() {
+                                        departmentId = newValue.id;
+                                      })
+                                    : null;
+                                controller.item.clear();
+                                controller.questions.clear();
+                                controller.inspect.clear();
+                                controller.fetchInspectionData();
+                                controller.fetchItemData(
+                                    inspectionId, departmentId);
+                              },
+                            ),
                           ),
                   ),
                 ),
@@ -128,17 +132,63 @@ class _FormViewState extends State<FormView> {
                     padding:
                         const EdgeInsets.only(left: 15, right: 15, top: 15),
                     child: Obx(
-                      () => controller.inspect.isEmpty
-                          ? const CircularProgressIndicator(
+                      () => Center(
+                        child: DropdownButtonFormField<InspectionModel>(
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide:
+                                    const BorderSide(color: Color(0xFF47B347))),
+                            hintText: 'Inspeksi',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          // value: controller.inspect[0],
+                          // onTap: () => controller.fetchDeptData(),
+                          items:
+                              controller.inspect.map((InspectionModel inspect) {
+                            return DropdownMenuItem<InspectionModel>(
+                              value: inspect,
+                              child: Text(inspect.name),
+                            );
+                          }).toList(),
+                          onChanged: (InspectionModel? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                inspectionId = newValue.id;
+                              });
+                              print('insID: $inspectionId');
+                              print('DeptID: $departmentId');
+
+                              controller.questions.clear();
+                              controller.item.clear();
+                              controller.fetchItemData(
+                                  inspectionId, departmentId);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+                  child: Obx(
+                    () => controller.item.isEmpty
+                        ? const Center(
+                            child: const CircularProgressIndicator(
                               color: Color(0xFF47B347),
-                            )
-                          : DropdownButtonFormField<InspectionModel>(
+                            ),
+                          )
+                        : Center(
+                            child: DropdownButtonFormField<ItemModel>(
                               decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                         color: Color(0xFF47B347))),
-                                hintText: 'Inspeksi',
+                                hintText: 'Item',
                                 hintStyle: const TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
@@ -146,78 +196,35 @@ class _FormViewState extends State<FormView> {
                               ),
                               // value: controller.inspect[0],
                               // onTap: () => controller.fetchDeptData(),
-                              items: controller.inspect
-                                  .map((InspectionModel inspect) {
-                                return DropdownMenuItem<InspectionModel>(
-                                  value: inspect,
-                                  child: Text(inspect.name),
+                              items: controller.item.map((ItemModel item) {
+                                return DropdownMenuItem<ItemModel>(
+                                  value: item,
+                                  child: Text(item.itemName),
                                 );
                               }).toList(),
-                              onChanged: (InspectionModel? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    inspectionId = newValue.id;
-                                  });
-                                  print('insID: $inspectionId');
-                                  print('DeptID: $departmentId');
-                                  controller.questions.clear();
-                                  controller.item.clear();
-                                  controller.fetchItemData(
-                                      inspectionId, departmentId);
-                                }
+                              onChanged: (ItemModel? newValue) {
+                                CommonDialog().confirmDialog(
+                                    'Confirm',
+                                    'Apakah data yang dipilih sudah benar ?',
+                                    'Perubahan dapat menghapus data yang sudah anda isikan di form',
+                                    () {
+                                  if (newValue != null) {
+                                    setState(() {
+                                      a = jsonEncode(newValue);
+                                      itemId = newValue.itemId;
+                                    });
+                                    controller.questions.clear();
+                                    controller.fetchQuestionData(inspectionId);
+                                    controller
+                                        .fetchOptionConditions(inspectionId);
+                                    print('itemID: $itemId');
+                                    print('DeptID: $departmentId');
+                                    print('InsID: $inspectionId');
+                                    Get.back();
+                                  }
+                                });
                               },
                             ),
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                  child: Obx(
-                    () => controller.item.isEmpty
-                        ? const CircularProgressIndicator(
-                            color: Color(0xFF47B347),
-                          )
-                        : DropdownButtonFormField<ItemModel>(
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFF47B347))),
-                              hintText: 'Item',
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            // value: controller.inspect[0],
-                            // onTap: () => controller.fetchDeptData(),
-                            items: controller.item.map((ItemModel item) {
-                              return DropdownMenuItem<ItemModel>(
-                                value: item,
-                                child: Text(item.itemName),
-                              );
-                            }).toList(),
-                            onChanged: (ItemModel? newValue) {
-                              CommonDialog().confirmDialog(
-                                  'Confirm',
-                                  'Apakah data yang dipilih sudah benar ?',
-                                  'Perubahan dapat menghapus data yang sudah anda isikan di form',
-                                  () {
-                                if (newValue != null) {
-                                  setState(() {
-                                    a = jsonEncode(newValue);
-                                    itemId = newValue.itemId;
-                                  });
-                                  controller.questions.clear();
-                                  controller.fetchQuestionData(inspectionId);
-                                  controller
-                                      .fetchOptionConditions(inspectionId);
-                                  print('itemID: $itemId');
-                                  print('DeptID: $departmentId');
-                                  print('InsID: $inspectionId');
-                                  Get.back();
-                                }
-                              });
-                            },
                           ),
                   ),
                 ),

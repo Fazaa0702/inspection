@@ -1,4 +1,3 @@
-import 'package:einspection/controllers/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,9 +5,8 @@ import '../../models/log_model.dart';
 
 class LogData extends DataTableSource {
   final List<LogModel> _logs;
-  final HomeController _logController;
-  LogData(this._logs, this._logController);
-  
+
+  LogData(this._logs);
 
   @override
   DataRow? getRow(int index) {
@@ -25,7 +23,25 @@ class LogData extends DataTableSource {
       DataCell(Text(log.userId)),
       DataCell(Text(log.departmentId.toString())),
       DataCell(Text(log.itemId)),
-      DataCell(Text(log.description)),
+      DataCell(Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(90),
+          color: (log.description == 'Submitted')
+              ? Colors.green
+              : Colors.amberAccent,
+        ),
+        padding: EdgeInsets.all(8),
+        width: 90,
+        child: Text(
+          log.description,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: (log.description == 'Submitted')
+                  ? Colors.white
+                  : Colors.black,
+              fontWeight: FontWeight.bold),
+        ),
+      )),
     ]);
   }
 

@@ -1,3 +1,4 @@
+import 'package:einspection/component/common_button.dart';
 import 'package:einspection/controllers/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,8 +8,6 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    // double topPadding = MediaQuery.of(context).padding.top;
-
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
@@ -79,23 +78,9 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.only(top: 20)),
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        controller.emptyForm();
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF47B347),
-                          fixedSize: Size(Get.width, 40)),
-                      child: const Text('Login',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Poppins')),
-                    ),
-                  )
+                  CommonButton(
+                      text: 'Login',
+                      onPressed: () async => controller.emptyForm())
                 ],
               ),
             ),
