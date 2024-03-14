@@ -1,16 +1,11 @@
 import 'dart:convert';
 
-import 'package:einspection/component/common_dialog.dart';
-import 'package:einspection/controllers/feature/inspect/form_controller.dart';
-import 'package:einspection/models/dept_model.dart';
-import 'package:einspection/models/inspection_model.dart';
+import 'package:einspection/export.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/form_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:einspection/global_var.dart';
-
-import '../../../models/item_model.dart';
 
 class FormView extends StatefulWidget {
   const FormView({super.key});
@@ -132,44 +127,59 @@ class _FormViewState extends State<FormView> {
                     padding:
                         const EdgeInsets.only(left: 15, right: 15, top: 15),
                     child: Obx(
-                      () => Center(
-                        child: DropdownButtonFormField<InspectionModel>(
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide:
-                                    const BorderSide(color: Color(0xFF47B347))),
-                            hintText: 'Inspeksi',
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          // value: controller.inspect[0],
-                          // onTap: () => controller.fetchDeptData(),
-                          items:
-                              controller.inspect.map((InspectionModel inspect) {
-                            return DropdownMenuItem<InspectionModel>(
-                              value: inspect,
-                              child: Text(inspect.name),
-                            );
-                          }).toList(),
-                          onChanged: (InspectionModel? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                inspectionId = newValue.id;
-                              });
-                              print('insID: $inspectionId');
-                              print('DeptID: $departmentId');
+                      () => controller.inspect.isEmpty
+                          ? const Center(
+                              child: const CircularProgressIndicator(
+                                color: Color(0xFF47B347),
+                              ),
+                            )
+                          : Center(
+                              child: DropdownButtonFormField<InspectionModel>(
+                                decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFF47B347))),
+                                  hintText: 'Inspeksi',
+                                  hintStyle: const TextStyle(
+                                      color: Colors.grey,
+                                      overflow: TextOverflow.clip),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                ),
+                                // value: controller.inspect[0],
+                                // onTap: () => controller.fetchDeptData(),
+                                items: controller.inspect
+                                    .map((InspectionModel inspect) {
+                                  return DropdownMenuItem<InspectionModel>(
+                                    value: inspect,
+                                    child: SizedBox(
+                                      width: Get.width * 0.75,
+                                      child: Text(
+                                        inspect.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (InspectionModel? newValue) {
+                                  if (newValue != null) {
+                                    setState(() {
+                                      inspectionId = newValue.id;
+                                    });
+                                    print('insID: $inspectionId');
+                                    print('DeptID: $departmentId');
 
-                              controller.questions.clear();
-                              controller.item.clear();
-                              controller.fetchItemData(
-                                  inspectionId, departmentId);
-                            }
-                          },
-                        ),
-                      ),
+                                    controller.questions.clear();
+                                    controller.item.clear();
+                                    controller.fetchItemData(
+                                        inspectionId, departmentId);
+                                  }
+                                },
+                              ),
+                            ),
                     ),
                   ),
                 Padding(

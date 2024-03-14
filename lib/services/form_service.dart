@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:einspection/component/common_snackbar.dart';
-import 'package:einspection/models/question_model.dart';
+import 'package:einspection/export.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -55,8 +54,6 @@ class FormService {
     print('resbody : ${res.body}');
     print("json data = ${jsonData}");
     if (res.statusCode == 200) {
-      // await prefs.setString('user', res.body);
-      //print("result: ${res.body}");
       return 'Sukses';
     } else {
       print("errror : ${e}");

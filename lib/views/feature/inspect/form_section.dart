@@ -1,22 +1,12 @@
 import 'dart:convert';
-
-import 'package:einspection/component/common_button.dart';
-import 'package:einspection/component/common_dialog.dart';
-import 'package:einspection/component/common_form_field.dart';
-import 'package:einspection/component/common_snackbar.dart';
-import 'package:einspection/models/answer_model.dart';
-import 'package:einspection/models/option_condition_model.dart';
+import 'package:einspection/export.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:einspection/global_var.dart';
-import '../../../controllers/feature/inspect/form_controller.dart';
-import '../../../models/question_answer_model.dart';
-import '../../../models/question_model.dart';
 
 class FormSection extends StatefulWidget {
   final int departmentId;
@@ -94,7 +84,6 @@ class _FormSectionState extends State<FormSection> {
                               List<Map<String, dynamic>> answersMapList =
                                   answers.map((obj) => obj.toJson()).toList();
 
-                              // Convert the list of Map<String, dynamic> to a JSON string
                               String jsonDataQuestionanswers =
                                   jsonEncode(answersMapList);
                               var itemData = json.decode(a);
@@ -308,9 +297,8 @@ class _FormSectionState extends State<FormSection> {
           children: [
             Radio(
               activeColor: const Color(0xFF47B347),
-              value: option.condition, //required
-              groupValue:
-                  formController.selectedValue[questionId]?.value, //required
+              value: option.condition,
+              groupValue: formController.selectedValue[questionId]?.value,
               onChanged: (value) {
                 var cek = false;
                 if (option.condition != '') {

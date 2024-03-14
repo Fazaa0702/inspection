@@ -1,19 +1,11 @@
 import 'dart:convert';
 
-import 'package:einspection/component/common_snackbar.dart';
-import 'package:einspection/models/dept_model.dart';
-import 'package:einspection/models/inspection_model.dart';
-import 'package:einspection/models/question_model.dart';
-import 'package:einspection/services/form_service.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:einspection/global_var.dart';
 import '../../../constants.dart';
-import '../../../models/answer_model.dart';
-import '../../../models/item_model.dart';
-import '../../../models/option_condition_model.dart';
-import '../../../models/question_answer_model.dart';
+import 'package:einspection/export.dart';
 
 class FormController extends GetxController {
   RxList<DeptModel> dept = <DeptModel>[].obs;

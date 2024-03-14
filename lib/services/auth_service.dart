@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:einspection/component/common_snackbar.dart';
-import 'package:einspection/services/conditional_service.dart';
+import 'package:einspection/export.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
-import '../models/user_model.dart';
 
 class AuthService {
   // String apiUrl = '';

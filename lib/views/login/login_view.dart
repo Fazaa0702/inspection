@@ -1,5 +1,4 @@
-import 'package:einspection/component/common_button.dart';
-import 'package:einspection/controllers/login/login_controller.dart';
+import 'package:einspection/export.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

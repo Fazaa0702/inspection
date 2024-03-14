@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-AnswerModel questionModelFromJson(String str) =>
+AnswerModel answerModelFromJson(String str) =>
     AnswerModel.fromJson(json.decode(str));
 
-String questionModelToJson(AnswerModel data) => json.encode(data.toJson());
+String answerModelToJson(AnswerModel data) => json.encode(data.toJson());
 
 class AnswerModel {
   String userId;

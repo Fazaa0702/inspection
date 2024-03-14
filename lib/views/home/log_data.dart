@@ -1,7 +1,7 @@
+import 'package:einspection/export.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/log_model.dart';
 
 class LogData extends DataTableSource {
   final List<LogModel> _logs;
