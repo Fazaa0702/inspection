@@ -4,7 +4,7 @@ import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:einspection/global_var.dart';
 
@@ -87,7 +87,8 @@ class _FormSectionState extends State<FormSection> {
                               String jsonDataQuestionanswers =
                                   jsonEncode(answersMapList);
                               var itemData = json.decode(a);
-
+                              print(
+                                  'Pengecekannnnn: ${itemData["jumlahPengecekan"]}');
                               print("data user : ${userData['id']}");
                               print(
                                   "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
@@ -114,14 +115,14 @@ class _FormSectionState extends State<FormSection> {
     );
   }
 
-  String formatDateTime(String dateTimeString) {
-    if (dateTimeString == '' || dateTimeString.isEmpty) {
-      return '';
-    }
-    DateTime dateTime = DateTime.parse(dateTimeString);
-    String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(dateTime);
-    return formattedDateTime;
-  }
+  // String formatDateTime(String dateTimeString) {
+  //   if (dateTimeString == '' || dateTimeString.isEmpty) {
+  //     return '';
+  //   }
+  //   DateTime dateTime = DateTime.parse(dateTimeString);
+  //   String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(dateTime);
+  //   return formattedDateTime;
+  // }
 
   Widget buildFormField(QuestionModel question) {
     final questionText = question.questionText;
@@ -132,7 +133,7 @@ class _FormSectionState extends State<FormSection> {
 
     var itemData = json.decode(a);
     switch (questionText) {
-      case "Lokasi Penempatan":
+      case "Lokasi Penempatan Item":
         initValue = itemData["location"];
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
@@ -150,8 +151,7 @@ class _FormSectionState extends State<FormSection> {
         }
         break;
       case "Tanggal Terakhir Pengecekan":
-        initValue = formatDateTime(
-            itemData["lastInspection"] ?? DateTime.now().toIso8601String());
+        initValue = itemData["lastInspection"] ?? '';
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
           answerText: initValue,
@@ -167,7 +167,7 @@ class _FormSectionState extends State<FormSection> {
           answers.add(currentAnswer);
         }
         break;
-      case "Nomor Apar":
+      case "Nomor Item":
         initValue = itemData["number"] ?? "0";
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
@@ -184,7 +184,7 @@ class _FormSectionState extends State<FormSection> {
           answers.add(currentAnswer);
         }
         break;
-      case "Model/Type":
+      case "Model/Type Item":
         initValue = itemData["modelOrType"] ?? "0";
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
@@ -202,11 +202,14 @@ class _FormSectionState extends State<FormSection> {
         }
         break;
       case "Jumlah Pengecekan":
-        initValue = itemData["jumlahPengecekan"] ?? "0";
+        initValue = (itemData["jumlahPengecekan"] ?? 0).toString();
         currentAnswer = QuestionAnswerModel(
           questionId: question.id,
           answerText: initValue,
         );
+        // if (answers.isEmpty) {
+        //   answers.add(currentAnswer);
+        // }
         int index = answers
             .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
         print("index : $index");
@@ -229,7 +232,8 @@ class _FormSectionState extends State<FormSection> {
                   questionText == 'Tanggal Terakhir Pengecekan' ||
                   initValue == itemData["number"] ||
                   initValue == itemData["modelOrType"] ||
-                  initValue == itemData["jumlahPengecekan"])
+                  initValue == itemData["jumlahPengecekan"] ||
+                  initValue.isNotEmpty)
               ? true
               : false,
           controller: textControllers[questionId],
@@ -334,6 +338,7 @@ class _FormSectionState extends State<FormSection> {
                     answers.add(currentAnswer);
                   });
                 }
+                _formKey.currentState!.validate();
               },
             ),
             Text(

@@ -18,9 +18,6 @@ class HomeView extends StatelessWidget {
         content: Text('Tap again to exit !'),
       ),
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 100,
-        // ),
         body: SizedBox(
           height: Get.height,
           width: Get.width,
@@ -240,8 +237,7 @@ class HomeView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 8, top: 10, bottom: 5, right: 8),
-                  // child: LogView(),
-                )
+                ) 
               ],
             ),
           ),

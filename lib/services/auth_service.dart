@@ -8,11 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class AuthService {
+  
   // String apiUrl = '';
 
   Map<String, dynamic> createData(String id) {
     var data = {
-      'id': id,
+      "id": id,
     };
     return data;
   }
@@ -46,6 +47,8 @@ class AuthService {
 
       var res = await http.post(url, body: body, headers: headers);
       print('result : ${res.body}');
+      print('body: $body');
+      print('url: $url');
 
       return conditionalStatus(res);
     } catch (e) {

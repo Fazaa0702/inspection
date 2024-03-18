@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 ItemModel itemModelFromJson(String str) => ItemModel.fromJson(json.decode(str));
 
 String itemModelToJson(ItemModel data) => json.encode(data.toJson());
@@ -12,7 +11,7 @@ class ItemModel {
   String number;
   String modelOrType;
   int inspectionId;
-  DateTime? lastInspection;
+  String? lastInspection;
   String location;
   int departmentId;
   String picItemId;
@@ -33,13 +32,11 @@ class ItemModel {
         itemId: json["id"] ?? "",
         itemName: json["name"] ?? "",
         jumlahPengecekan: json["jumlahPengecekan"] ?? 0,
-        departmentId: json["departmentId"],
-        inspectionId: json["inspectionId"],
+        departmentId: json["departmentId"] ?? 0,
+        inspectionId: json["inspectionId"] ?? 0,
         number: json["number"] ?? "",
         modelOrType: json["modelOrType"] ?? "",
-        lastInspection: json["lastInspection"] != null
-            ? DateTime.parse(json["lastInspection"])
-            : null,
+        lastInspection: json["lastInspection"] ?? '',
         location: json["location"] ?? "",
         picItemId: json["picItemId"] ?? "",
       );
@@ -47,11 +44,11 @@ class ItemModel {
   Map<String, dynamic> toJson() => {
         "id": itemId,
         "name": itemName,
-        "jumlahPegecekan": jumlahPengecekan,
+        "jumlahPengecekan": jumlahPengecekan,
         "number": number,
         "modelOrType": modelOrType,
         "inspectionId": inspectionId,
-        "lastInspection": lastInspection?.toIso8601String(),
+        "lastInspection": lastInspection,
         "location": location,
         "departmentId": departmentId,
         "picItemId": picItemId,
