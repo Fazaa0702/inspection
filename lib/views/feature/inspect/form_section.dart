@@ -71,9 +71,9 @@ class _FormSectionState extends State<FormSection> {
                           print('itemiddddd: ${widget.itemId}');
                           if (_formKey.currentState!.validate()) {
                             CommonDialog().confirmDialog(
-                                'Konfirmasi',
-                                'Apakah anda yakin ?',
-                                'Data yang anda inputkan akan terkirim di web',
+                                'Confirm',
+                                'Are you sure ?',
+                                'The data you entered will be sent on the web',
                                 () async {
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
@@ -115,15 +115,6 @@ class _FormSectionState extends State<FormSection> {
     );
   }
 
-  // String formatDateTime(String dateTimeString) {
-  //   if (dateTimeString == '' || dateTimeString.isEmpty) {
-  //     return '';
-  //   }
-  //   DateTime dateTime = DateTime.parse(dateTimeString);
-  //   String formattedDateTime = DateFormat('dd/MM/yyyy HH:mm').format(dateTime);
-  //   return formattedDateTime;
-  // }
-
   Widget buildFormField(QuestionModel question) {
     final questionText = question.questionText;
     final questionType = question.questionType;
@@ -139,16 +130,7 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        int index = answers
-            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-        print("index : $index");
-        if (index != -1) {
-          // Jika sudah ada, ganti data yang lama dengan yang baru
-          answers[index] = currentAnswer;
-        } else {
-          // Jika belum ada, tambahkan data baru
-          answers.add(currentAnswer);
-        }
+        formController.inputAnswerCondition(answers, currentAnswer);
         break;
       case "Tanggal Terakhir Pengecekan":
         initValue = itemData["lastInspection"] ?? '';
@@ -156,16 +138,7 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        int index = answers
-            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-        print("index : $index");
-        if (index != -1) {
-          // Jika sudah ada, ganti data yang lama dengan yang baru
-          answers[index] = currentAnswer;
-        } else {
-          // Jika belum ada, tambahkan data baru
-          answers.add(currentAnswer);
-        }
+        formController.inputAnswerCondition(answers, currentAnswer);
         break;
       case "Nomor Item":
         initValue = itemData["number"] ?? "0";
@@ -173,16 +146,7 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        int index = answers
-            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-        print("index : $index");
-        if (index != -1) {
-          // Jika sudah ada, ganti data yang lama dengan yang baru
-          answers[index] = currentAnswer;
-        } else {
-          // Jika belum ada, tambahkan data baru
-          answers.add(currentAnswer);
-        }
+        formController.inputAnswerCondition(answers, currentAnswer);
         break;
       case "Model/Type Item":
         initValue = itemData["modelOrType"] ?? "0";
@@ -190,16 +154,7 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        int index = answers
-            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-        print("index : $index");
-        if (index != -1) {
-          // Jika sudah ada, ganti data yang lama dengan yang baru
-          answers[index] = currentAnswer;
-        } else {
-          // Jika belum ada, tambahkan data baru
-          answers.add(currentAnswer);
-        }
+        formController.inputAnswerCondition(answers, currentAnswer);
         break;
       case "Jumlah Pengecekan":
         initValue = (itemData["jumlahPengecekan"] ?? 0).toString();
@@ -207,19 +162,7 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        // if (answers.isEmpty) {
-        //   answers.add(currentAnswer);
-        // }
-        int index = answers
-            .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-        print("index : $index");
-        if (index != -1) {
-          // Jika sudah ada, ganti data yang lama dengan yang baru
-          answers[index] = currentAnswer;
-        } else {
-          // Jika belum ada, tambahkan data baru
-          answers.add(currentAnswer);
-        }
+        formController.inputAnswerCondition(answers, currentAnswer);
         break;
     }
 
@@ -244,20 +187,7 @@ class _FormSectionState extends State<FormSection> {
                 answerText: value,
               );
             });
-            int index = answers
-                .indexWhere((qa) => qa.questionId == currentAnswer.questionId);
-            print("index : $index");
-            if (index != -1) {
-              // Jika sudah ada, ganti data yang lama dengan yang baru
-              setState(() {
-                answers[index] = currentAnswer;
-              });
-            } else {
-              // Jika belum ada, tambahkan data baru
-              setState(() {
-                answers.add(currentAnswer);
-              });
-            }
+            formController.inputAnswerCondition(answers, currentAnswer);
             print("answers : ${answers[0].answerText}");
           },
         );
@@ -304,11 +234,6 @@ class _FormSectionState extends State<FormSection> {
               value: option.condition,
               groupValue: formController.selectedValue[questionId]?.value,
               onChanged: (value) {
-                var cek = false;
-                if (option.condition != '') {
-                  cek = true;
-                }
-                print('cekkkkkkk: $cek');
                 print(questionId);
 
                 setState(() {
@@ -321,28 +246,14 @@ class _FormSectionState extends State<FormSection> {
                 print('nilai: ${option.condition}');
                 print("Cekkkk: $imageBase64");
                 formController.setSelectedValue(questionId, value.toString());
-
-                int index = answers.indexWhere(
-                    (qa) => qa.questionId == currentAnswer.questionId);
-                print("index : $index");
-                print(
-                    "nilai : ${formController.selectedValue[questionId]?.value}");
-                if (index != -1) {
-                  // Jika sudah ada, ganti data yang lama dengan yang baru
-                  setState(() {
-                    answers[index] = currentAnswer;
-                  });
-                } else {
-                  // Jika belum ada, tambahkan data baru
-                  setState(() {
-                    answers.add(currentAnswer);
-                  });
-                }
+                formController.inputAnswerCondition(answers, currentAnswer);
                 _formKey.currentState!.validate();
               },
             ),
             Text(
               option.condition,
+              softWrap: true,
+              maxLines: 3,
             ),
           ],
         ),
@@ -361,17 +272,7 @@ class _FormSectionState extends State<FormSection> {
                       imageBase64: option.isNeedNcr == true ? image : '',
                     );
                   });
-                  int index = answers.indexWhere(
-                      (qa) => qa.questionId == currentAnswer.questionId);
-                  if (index != -1) {
-                    setState(() {
-                      answers[index] = currentAnswer;
-                    });
-                  } else {
-                    setState(() {
-                      answers.add(currentAnswer);
-                    });
-                  }
+                  formController.inputAnswerCondition(answers, currentAnswer);
                 },
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
@@ -389,17 +290,7 @@ class _FormSectionState extends State<FormSection> {
                       description: option.isNeedNcr == true ? description : '',
                     );
                   });
-                  int index = answers.indexWhere(
-                      (qa) => qa.questionId == currentAnswer.questionId);
-                  if (index != -1) {
-                    setState(() {
-                      answers[index] = currentAnswer;
-                    });
-                  } else {
-                    setState(() {
-                      answers.add(currentAnswer);
-                    });
-                  }
+                  formController.inputAnswerCondition(answers, currentAnswer);
                 },
               ),
               CommonFormField(
@@ -418,17 +309,7 @@ class _FormSectionState extends State<FormSection> {
                           option.isNeedNcr == true ? recommendation : '',
                     );
                   });
-                  int index = answers.indexWhere(
-                      (qa) => qa.questionId == currentAnswer.questionId);
-                  if (index != -1) {
-                    setState(() {
-                      answers[index] = currentAnswer;
-                    });
-                  } else {
-                    setState(() {
-                      answers.add(currentAnswer);
-                    });
-                  }
+                  formController.inputAnswerCondition(answers, currentAnswer);
                 },
               ),
             ],

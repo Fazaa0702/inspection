@@ -27,12 +27,12 @@ class HomeView extends StatelessWidget {
               children: [
                 Container(
                   color: const Color(0xFF32A632),
-                  height: Get.height * 0.28,
+                  height: Get.height * 0.3,
                   width: Get.width,
                   child: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 8, right: 0, top: 8, bottom: 0),
+                          left: 8, right: 0, top: 15, bottom: 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,10 +44,10 @@ class HomeView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Transform.rotate(
-                                  angle: -3.14,
-                                  child: IconButton(
-                                    onPressed: () {
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: InkWell(
+                                    onTap: () {
                                       CommonDialog().confirmDialog(
                                           'Confirm',
                                           'Are you sure ?',
@@ -56,14 +56,41 @@ class HomeView extends StatelessWidget {
                                         controller.logout();
                                       });
                                     },
-                                    icon: const Icon(
-                                      // textDirection: TextDirection.ltr,
-                                      Icons.logout,
-                                      color: Colors.white,
-                                      size: 25,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(90)),
+                                      width: 100,
+                                      height: 40,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Transform.rotate(
+                                              angle: -3.14,
+                                              child: const Icon(
+                                                Icons.logout_outlined,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            const Text(
+                                              'Logout',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
+                                
                                 const Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
@@ -125,11 +152,10 @@ class HomeView extends StatelessWidget {
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(
                           color:
-                              Colors.black.withOpacity(0.2), // warna bayangan
-                          spreadRadius: 3, // seberapa tersebar bayangan
-                          blurRadius: 7, // seberapa kabur bayangan
+                              Colors.black.withOpacity(0.2), 
+                          spreadRadius: 3, 
+                          blurRadius: 7, 
                           blurStyle: BlurStyle.outer
-                          // offset: Offset(), // posisi bayangan (x, y)
                           )
                     ], borderRadius: BorderRadius.circular(10)),
                     child: Row(
@@ -155,7 +181,6 @@ class HomeView extends StatelessWidget {
                                   height: 100,
                                   child: Image.asset(
                                     'assets/images/homeButton1.png',
-                                    // height: 125,
                                   ),
                                 )),
                             const Padding(
@@ -163,7 +188,6 @@ class HomeView extends StatelessWidget {
                               child: Text(
                                 'e-Inspection',
                                 overflow: TextOverflow.visible,
-                                // maxLines: 3,
                                 softWrap: true,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -186,7 +210,6 @@ class HomeView extends StatelessWidget {
                                             BorderRadius.circular(20)),
                                     backgroundColor: const Color(0xFFFDF0CC)),
                                 onPressed: () {
-                                  // Get.toNamed(RouteName.inspection);
                                 },
                                 child: SizedBox(
                                   width: 50,
@@ -200,7 +223,6 @@ class HomeView extends StatelessWidget {
                               child: Text(
                                 'Work Permit',
                                 overflow: TextOverflow.visible,
-                                // maxLines: 3,
                                 softWrap: true,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -237,7 +259,8 @@ class HomeView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 8, top: 10, bottom: 5, right: 8),
-                ) 
+                  child: LogView(),
+                )
               ],
             ),
           ),

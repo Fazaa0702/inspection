@@ -38,9 +38,9 @@ class _FormViewState extends State<FormView> {
               IconButton(
                   onPressed: () {
                     CommonDialog().confirmDialog(
-                        'Konfirmasi',
-                        'Anda akan keluar dari form',
-                        'Data yang anda inputkan akan terhapus', () {
+                        'Confirm',
+                        'Are you going to exit the form',
+                        'The data you entered will be deleted', () {
                       Get.offAllNamed(RouteName.inspection);
                     });
                   },
@@ -56,16 +56,6 @@ class _FormViewState extends State<FormView> {
           ),
           titleSpacing: 10,
           iconTheme: const IconThemeData(color: Colors.white),
-          // flexibleSpace: Container(
-          //   decoration: const BoxDecoration(
-          //     gradient: LinearGradient(
-          //       colors: [
-          //         Color(0xFF47B347),
-          //         Color(0xFF7FCC1E)
-          //       ], // Set your gradient colors
-          //     ),
-          //   ),
-          // ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -80,7 +70,7 @@ class _FormViewState extends State<FormView> {
                   child: Obx(
                     () => controller.dept.isEmpty
                         ? const Center(
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               color: Color(0xFF47B347),
                             ),
                           )
@@ -92,7 +82,7 @@ class _FormViewState extends State<FormView> {
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                         color: Color(0xFF47B347))),
-                                hintText: 'Departemen',
+                                hintText: 'Departments',
                                 hintStyle: const TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
@@ -129,7 +119,7 @@ class _FormViewState extends State<FormView> {
                     child: Obx(
                       () => controller.inspect.isEmpty
                           ? const Center(
-                              child: const CircularProgressIndicator(
+                              child:  CircularProgressIndicator(
                                 color: Color(0xFF47B347),
                               ),
                             )
@@ -140,7 +130,7 @@ class _FormViewState extends State<FormView> {
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: const BorderSide(
                                           color: Color(0xFF47B347))),
-                                  hintText: 'Inspeksi',
+                                  hintText: 'Inspections',
                                   hintStyle: const TextStyle(
                                       color: Colors.grey,
                                       overflow: TextOverflow.clip),
@@ -198,7 +188,7 @@ class _FormViewState extends State<FormView> {
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                         color: Color(0xFF47B347))),
-                                hintText: 'Item',
+                                hintText: 'Items',
                                 hintStyle: const TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
@@ -215,8 +205,8 @@ class _FormViewState extends State<FormView> {
                               onChanged: (ItemModel? newValue) {
                                 CommonDialog().confirmDialog(
                                     'Confirm',
-                                    'Apakah data yang dipilih sudah benar ?',
-                                    'Perubahan dapat menghapus data yang sudah anda isikan di form',
+                                    'Is the selected data correct ?',
+                                    'Changes can delete the data you have entered previously',
                                     () {
                                   if (newValue != null) {
                                     setState(() {

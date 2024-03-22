@@ -114,6 +114,18 @@ class FormController extends GetxController {
     }
   }
 
+  void inputAnswerCondition(
+      List<QuestionAnswerModel> answers, QuestionAnswerModel currentAnswer) {
+    int index =
+        answers.indexWhere((qa) => qa.questionId == currentAnswer.questionId);
+    print("index : $index");
+    if (index != -1) {
+      answers[index] = currentAnswer;
+    } else {
+      answers.add(currentAnswer);
+    }
+  }
+
   void validateField(String value) {
     isFieldEmpty.value = value.isEmpty;
   }

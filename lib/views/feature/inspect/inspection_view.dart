@@ -33,16 +33,6 @@ class InspectionView extends StatelessWidget {
         ),
         titleSpacing: 10,
         iconTheme: const IconThemeData(color: Colors.white),
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     gradient: LinearGradient(
-        //       colors: [
-        //         Color(0xFF47B347),
-        //         Color(0xFF7FCC1E)
-        //       ], // Set your gradient colors
-        //     ),
-        //   ),
-        // ),
       ),
       body: SizedBox(
         height: Get.height,
@@ -53,9 +43,7 @@ class InspectionView extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // const Padding(padding: EdgeInsets.only(bottom: 20)),
                   const Padding(
                     padding: EdgeInsets.only(left: 8, top: 8, bottom: 20),
                     child: SizedBox(
