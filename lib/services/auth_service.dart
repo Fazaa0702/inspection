@@ -22,21 +22,19 @@ class AuthService {
     var message = '';
     if (res.statusCode == 200) {
       var userModel = UserModel.fromJson(json.decode(res.body));
-      if (userModel.userLevelId == 2) {
+      if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         await prefs.setString('user', res.body);
         return ConditionalService().authConditionalMessage(res, message);
       } else {
         CommonSnackbar.failedSnackbar(
-            'Failed', "you don't have any permissions");
+            'Failed', "User don't have any permissions");
         return 'Anda tidak memiliki akses untuk login';
       }
     } else if (res.statusCode == 400) {
-      CommonSnackbar.failedSnackbar(
-          'Failed', 'User not found');
+      CommonSnackbar.failedSnackbar('Failed', 'User not found');
       return 'not found';
     } else {
-      CommonSnackbar.failedSnackbar(
-          'Failed', 'Server error, please try again later');
+      CommonSnackbar.failedSnackbar('Failed', 'Please try again later');
       return 'error';
     }
   }

@@ -16,11 +16,9 @@ class LoginController extends GetxController {
       message = await authService.loginService(userId);
       _enterHome();
     } else {
-      CommonSnackbar.failedSnackbar('Failed', 'UserId not found');
+      CommonSnackbar.failedSnackbar('Failed', 'User not found');
       print("Tidak ada ID pengguna yang ditemukan");
     }
-    // message = await authService.loginService(userId);
-    // _enterHome();
   }
 
   Future<void> _enterHome() async {
@@ -42,19 +40,6 @@ class LoginController extends GetxController {
     }
     _login();
   }
-
-  // getUserId() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (prefs.containsKey('id')) {
-  //     var data = jsonDecode(prefs.getString('id')!);
-  //     userId = data['id'];
-  //   }
-  // }
-
-  // Future<bool> isUserLevel2(UserModel userModel) async {
-  //   // Pastikan user tidak null dan userLevelId = 2
-  //   return userModel.userLevelId == 2;
-  // }
 
   Future<void> logout() async {
     await authService.logout();
