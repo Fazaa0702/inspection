@@ -25,19 +25,6 @@ class FormService {
     }
   }
 
-  // Future<List<ItemModel>> getItemData(
-  //     int inspectionId, int departmentId) async {
-  //   final res = await http.get(Uri.parse(
-  //       '${Constants.apiUrl}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
-  //   if (res.statusCode == 200) {
-  //     final List<dynamic> data = json.decode(res.body);
-  //     print("res: $data");
-  //     return data.map((json) => ItemModel.fromJson(json)).toList();
-  //   } else {
-  //     return [];
-  //   }
-  // }
-
   Future submitAnswerService(Map<String, dynamic> answer) async {
     var jsonData = jsonEncode({
       "UserId": answer["UserId"],

@@ -4,7 +4,6 @@ import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:einspection/global_var.dart';
 

@@ -90,7 +90,6 @@ class HomeView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                
                                 const Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
@@ -151,88 +150,29 @@ class HomeView extends StatelessWidget {
                     height: Get.height * 0.25,
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(
-                          color:
-                              Colors.black.withOpacity(0.2), 
-                          spreadRadius: 3, 
-                          blurRadius: 7, 
-                          blurStyle: BlurStyle.outer
-                          )
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          blurStyle: BlurStyle.outer)
                     ], borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    backgroundColor: const Color(0xFFD4F4FE)),
-                                onPressed: () {
-                                  Get.toNamed(RouteName.inspection);
-                                },
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 100,
-                                  child: Image.asset(
-                                    'assets/images/homeButton1.png',
-                                  ),
-                                )),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                'e-Inspection',
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    backgroundColor: const Color(0xFFFDF0CC)),
-                                onPressed: () {
-                                },
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 100,
-                                  child: Image.asset(
-                                    'assets/images/homeButton2.png',
-                                  ),
-                                )),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                'Work Permit',
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
-                        )
+                        CommonFeatureButton(
+                            buttonColor: const Color(0xFFD4F4FE),
+                            onPressed: () {
+                              Get.toNamed(RouteName.inspection);
+                            },
+                            image: 'assets/images/homeButton1.png',
+                            text: 'e-Inspection'),
+                        CommonFeatureButton(
+                            buttonColor: const Color(0xFFFDF0CC),
+                            onPressed: () {
+                              Get.toNamed(RouteName.workPermit);
+                            },
+                            image: 'assets/images/homeButton2.png',
+                            text: 'Work Permit'),
                       ],
                     ),
                   ),
