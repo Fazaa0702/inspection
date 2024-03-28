@@ -13,29 +13,11 @@ class WorkPermitView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: const Color(0xFF32A632),
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            IconButton(
-                onPressed: () {
-                  Get.offAllNamed(RouteName.home);
-                },
-                icon: const Icon(Icons.arrow_back)),
-            const Text(
-              'Work Permit',
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-          ],
-        ),
-        titleSpacing: 10,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      appBar: CommonAppBar(
+          title: 'Work Permit',
+          backButton: () {
+            Get.offAllNamed(RouteName.home);
+          }),
       body: SizedBox(
         height: Get.height,
         width: Get.width,
@@ -50,13 +32,14 @@ class WorkPermitView extends StatelessWidget {
                     InkWell(
                         onTap: () async {
                           final DateTime? pickedTime = await showDatePicker(
-                              initialEntryMode: DatePickerEntryMode.calendar,
-                              initialDate:
-                                  workPermitController.selectedDate.value ??
-                                      DateTime.now(),
-                              context: context,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now());
+                            initialEntryMode: DatePickerEntryMode.calendar,
+                            initialDate:
+                                workPermitController.selectedDate.value ??
+                                    DateTime.now(),
+                            context: context,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
 
                           if (pickedTime != null) {
                             workPermitController.pickDate(pickedTime);

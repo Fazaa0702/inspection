@@ -5,13 +5,16 @@ class CommonFeatureButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String image;
   final String text;
+  final FontWeight? fontWeight;
 
   const CommonFeatureButton(
       {super.key,
       required this.buttonColor,
       required this.onPressed,
       required this.image,
-      required this.text});
+      required this.text,
+      this.fontWeight,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +42,11 @@ class CommonFeatureButton extends StatelessWidget {
             text,
             overflow: TextOverflow.visible,
             softWrap: true,
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black,
                 fontSize: 12,
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400),
+                fontWeight: fontWeight ?? FontWeight.w400),
           ),
         ),
       ],

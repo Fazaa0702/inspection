@@ -17,11 +17,10 @@ class CommonSnackbar {
   }
 
   static successSnackbar(String title, String message) {
-    // Get.closeAllSnackbars();
     return Get.snackbar(
       title,
       message,
-      backgroundColor: Color(0xFF1F991F),
+      backgroundColor: const Color(0xFF1F991F),
       colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
       margin: const EdgeInsets.all(20),

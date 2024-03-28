@@ -55,7 +55,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                   SizedBox(
                     height: 40,
-                    child: TextField(
+                    child: TextFormField(
                       enableSuggestions: false,
                       controller: controller.userIdController,
                       style: const TextStyle(

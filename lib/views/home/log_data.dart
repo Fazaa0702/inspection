@@ -30,7 +30,7 @@ class LogData extends DataTableSource {
               ? Colors.green
               : Colors.amberAccent,
         ),
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         width: 90,
         child: Text(
           log.description,

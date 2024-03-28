@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:einspection/component/component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,75 +54,20 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: const Color(0xFFFDF0CC)),
-                                  onPressed: getImageFromCamera,
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 100,
-                                    child: Image.asset(
-                                      'assets/images/formButton1.png',
-                                      // height: 125,
-                                    ),
-                                  )),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Camera',
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
+                          CommonFeatureButton(
+                            buttonColor: const Color(0xFFFDF0CC),
+                            onPressed: getImageFromCamera,
+                            image: 'assets/images/formButton1.png',
+                            text: 'Camera',
+                            fontWeight: FontWeight.w600,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      backgroundColor: const Color(0xFFD4F4FE)),
-                                  onPressed: getImageFromGallery,
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 100,
-                                    child: Image.asset(
-                                      'assets/images/formButton2.png',
-                                    ),
-                                  )),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Gallery',
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          )
+                          CommonFeatureButton(
+                            buttonColor: const Color(0xFFD4F4FE),
+                            onPressed: getImageFromGallery,
+                            image: 'assets/images/formButton2.png',
+                            text: 'Gallery',
+                            fontWeight: FontWeight.w600,
+                          ),
                         ],
                       ),
                     ),

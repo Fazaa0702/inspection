@@ -21,6 +21,7 @@ class FormController extends GetxController {
   var deptValue = 0.obs;
   var inspectValue = 0.obs;
   var userId = '';
+  var isLoading = true.obs;
   // var isFieldEmpty = true.obs;
   final RxBool isFieldEmpty = true.obs;
 

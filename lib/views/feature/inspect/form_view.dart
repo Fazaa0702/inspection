@@ -29,34 +29,16 @@ class _FormViewState extends State<FormView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 70,
-          backgroundColor: const Color(0xFF32A632),
-          automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    CommonDialog().confirmDialog(
-                        'Confirm',
-                        'Are you going to exit the form',
-                        'The data you entered will be deleted', () {
-                      Get.offAllNamed(RouteName.inspection);
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_back)),
-              const Text(
-                'Input Forms',
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-            ],
-          ),
-          titleSpacing: 10,
-          iconTheme: const IconThemeData(color: Colors.white),
-        ),
+        appBar: CommonAppBar(
+            title: 'Input Forms',
+            backButton: () {
+              CommonDialog().confirmDialog(
+                  'Confirm',
+                  'Are you going to exit the form',
+                  'The data you entered will be deleted', () {
+                Get.offAllNamed(RouteName.inspection);
+              });
+            }),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -119,7 +101,7 @@ class _FormViewState extends State<FormView> {
                     child: Obx(
                       () => controller.inspect.isEmpty
                           ? const Center(
-                              child:  CircularProgressIndicator(
+                              child: CircularProgressIndicator(
                                 color: Color(0xFF47B347),
                               ),
                             )
@@ -161,7 +143,6 @@ class _FormViewState extends State<FormView> {
                                     });
                                     print('insID: $inspectionId');
                                     print('DeptID: $departmentId');
-
                                     controller.questions.clear();
                                     controller.item.clear();
                                     controller.fetchItemData(
@@ -177,7 +158,7 @@ class _FormViewState extends State<FormView> {
                   child: Obx(
                     () => controller.item.isEmpty
                         ? const Center(
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               color: Color(0xFF47B347),
                             ),
                           )
