@@ -120,8 +120,6 @@ class _FormViewState extends State<FormView> {
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                 ),
-                                // value: controller.inspect[0],
-                                // onTap: () => controller.fetchDeptData(),
                                 items: controller.inspect
                                     .map((InspectionModel inspect) {
                                   return DropdownMenuItem<InspectionModel>(
@@ -175,8 +173,6 @@ class _FormViewState extends State<FormView> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
-                              // value: controller.inspect[0],
-                              // onTap: () => controller.fetchDeptData(),
                               items: controller.item.map((ItemModel item) {
                                 return DropdownMenuItem<ItemModel>(
                                   value: item,

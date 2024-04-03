@@ -7,7 +7,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CommonAppBar(
       {super.key,
-      required this.title,
+      required this.title, 
       this.backgroundColor,
       required this.backButton});
 

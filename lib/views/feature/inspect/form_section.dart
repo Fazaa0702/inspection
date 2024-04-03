@@ -100,6 +100,7 @@ class _FormSectionState extends State<FormSection> {
                                   itemId: widget.itemId);
                               formController.submitAnswerCondition(answerModel);
                               print('Answers: ${jsonEncode(answers)}');
+                              print('piccc: ${itemData["picItemId"]}');
                               CommonSnackbar.successSnackbar(
                                   'Success', 'The answer has been sent');
                               Get.offAllNamed(RouteName.home);

@@ -31,6 +31,7 @@ class FormService {
       "DepartmentId": answer["DepartmentId"],
       "InspectionId": answer["InspectionId"],
       "ItemId": answer["ItemId"],
+      "picItemId": answer["picItemId"],
       "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
     });
     final res = await http.post(
@@ -40,6 +41,7 @@ class FormService {
 
     print('resbody : ${res.body}');
     print("json data = ${jsonData}");
+    print("answerrrrrrrrrsssssss: ${answer["picItemId"]}");
     if (res.statusCode == 200) {
       return 'Sukses';
     } else {

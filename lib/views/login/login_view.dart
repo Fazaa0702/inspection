@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
 
+  final bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
