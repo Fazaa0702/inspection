@@ -4,12 +4,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final VoidCallback backButton;
+  final PreferredSizeWidget? bottom;
 
-  const CommonAppBar(
-      {super.key,
-      required this.title, 
-      this.backgroundColor,
-      required this.backButton});
+  const CommonAppBar({
+    super.key,
+    required this.title,
+    this.backgroundColor,
+    required this.backButton,
+    this.bottom,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +20,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 70,
       backgroundColor: backgroundColor ?? const Color(0xFF32A632),
       automaticallyImplyLeading: false,
+      bottom: bottom,
       title: Row(
         children: [
           IconButton(onPressed: backButton, icon: const Icon(Icons.arrow_back)),

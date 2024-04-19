@@ -31,6 +31,7 @@ class _FormSectionState extends State<FormSection> {
   var image = '';
   var description = '';
   var recommendation = '';
+  var isSelected = true;
 
   final Map<String, TextEditingController> textControllers = {};
   final Map<String, TextEditingController> descriptionTextController = {};

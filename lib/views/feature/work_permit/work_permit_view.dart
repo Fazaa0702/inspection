@@ -14,10 +14,11 @@ class WorkPermitView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonAppBar(
-          title: 'Work Permit',
-          backButton: () {
-            Get.offAllNamed(RouteName.home);
-          }),
+        title: 'Work Permit',
+        backButton: () {
+          Get.offAllNamed(RouteName.home);
+        },
+      ),
       body: SizedBox(
         height: Get.height,
         width: Get.width,
