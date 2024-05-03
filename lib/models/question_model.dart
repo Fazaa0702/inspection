@@ -26,7 +26,7 @@ class QuestionModel {
       orderNumber: json["orderNumber"],
       inspectionId: json["inspectionId"]);
 
-  get questionId => null;
+  // get questionId => null;
 
   Map<String, dynamic> toJson() => {
         "id": id,

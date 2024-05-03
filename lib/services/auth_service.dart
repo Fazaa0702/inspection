@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class AuthService {
-  // String apiUrl = '';
 
   Map<String, dynamic> createData(String id) {
     var data = {
@@ -41,7 +40,7 @@ class AuthService {
 
   Future<String> loginService(String id) async {
     try {
-      var url = Uri.parse('${Constants.apiUrl}/api/loginApi');
+      var url = Uri.parse('${Constants.apiUrlHse}/api/loginApi');
       var headers = {'Content-Type': 'application/json'};
       var body = json.encode(createData(id));
 

@@ -7,3 +7,5 @@ export 'option_condition_model.dart';
 export 'question_answer_model.dart';
 export 'question_model.dart';
 export 'user_model.dart';
+export 'work_permit_model.dart';
+export 'worker_model.dart';

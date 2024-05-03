@@ -10,16 +10,20 @@ class HomeController extends GetxController {
   var log = <LogModel>[].obs;
   var inspectionName = <InspectionModel>[];
   var isLoading = true.obs;
+  var rowsPerPage = 10.obs;
 
   @override
   void onInit() {
     fetchLogData();
-    fetchInspectionName();
     super.onInit();
   }
 
+  void updateRowsPerPage(int newRowsPerPage) {
+    rowsPerPage.value = newRowsPerPage;
+  }
+
   Future<void> fetchLogData() async {
-    var res = await http.get(Uri.parse('${Constants.apiUrl}/api/ApiLog'));
+    var res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/ApiLog'));
     if (res.statusCode == 200) {
       final List<dynamic> response = json.decode(res.body);
       log.value = response.map((data) => LogModel.fromJson(data)).toList();
@@ -28,19 +32,5 @@ class HomeController extends GetxController {
     } else {
       CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
     }
-  }
-
-  Future<void> fetchInspectionName() async {
-    var res = await http.get(Uri.parse('${Constants.apiUrl}/api/inspection'));
-    if (res.statusCode == 200) {
-      final List<dynamic> response = json.decode(res.body);
-      inspectionName =
-          response.map((data) => InspectionModel.fromJson(data)).toList();
-      print('inspectionName: $inspectionName');
-      print('resBOdy: ${res.body}');
-    } else {
-      print('gagal');
-    }
-    return null;
   }
 }

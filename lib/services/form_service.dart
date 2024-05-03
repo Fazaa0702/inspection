@@ -10,8 +10,7 @@ class FormService {
   Future<List<QuestionModel>> getQuestions(int inspectionId) async {
     final response = await http.get(
       Uri.parse(
-          '${Constants.apiUrl}/api/inspection/question?inspectionId=$inspectionId'),
-      // body: jsonEncode({'id': inspectionId}),
+          '${Constants.apiUrlHse}/api/inspection/question?inspectionId=$inspectionId'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -35,7 +34,7 @@ class FormService {
       "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
     });
     final res = await http.post(
-        Uri.parse('${Constants.apiUrl}/api/inspectionResult'),
+        Uri.parse('${Constants.apiUrlHse}/api/inspectionResult'),
         body: jsonData,
         headers: {'Content-Type': 'application/json'});
 

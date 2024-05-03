@@ -16,17 +16,13 @@ class FormController extends GetxController {
   final FormService _formService = FormService();
   final RxList<QuestionModel> questions = <QuestionModel>[].obs;
 
-  List<QuestionAnswerModel> answers = [];
-
   var deptValue = 0.obs;
   var inspectValue = 0.obs;
   var userId = '';
   var isLoading = true.obs;
-  // var isFieldEmpty = true.obs;
   final RxBool isFieldEmpty = true.obs;
 
   final RxMap<String, RxString> selectedValue = <String, RxString>{}.obs;
-  // RxMap textControllers = {}.obs;
 
   @override
   void onInit() {
@@ -39,7 +35,7 @@ class FormController extends GetxController {
   }
 
   Future<void> fetchDeptData() async {
-    final res = await http.get(Uri.parse('${Constants.apiUrl}/api/department'));
+    final res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/department'));
     if (res.statusCode == 200) {
       final List<dynamic> data = json.decode(res.body);
       dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
@@ -51,7 +47,7 @@ class FormController extends GetxController {
 
   Future<void> fetchOptionConditions(int inspectionId) async {
     final response = await http.get(Uri.parse(
-        '${Constants.apiUrl}/api/inspection/option-conditions?inspectionId=$inspectionId'));
+        '${Constants.apiUrlHse}/api/inspection/option-conditions?inspectionId=$inspectionId'));
 
     if (response.statusCode == 200) {
       final List<dynamic> responseData = jsonDecode(response.body);
@@ -64,14 +60,13 @@ class FormController extends GetxController {
   }
 
   Future<void> fetchInspectionData() async {
-    final res = await http.get(Uri.parse('${Constants.apiUrl}/api/inspection'));
+    final res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/inspection'));
     if (res.statusCode == 200) {
       final List<dynamic> data = json.decode(res.body);
       inspect
           .assignAll(data.map((inspect) => InspectionModel.fromJson(inspect)));
       print(res.body);
     } else {
-      // throw Exception('Failed to load data');
       print('gagal mendapatkan data');
     }
   }
@@ -81,6 +76,7 @@ class FormController extends GetxController {
       final List<QuestionModel> result =
           await _formService.getQuestions(inspectionId);
       questions.assignAll(result);
+      print('total pertanyaan: ${questions.length}');
     } catch (e) {
       print('Error fetching questions: $e');
     }
@@ -88,7 +84,7 @@ class FormController extends GetxController {
 
   Future<void> fetchItemData(int inspectionId, int departmentId) async {
     final res = await http.get(Uri.parse(
-        '${Constants.apiUrl}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
+        '${Constants.apiUrlHse}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
     if (res.statusCode == 200) {
       final List<dynamic> data = json.decode(res.body);
       a = res.body;

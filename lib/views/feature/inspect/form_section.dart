@@ -194,27 +194,43 @@ class _FormSectionState extends State<FormSection> {
         );
 
       case 'Option Condition':
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0, bottom: 3),
-              child: Text(
-                questionText,
-                style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins'),
-              ),
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Container(
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 3,
+                  blurRadius: 7,
+                  blurStyle: BlurStyle.outer)
+            ], borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0, bottom: 3),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      questionText,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Poppins'),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: formController.option.map((optionCondition) {
+                    return buildRadio(questionId, optionCondition, null);
+                  }).toList(),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-            Column(
-              children: formController.option.map((optionCondition) {
-                return buildRadio(questionId, optionCondition, null);
-              }).toList(),
-            ),
-            const SizedBox(height: 20),
-          ],
+          ),
         );
       default:
         return const SizedBox.shrink();

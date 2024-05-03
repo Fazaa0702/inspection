@@ -6,4 +6,5 @@ abstract class RouteName {
   static const form = '/form';
   static const scan = '/scan';
   static const workPermit = '/workPermit';
+  static const workerView = '/workerView';
 }

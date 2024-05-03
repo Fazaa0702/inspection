@@ -7,7 +7,6 @@ class LoginController extends GetxController {
   var userId = '';
   var userIdController = TextEditingController();
   String? message;
-  // UserModel? userModel;
 
   final AuthService authService = AuthService();
 
@@ -26,10 +25,7 @@ class LoginController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
       CommonSnackbar.successSnackbar('Success', 'Welcome to HSE Connect');
       Get.offAllNamed(RouteName.home);
-    } //else {
-    //   CommonSnackbar.failedSnackbar(
-    //       'Failed', 'Sorry you dont have any permissions');
-    // }
+    } 
   }
 
   void emptyForm() {

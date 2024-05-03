@@ -26,7 +26,13 @@ class HomeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  color: const Color(0xFF32A632),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/home_bg1.png'),
+                      fit: BoxFit
+                          .cover, 
+                    ),
+                  ),
                   height: Get.height * 0.3,
                   width: Get.width,
                   child: SafeArea(
@@ -93,7 +99,7 @@ class HomeView extends StatelessWidget {
                                 const Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
-                                    'HSE Connect',
+                                    'HSE CONNECT',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -127,20 +133,6 @@ class HomeView extends StatelessWidget {
                               ))
                         ],
                       ),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8, top: 20, bottom: 5),
-                  child: SizedBox(
-                    height: 25,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text('Menu',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins')),
                     ),
                   ),
                 ),
