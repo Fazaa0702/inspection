@@ -1,8 +1,9 @@
-import 'package:einspection/views/feature/work_permit/worker_view.dart';
+import 'package:einspection/models/detail_work_permit_model.dart';
+import 'package:einspection/views/feature/work_permit/detail_work_permit_view.dart';
+import 'package:einspection/views/feature/work_permit/worker_list.dart';
 import 'package:flutter/material.dart';
 import 'package:einspection/export.dart';
 import 'package:get/get.dart';
-
 
 class WorkPermitLogData extends DataTableSource {
   final List<WorkPermitModel> _workPermitLog;
@@ -29,8 +30,8 @@ class WorkPermitLogData extends DataTableSource {
           ),
         ),
         onTap: () {
-          Get.to(
-              () => WorkerView(workPermitId: workPermitLog.registrationNumber));
+          Get.to(() => DetailWorkPermitView(
+              workPermitId: workPermitLog.registrationNumber));
         },
       ),
       DataCell(Text(workPermitLog.companyName)),
@@ -47,13 +48,14 @@ class WorkPermitLogData extends DataTableSource {
         child: Text(
           workPermitLog.status,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       )),
       DataCell(IconButton(
           onPressed: () {
             Get.to(() =>
-                WorkerView(workPermitId: workPermitLog.registrationNumber));
+                WorkerList(workPermitId: workPermitLog.registrationNumber));
           },
           icon: const Icon(
             Icons.info,

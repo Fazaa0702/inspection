@@ -1,7 +1,7 @@
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/qr/scan_view.dart';
 import 'package:einspection/views/feature/work_permit/work_permit_view.dart';
-import 'package:einspection/views/feature/work_permit/worker_view.dart';
+import 'package:einspection/views/feature/work_permit/worker_list.dart';
 import 'package:get/get.dart';
 
 import '../views/feature/inspect/inspection_view.dart';

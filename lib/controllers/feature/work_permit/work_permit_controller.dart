@@ -1,26 +1,26 @@
 import 'dart:convert';
 
-import 'package:einspection/models/active_worker_model.dart';
 import 'package:get/get.dart';
 import 'package:einspection/export.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../constants.dart';
+import '../../../models/detail_work_permit_model.dart';
 
 class WorkPermitController extends GetxController {
   var selectedDate = Rx<DateTime?>(DateTime.now());
   var isLoadData = true.obs;
   var workPermitLog = <WorkPermitModel>[].obs;
-  var activeWorker = <ActiveWorkerModel>[].obs;
+  var detailWorkPermit = <DetailWorkPermit>[].obs;
+  var jobClassification = <JobClassification>[].obs;
+  var jobTools = <JobTool>[].obs;
+  var safetyEquipment = <SafetyEquipment>[].obs;
+  var highRiskArea = <HighRiskArea>[].obs;
 
   @override
   void onInit() {
     fetchWorkPermitData();
     super.onInit();
-  }
-
-  void pickDate(DateTime? date) {
-    selectedDate.value = date;
   }
 
   Future<void> fetchWorkPermitData() async {
@@ -37,15 +37,31 @@ class WorkPermitController extends GetxController {
     }
   }
 
-  Future<void> fetchActiveWorkerData(
-      String workPermitId, String dateTime) async {
+  Future<void> fetchDetailWorkPermit(String workPermitId) async {
     var res = await http.get(Uri.parse(
-        '${Constants.apiUrlIsc}/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+        '${Constants.apiUrlHse}/api/work-permit/detail?workPermitId=$workPermitId'));
     if (res.statusCode == 200) {
       final List<dynamic> response = json.decode(res.body);
-      activeWorker.value =
-          response.map((data) => ActiveWorkerModel.fromJson(data)).toList();
-      print('resulttttt: ${res.body}');
+      detailWorkPermit.value =
+          response.map((json) => DetailWorkPermit.fromJson(json)).toList();
+      jobClassification.value = response
+          .map((json) => DetailWorkPermit.fromJson(json).jobClassifications)
+          .expand((jobClassifications) => jobClassifications)
+          .toList();
+      jobTools.value = response
+          .map((json) => DetailWorkPermit.fromJson(json).jobTools)
+          .expand((jobTools) => jobTools)
+          .toList();
+      safetyEquipment.value = response
+          .map((json) => DetailWorkPermit.fromJson(json).safetyEquipment)
+          .expand((safetyEquipment) => safetyEquipment)
+          .toList();
+      highRiskArea.value = response
+          .map((json) => DetailWorkPermit.fromJson(json).highRiskArea)
+          .expand((highRiskArea) => highRiskArea)
+          .toList();
+      print(res.body);
+      print(jobClassification);
     } else {
       CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
     }

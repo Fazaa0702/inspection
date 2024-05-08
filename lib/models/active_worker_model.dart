@@ -1,6 +1,6 @@
 class ActiveWorkerModel {
   final Description description;
-  final List<Worker> worker;
+  final List<WorkerActive> worker;
 
   ActiveWorkerModel({
     required this.description,
@@ -10,8 +10,8 @@ class ActiveWorkerModel {
   factory ActiveWorkerModel.fromJson(Map<String, dynamic> json) =>
       ActiveWorkerModel(
           description: json["description"],
-          worker:
-              List<Worker>.from(json['worker'].map((x) => Worker.fromJson(x))));
+          worker: List<WorkerActive>.from(
+              json['worker'].map((x) => WorkerActive.fromJson(x))));
 
   Map<String, dynamic> toJson() => {
         "description": description.toJson(),
@@ -37,12 +37,12 @@ class Description {
   });
 
   factory Description.fromJson(Map<String, dynamic> json) => Description(
-        regNum: json["regNum"],
-        title: json["title"],
-        compName: json["compName"],
-        location: json["location"],
-        start: json["start"],
-        end: json["end"],
+        regNum: json["regNum"] ?? '',
+        title: json["title"] ?? '',
+        compName: json["compName"] ?? '',
+        location: json["location"] ?? '',
+        start: json["start"] ?? '',
+        end: json["end"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,14 +55,14 @@ class Description {
       };
 }
 
-class Worker {
+class WorkerActive {
   final int id;
   final String regNum;
   final String name;
   final String inTime;
   final String outTime;
 
-  Worker({
+  WorkerActive({
     required this.id,
     required this.regNum,
     required this.name,
@@ -70,12 +70,12 @@ class Worker {
     required this.outTime,
   });
 
-  factory Worker.fromJson(Map<String, dynamic> json) => Worker(
-        id: json["id"],
-        regNum: json["regNum"],
-        name: json["name"],
-        inTime: json["inTime"],
-        outTime: json["outTime"],
+  factory WorkerActive.fromJson(Map<String, dynamic> json) => WorkerActive(
+        id: json["id"] ?? '',
+        regNum: json["regNum"] ?? '',
+        name: json["name"] ?? '',
+        inTime: json["inTime"] ?? '',
+        outTime: json["outTime"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
