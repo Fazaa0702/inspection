@@ -29,8 +29,7 @@ class HomeView extends StatelessWidget {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/home_bg1.png'),
-                      fit: BoxFit
-                          .cover, 
+                      fit: BoxFit.cover,
                     ),
                   ),
                   height: Get.height * 0.3,

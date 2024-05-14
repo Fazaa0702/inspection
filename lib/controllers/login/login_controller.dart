@@ -6,26 +6,29 @@ import 'package:get/get.dart';
 class LoginController extends GetxController {
   var userId = '';
   var userIdController = TextEditingController();
+  var user = ''.obs;
   String? message;
 
   final AuthService authService = AuthService();
 
-  void _login() async {
+  void login() async {
     if (userId != '') {
       message = await authService.loginService(userId);
-      _enterHome();
+      user.value = authService.user.toUpperCase();
+      enterHome();
     } else {
       CommonSnackbar.failedSnackbar('Failed', 'User not found');
-      print("Tidak ada ID pengguna yang ditemukan");
     }
   }
 
-  Future<void> _enterHome() async {
+  Future<void> enterHome() async {
     if (message == '') {
       await Future.delayed(const Duration(seconds: 2));
-      CommonSnackbar.successSnackbar('Success', 'Welcome to HSE Connect');
+      CommonSnackbar.successSnackbar(
+          'Success', 'Welcome to HSE Connect ${user.value}');
       Get.offAllNamed(RouteName.home);
-    } 
+      print('user: ${user}');
+    }
   }
 
   void emptyForm() {
@@ -34,7 +37,7 @@ class LoginController extends GetxController {
       CommonSnackbar.failedSnackbar('Failed', 'UserId cannot be empty');
       print("coba lagi");
     }
-    _login();
+    login();
   }
 
   Future<void> logout() async {

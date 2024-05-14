@@ -20,6 +20,7 @@ class FormController extends GetxController {
   var inspectValue = 0.obs;
   var userId = '';
   var isLoading = true.obs;
+  var count = 0;
   final RxBool isFieldEmpty = true.obs;
 
   final RxMap<String, RxString> selectedValue = <String, RxString>{}.obs;
@@ -35,7 +36,8 @@ class FormController extends GetxController {
   }
 
   Future<void> fetchDeptData() async {
-    final res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/department'));
+    final res =
+        await http.get(Uri.parse('${Constants.apiUrlHse}/api/department'));
     if (res.statusCode == 200) {
       final List<dynamic> data = json.decode(res.body);
       dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
@@ -60,7 +62,8 @@ class FormController extends GetxController {
   }
 
   Future<void> fetchInspectionData() async {
-    final res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/inspection'));
+    final res =
+        await http.get(Uri.parse('${Constants.apiUrlHse}/api/inspection'));
     if (res.statusCode == 200) {
       final List<dynamic> data = json.decode(res.body);
       inspect
@@ -121,6 +124,7 @@ class FormController extends GetxController {
     } else {
       answers.add(currentAnswer);
     }
+    print('question: ${questions.length}');
   }
 
   void validateField(String value) {

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../../../constants.dart';
 import '../../../export.dart';
 import '../../../models/active_worker_model.dart';
-import '../../../routes/route_name.dart';
 
 class WorkerController extends GetxController {
   var worker = <WorkerModel>[].obs;
@@ -29,6 +28,7 @@ class WorkerController extends GetxController {
       var res = await http.get(Uri.parse(
           '${Constants.apiUrlHse}/api/work-permit/worker?workPermitId=$workPermitId'));
       if (res.statusCode == 200) {
+        // var workers = WorkerModel.fromJson(json.decode(res.body));
         final List<dynamic> response = json.decode(res.body);
         worker.assignAll(
             response.map((data) => WorkerModel.fromJson(data)).toList());
@@ -59,7 +59,7 @@ class WorkerController extends GetxController {
     } else {
       print('${res.statusCode}');
       CommonSnackbar.failedSnackbar(
-          'Gagal', 'Tidak dapat mengambil data active worker');
+          'Tidak Terhubung Server', 'Tidak dapat mengambil data active worker');
     }
   }
 }

@@ -188,6 +188,7 @@ class _FormSectionState extends State<FormSection> {
                 answerText: value,
               );
             });
+
             formController.inputAnswerCondition(answers, currentAnswer);
             print("answers : ${answers[0].answerText}");
           },

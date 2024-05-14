@@ -1,6 +1,5 @@
 import 'package:einspection/component/common_app_bar.dart';
 import 'package:einspection/controllers/controller.dart';
-import 'package:einspection/models/detail_work_permit_model.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,7 +59,7 @@ class DetailWorkPermitView extends StatelessWidget {
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.all(8)),
+                      const Padding(padding: EdgeInsets.all(8)),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListView.builder(
@@ -76,19 +75,19 @@ class DetailWorkPermitView extends StatelessWidget {
                                 children: [
                                   Text(
                                       'Nomor Registrasi : ${detailWorkPermit.regNum}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500)),
                                   Text(
                                       'Tanggal Pengajuan : ${detailWorkPermit.requestDate}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500)),
                                   Text(
                                       'Nama Pekerjaan : ${detailWorkPermit.jobName}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500)),
@@ -124,7 +123,7 @@ class DetailWorkPermitView extends StatelessWidget {
                                   workPermitController.jobClassification[index];
                               return Text(
                                   '- ${jobClassification.jobClassificationName}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500));
@@ -158,7 +157,7 @@ class DetailWorkPermitView extends StatelessWidget {
                                   workPermitController.safetyEquipment[index];
                               return Text(
                                   '- ${safetyEquipment.equipmentName}(${safetyEquipment.type})',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500));
@@ -190,7 +189,7 @@ class DetailWorkPermitView extends StatelessWidget {
                               final highRiskArea =
                                   workPermitController.highRiskArea[index];
                               return Text('- ${highRiskArea.riskArea}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500));

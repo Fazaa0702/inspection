@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class AuthService {
-
+  var user = '';
   Map<String, dynamic> createData(String id) {
     var data = {
       "id": id,
@@ -21,6 +21,8 @@ class AuthService {
     var message = '';
     if (res.statusCode == 200) {
       var userModel = UserModel.fromJson(json.decode(res.body));
+      user = userModel.name;
+      // print('user: ${userModel.name}');
       if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         await prefs.setString('user', res.body);
         return ConditionalService().authConditionalMessage(res, message);

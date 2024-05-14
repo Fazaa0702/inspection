@@ -1,4 +1,3 @@
-import 'package:einspection/models/active_worker_model.dart';
 import 'package:flutter/material.dart';
 import 'package:einspection/export.dart';
 import 'package:get/get.dart';
@@ -17,16 +16,16 @@ class WorkerList extends StatelessWidget {
   final workerController = Get.put(WorkerController());
   final workPermitController = Get.put(WorkPermitController());
 
-  var date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
-
   @override
   Widget build(BuildContext context) {
+    var date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+
     workPermitController.fetchDetailWorkPermit(workPermitId);
     workerController.fetchWorkerData(workPermitId);
     workerController.fetchActiveWorkerData(workPermitId, date);
     return Scaffold(
         appBar: CommonAppBar(
-          title: 'Worker(ID: $workPermitId)',
+          title: 'Worker (ID: $workPermitId)',
           backButton: () {
             Get.offAllNamed(RouteName.workPermit);
           },
