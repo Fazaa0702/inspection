@@ -53,15 +53,19 @@ class WorkPermitLogData extends DataTableSource {
               const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       )),
-      DataCell(IconButton(
-          onPressed: () {
-            Get.to(() =>
-                WorkerList(workPermitId: workPermitLog.registrationNumber));
-          },
-          icon: const Icon(
-            Icons.info,
-            color: Colors.blue,
-          ))),
+      DataCell(Column(
+        children: [
+          IconButton(
+              onPressed: () {
+                Get.to(() =>
+                    WorkerList(workPermitId: workPermitLog.registrationNumber));
+              },
+              icon: const Icon(
+                Icons.people,
+                color: Colors.blue,
+              )),
+        ],
+      )),
     ]);
   }
 

@@ -143,6 +143,8 @@ class _FormViewState extends State<FormView> {
                                     print('DeptID: $departmentId');
                                     controller.questions.clear();
                                     controller.item.clear();
+                                    controller.answers.clear();
+
                                     controller.fetchItemData(
                                         inspectionId, departmentId);
                                   }
@@ -191,6 +193,7 @@ class _FormViewState extends State<FormView> {
                                       itemId = newValue.itemId;
                                     });
                                     controller.questions.clear();
+
                                     controller.fetchQuestionData(inspectionId);
                                     controller
                                         .fetchOptionConditions(inspectionId);

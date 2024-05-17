@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,18 +10,37 @@ import '../../../models/active_worker_model.dart';
 
 class WorkerController extends GetxController {
   var worker = <WorkerModel>[].obs;
+  var originalWorker = <WorkerModel>[].obs;
   var isLoadWorkerData = true.obs;
   var activeWorker = <ActiveWorkerModel>[].obs;
   var workerPerDay = <WorkerActive>[].obs;
   var selectedDate = Rx<DateTime?>(DateTime.now());
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  var searchFieldController = TextEditingController();
 
   void pickDate(DateTime? date) {
     selectedDate.value = date;
+  }
+
+  void onKeywordChange(String value, String id) async {
+    if (value == "") {
+      isLoadWorkerData.value = true;
+      fetchWorkerData(id);
+    } else {
+      isLoadWorkerData.value = true;
+      worker.value = await searchworker(value);
+    }
+    update();
+  }
+
+  Future<List<WorkerModel>> searchworker(String keyword) async {
+    List<WorkerModel> results = originalWorker.where((worker) {
+      return worker.name.toLowerCase().contains(keyword.toLowerCase()) ||
+          worker.nik.toLowerCase().contains(keyword.toLowerCase()) ||
+          worker.certification.toLowerCase().contains(keyword.toLowerCase()) ||
+          worker.speciality.toLowerCase().contains(keyword.toLowerCase());
+    }).toList();
+    isLoadWorkerData.value = false;
+    return results;
   }
 
   Future<void> fetchWorkerData(String workPermitId) async {
@@ -28,10 +48,12 @@ class WorkerController extends GetxController {
       var res = await http.get(Uri.parse(
           '${Constants.apiUrlHse}/api/work-permit/worker?workPermitId=$workPermitId'));
       if (res.statusCode == 200) {
-        // var workers = WorkerModel.fromJson(json.decode(res.body));
         final List<dynamic> response = json.decode(res.body);
         worker.assignAll(
             response.map((data) => WorkerModel.fromJson(data)).toList());
+        originalWorker.assignAll(
+            response.map((data) => WorkerModel.fromJson(data)).toList());
+        isLoadWorkerData.value = false;
       } else {
         CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
       }

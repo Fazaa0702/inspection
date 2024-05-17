@@ -26,7 +26,6 @@ class _FormSectionState extends State<FormSection> {
   final FormController formController = Get.put(FormController());
   final _formKey = GlobalKey<FormState>();
   late QuestionAnswerModel currentAnswer;
-  List<QuestionAnswerModel> answers = [];
 
   var image = '';
   var description = '';
@@ -82,7 +81,9 @@ class _FormSectionState extends State<FormSection> {
                               Map<String, dynamic> userData =
                                   json.decode(dataUser);
                               List<Map<String, dynamic>> answersMapList =
-                                  answers.map((obj) => obj.toJson()).toList();
+                                  formController.answers
+                                      .map((obj) => obj.toJson())
+                                      .toList();
 
                               String jsonDataQuestionanswers =
                                   jsonEncode(answersMapList);
@@ -100,7 +101,8 @@ class _FormSectionState extends State<FormSection> {
                                   picItemId: itemData["picItemId"],
                                   itemId: widget.itemId);
                               formController.submitAnswerCondition(answerModel);
-                              print('Answers: ${jsonEncode(answers)}');
+                              print(
+                                  'Answers: ${jsonEncode(formController.answers)}');
                               print('piccc: ${itemData["picItemId"]}');
                               CommonSnackbar.successSnackbar(
                                   'Success', 'The answer has been sent');
@@ -131,7 +133,8 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        formController.inputAnswerCondition(answers, currentAnswer);
+        formController.inputAnswerCondition(
+            formController.answers, currentAnswer);
         break;
       case "Tanggal Terakhir Pengecekan":
         initValue = itemData["lastInspection"] ?? '';
@@ -139,7 +142,8 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        formController.inputAnswerCondition(answers, currentAnswer);
+        formController.inputAnswerCondition(
+            formController.answers, currentAnswer);
         break;
       case "Nomor Item":
         initValue = itemData["number"] ?? "0";
@@ -147,7 +151,8 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        formController.inputAnswerCondition(answers, currentAnswer);
+        formController.inputAnswerCondition(
+            formController.answers, currentAnswer);
         break;
       case "Model/Type Item":
         initValue = itemData["modelOrType"] ?? "0";
@@ -155,7 +160,8 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        formController.inputAnswerCondition(answers, currentAnswer);
+        formController.inputAnswerCondition(
+            formController.answers, currentAnswer);
         break;
       case "Jumlah Pengecekan":
         initValue = (itemData["jumlahPengecekan"] ?? 0).toString();
@@ -163,7 +169,8 @@ class _FormSectionState extends State<FormSection> {
           questionId: question.id,
           answerText: initValue,
         );
-        formController.inputAnswerCondition(answers, currentAnswer);
+        formController.inputAnswerCondition(
+            formController.answers, currentAnswer);
         break;
     }
 
@@ -189,8 +196,9 @@ class _FormSectionState extends State<FormSection> {
               );
             });
 
-            formController.inputAnswerCondition(answers, currentAnswer);
-            print("answers : ${answers[0].answerText}");
+            formController.inputAnswerCondition(
+                formController.answers, currentAnswer);
+            print("answers : ${formController.answers[0].answerText}");
           },
         );
 
@@ -264,7 +272,8 @@ class _FormSectionState extends State<FormSection> {
                 print('nilai: ${option.condition}');
                 print("Cekkkk: $imageBase64");
                 formController.setSelectedValue(questionId, value.toString());
-                formController.inputAnswerCondition(answers, currentAnswer);
+                formController.inputAnswerCondition(
+                    formController.answers, currentAnswer);
                 _formKey.currentState!.validate();
               },
             ),
@@ -290,7 +299,8 @@ class _FormSectionState extends State<FormSection> {
                       imageBase64: option.isNeedNcr == true ? image : '',
                     );
                   });
-                  formController.inputAnswerCondition(answers, currentAnswer);
+                  formController.inputAnswerCondition(
+                      formController.answers, currentAnswer);
                 },
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
@@ -308,7 +318,8 @@ class _FormSectionState extends State<FormSection> {
                       description: option.isNeedNcr == true ? description : '',
                     );
                   });
-                  formController.inputAnswerCondition(answers, currentAnswer);
+                  formController.inputAnswerCondition(
+                      formController.answers, currentAnswer);
                 },
               ),
               CommonFormField(
@@ -327,7 +338,8 @@ class _FormSectionState extends State<FormSection> {
                           option.isNeedNcr == true ? recommendation : '',
                     );
                   });
-                  formController.inputAnswerCondition(answers, currentAnswer);
+                  formController.inputAnswerCondition(
+                      formController.answers, currentAnswer);
                 },
               ),
             ],

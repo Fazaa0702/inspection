@@ -12,19 +12,26 @@ class WorkPermitLog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: TextField(
-                controller: workPermitController.searchFieldController,
-                decoration: const InputDecoration(
-                  hintText: 'Search...',
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: workPermitController.searchFieldController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search...',
+                    ),
+                    onChanged: (String value) {
+                      workPermitController.onKeywordChange(value);
+                    },
+                  ),
                 ),
-                onChanged: (String value) {
-                  workPermitController.onKeywordChange(value);
-                },
-              ),
+              ],
             ),
+            Obx(() => Text(
+                'Show ${workPermitController.workPermitLog.length} data from ${workPermitController.originalWorkPermitLog.length}'))
           ],
         ),
         const Padding(padding: EdgeInsets.all(10)),

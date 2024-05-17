@@ -11,14 +11,14 @@ import '../../../models/detail_work_permit_model.dart';
 class WorkPermitController extends GetxController {
   var selectedDate = Rx<DateTime?>(DateTime.now());
   var isLoadData = true.obs;
-  var workPermitLog = <WorkPermitModel>[];
-  var originalWorkPermitLog = <WorkPermitModel>[];
+  var workPermitLog = <WorkPermitModel>[].obs;
+  var originalWorkPermitLog = <WorkPermitModel>[].obs;
   var detailWorkPermit = <DetailWorkPermit>[].obs;
   var jobClassification = <JobClassification>[].obs;
   var jobTools = <JobTool>[].obs;
   var safetyEquipment = <SafetyEquipment>[].obs;
   var highRiskArea = <HighRiskArea>[].obs;
-  var searchQuery = ''.obs;
+  // var searchQuery = ''.obs;
   var searchFieldController = TextEditingController();
 
   @override
@@ -33,7 +33,7 @@ class WorkPermitController extends GetxController {
       fetchWorkPermitData();
     } else {
       isLoadData.value = true;
-      workPermitLog = await searchworkPermit(value);
+      workPermitLog.value = await searchworkPermit(value);
     }
     update();
   }
@@ -64,9 +64,9 @@ class WorkPermitController extends GetxController {
         await http.get(Uri.parse('${Constants.apiUrlHse}/api/work-permit'));
     if (res.statusCode == 200) {
       final List<dynamic> response = json.decode(res.body);
-      workPermitLog =
+      workPermitLog.value =
           response.map((data) => WorkPermitModel.fromJson(data)).toList();
-      originalWorkPermitLog =
+      originalWorkPermitLog.value =
           response.map((data) => WorkPermitModel.fromJson(data)).toList();
       print('resulttttt: ${res.body}');
       isLoadData.value = false;

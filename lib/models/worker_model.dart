@@ -4,6 +4,7 @@ class WorkerModel {
   String name;
   String speciality;
   String certification;
+  String nik;
 
   WorkerModel({
     required this.id,
@@ -11,6 +12,7 @@ class WorkerModel {
     required this.name,
     required this.speciality,
     required this.certification,
+    required this.nik,
   });
 
   factory WorkerModel.fromJson(Map<String, dynamic> json) => WorkerModel(
@@ -19,6 +21,7 @@ class WorkerModel {
         name: json["name"] ?? '',
         speciality: json["speciality"] ?? '-',
         certification: json["certification"] ?? '-',
+        nik: json["nik"] ?? '-',
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,5 +30,6 @@ class WorkerModel {
         "name": name,
         "speciality": speciality,
         "certification": certification,
+        "nik": nik,
       };
 }

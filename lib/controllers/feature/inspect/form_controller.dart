@@ -12,6 +12,7 @@ class FormController extends GetxController {
   RxList<InspectionModel> inspect = <InspectionModel>[].obs;
   RxList<ItemModel> item = <ItemModel>[].obs;
   RxList<OptionConditionModel> option = <OptionConditionModel>[].obs;
+  List<QuestionAnswerModel> answers = [];
 
   final FormService _formService = FormService();
   final RxList<QuestionModel> questions = <QuestionModel>[].obs;
