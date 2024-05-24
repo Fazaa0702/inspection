@@ -131,6 +131,6 @@ class CommonDialog {
           ),
         ),
       );
-    }));
+    }), barrierDismissible: false);
   }
 }

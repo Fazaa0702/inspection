@@ -12,9 +12,12 @@ class LogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (homeController.isLoading.value) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: Color(0xFF47B347),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: const Center(
+            child: CircularProgressIndicator(
+              color: Color(0xFF47B347),
+            ),
           ),
         );
       } else {
@@ -32,11 +35,14 @@ class LogView extends StatelessWidget {
               },
               rowsPerPage: homeController.rowsPerPage.value,
               columns: const [
+                // DataColumn(label: Text('Id')),
                 DataColumn(label: Text('Time')),
                 DataColumn(label: Text('Inspection')),
                 DataColumn(label: Text('Ispector')),
                 DataColumn(label: Text('BU')),
                 DataColumn(label: Text('Location')),
+                DataColumn(label: Text('PIC')),
+                DataColumn(label: Text('Item')),
                 DataColumn(label: Text('Activity')),
               ],
               source: LogData(homeController.log)),

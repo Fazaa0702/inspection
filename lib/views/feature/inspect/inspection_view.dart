@@ -78,52 +78,52 @@ class InspectionView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 20)),
-                        const Text('Or',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Poppins',
-                                color: Colors.grey)),
-                        const Padding(padding: EdgeInsets.only(top: 20)),
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed(RouteName.scan);
-                          },
-                          child: Container(
-                            width: Get.width,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                gradient: const LinearGradient(colors: [
-                                  Color(0xFF47B347),
-                                  Color(0xFF7FCC1E)
-                                ]),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Image.asset(
-                                      'assets/images/home3.png',
-                                      width: 90,
-                                    )),
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 30),
-                                  child: Text(
-                                    'Scan QR Code',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                        // const Padding(padding: EdgeInsets.only(top: 20)),
+                        // const Text('Or',
+                        //     style: TextStyle(
+                        //         fontSize: 20,
+                        //         fontWeight: FontWeight.w400,
+                        //         fontFamily: 'Poppins',
+                        //         color: Colors.grey)),
+                        // const Padding(padding: EdgeInsets.only(top: 20)),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Get.toNamed(RouteName.scan);
+                        //   },
+                        //   child: Container(
+                        //     width: Get.width,
+                        //     height: 100,
+                        //     decoration: BoxDecoration(
+                        //         gradient: const LinearGradient(colors: [
+                        //           Color(0xFF47B347),
+                        //           Color(0xFF7FCC1E)
+                        //         ]),
+                        //         borderRadius: BorderRadius.circular(10)),
+                        //     child: Row(
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        //         Padding(
+                        //             padding: const EdgeInsets.only(left: 10),
+                        //             child: Image.asset(
+                        //               'assets/images/home3.png',
+                        //               width: 90,
+                        //             )),
+                        //         const Padding(
+                        //           padding: EdgeInsets.only(right: 30),
+                        //           child: Text(
+                        //             'Scan QR Code',
+                        //             style: TextStyle(
+                        //                 fontSize: 24,
+                        //                 fontWeight: FontWeight.w600,
+                        //                 fontFamily: 'Poppins',
+                        //                 color: Colors.white),
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   )

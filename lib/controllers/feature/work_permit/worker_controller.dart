@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,6 +36,7 @@ class WorkerController extends GetxController {
   Future<List<WorkerModel>> searchworker(String keyword) async {
     List<WorkerModel> results = originalWorker.where((worker) {
       return worker.name.toLowerCase().contains(keyword.toLowerCase()) ||
+          worker.id.toString().toLowerCase().contains(keyword.toLowerCase()) ||
           worker.nik.toLowerCase().contains(keyword.toLowerCase()) ||
           worker.certification.toLowerCase().contains(keyword.toLowerCase()) ||
           worker.speciality.toLowerCase().contains(keyword.toLowerCase());
@@ -57,7 +59,11 @@ class WorkerController extends GetxController {
       } else {
         CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
       }
-    } catch (e) {
+    } on SocketException{
+       CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    }
+    catch (e) {
       CommonSnackbar.failedSnackbar(
           'Error', 'Terjadi kesalahan saat mengambil data');
     }
@@ -66,22 +72,29 @@ class WorkerController extends GetxController {
   Future<void> fetchActiveWorkerData(
       String workPermitId, String dateTime) async {
     print('iki tanggal: $dateTime');
-    var res = await http.get(Uri.parse(
-        'https://93cb-103-159-203-219.ngrok-free.app/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
-    if (res.statusCode == 200) {
-      final List<dynamic> response = json.decode(res.body);
-      activeWorker.value =
-          response.map((data) => ActiveWorkerModel.fromJson(data)).toList();
-      workerPerDay.value = response
-          .map((data) => ActiveWorkerModel.fromJson(data).worker)
-          .expand((workerPerDay) => workerPerDay)
-          .toList();
-      print('active workerrr: ${res.body}');
-      print('value = $workerPerDay');
-    } else {
-      print('${res.statusCode}');
+    try {
+      var res = await http.get(Uri.parse(
+          'https://93cb-103-159-203-219.ngrok-free.app/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+      if (res.statusCode == 200) {
+        final List<dynamic> response = json.decode(res.body);
+        activeWorker.value =
+            response.map((data) => ActiveWorkerModel.fromJson(data)).toList();
+        workerPerDay.value = response
+            .map((data) => ActiveWorkerModel.fromJson(data).worker)
+            .expand((workerPerDay) => workerPerDay)
+            .toList();
+        print('active workerrr: ${res.body}');
+        print('value = $workerPerDay');
+      } else {
+        print('${res.statusCode}');
+        CommonSnackbar.failedSnackbar('Tidak Terhubung Server',
+            'Tidak dapat mengambil data active worker');
+      }
+    } on SocketException catch (e) {
       CommonSnackbar.failedSnackbar(
-          'Tidak Terhubung Server', 'Tidak dapat mengambil data active worker');
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 }

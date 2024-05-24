@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:einspection/export.dart';
 import 'package:get/get.dart';
@@ -18,19 +19,32 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
+  @override
+  Future<void> refresh() async {
+    isLoading.value = true;
+    fetchLogData();
+  }
+
   void updateRowsPerPage(int newRowsPerPage) {
     rowsPerPage.value = newRowsPerPage;
   }
 
   Future<void> fetchLogData() async {
-    var res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/ApiLog'));
-    if (res.statusCode == 200) {
-      final List<dynamic> response = json.decode(res.body);
-      log.value = response.map((data) => LogModel.fromJson(data)).toList();
-      print('resulttttt: ${res.body}');
-      isLoading.value = !isLoading.value;
-    } else {
-      CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+    try {
+      var res = await http.get(Uri.parse('${Constants.apiUrlHse}/api/ApiLog'));
+      if (res.statusCode == 200) {
+        final List<dynamic> response = json.decode(res.body);
+        log.value = response.map((data) => LogModel.fromJson(data)).toList();
+        print('resulttttt: ${res.body}');
+        isLoading.value = false;
+      } else {
+        CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 }

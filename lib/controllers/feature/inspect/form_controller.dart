@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -37,41 +38,62 @@ class FormController extends GetxController {
   }
 
   Future<void> fetchDeptData() async {
-    final res =
-        await http.get(Uri.parse('${Constants.apiUrlHse}/api/department'));
-    if (res.statusCode == 200) {
-      final List<dynamic> data = json.decode(res.body);
-      dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
-      print(res.body);
-    } else {
-      CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+    try {
+      final res =
+          await http.get(Uri.parse('${Constants.apiUrlHse}/api/department'));
+      if (res.statusCode == 200) {
+        final List<dynamic> data = json.decode(res.body);
+        dept.assignAll(data.map((dept) => DeptModel.fromJson(dept)));
+        print(res.body);
+      } else {
+        CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 
   Future<void> fetchOptionConditions(int inspectionId) async {
-    final response = await http.get(Uri.parse(
-        '${Constants.apiUrlHse}/api/inspection/option-conditions?inspectionId=$inspectionId'));
+    try {
+      final response = await http.get(Uri.parse(
+          '${Constants.apiUrlHse}/api/inspection/option-conditions?inspectionId=$inspectionId'));
 
-    if (response.statusCode == 200) {
-      final List<dynamic> responseData = jsonDecode(response.body);
-      option.assignAll(
-          responseData.map((option) => OptionConditionModel.fromJson(option)));
-      print('ressssssssssssss: ${response.body}');
-    } else {
-      CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(response.body);
+        option.assignAll(responseData
+            .map((option) => OptionConditionModel.fromJson(option)));
+        print('ressssssssssssss: ${response.body}');
+      } else {
+        CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 
   Future<void> fetchInspectionData() async {
-    final res =
-        await http.get(Uri.parse('${Constants.apiUrlHse}/api/inspection'));
-    if (res.statusCode == 200) {
-      final List<dynamic> data = json.decode(res.body);
-      inspect
-          .assignAll(data.map((inspect) => InspectionModel.fromJson(inspect)));
-      print(res.body);
-    } else {
-      print('gagal mendapatkan data');
+    try {
+      final res =
+          await http.get(Uri.parse('${Constants.apiUrlHse}/api/inspection'));
+      if (res.statusCode == 200) {
+        final List<dynamic> data = json.decode(res.body);
+        inspect.assignAll(
+            data.map((inspect) => InspectionModel.fromJson(inspect)));
+        print(res.body);
+      } else {
+        print('gagal mendapatkan data');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 
@@ -81,22 +103,32 @@ class FormController extends GetxController {
           await _formService.getQuestions(inspectionId);
       questions.assignAll(result);
       print('total pertanyaan: ${questions.length}');
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
     } catch (e) {
-      print('Error fetching questions: $e');
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 
   Future<void> fetchItemData(int inspectionId, int departmentId) async {
-    final res = await http.get(Uri.parse(
-        '${Constants.apiUrlHse}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
-    if (res.statusCode == 200) {
-      final List<dynamic> data = json.decode(res.body);
-      a = res.body;
-      print("ini data item = " + a);
-      item.assignAll(data.map((item) => ItemModel.fromJson(item)));
-      print('resssss: ${res.body}');
-    } else {
-      print('gagal mendapatkan data');
+    try {
+      final res = await http.get(Uri.parse(
+          '${Constants.apiUrlHse}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
+      if (res.statusCode == 200) {
+        final List<dynamic> data = json.decode(res.body);
+        a = res.body;
+        print("ini data item = " + a);
+        item.assignAll(data.map((item) => ItemModel.fromJson(item)));
+        print('resssss: ${res.body}');
+      } else {
+        print('gagal mendapatkan data');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 
@@ -110,8 +142,11 @@ class FormController extends GetxController {
       } else {
         print('Gagal mengirim data ke database');
       }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
     } catch (e) {
-      print('Error: $e');
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 

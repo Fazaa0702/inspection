@@ -5,7 +5,6 @@ import 'package:einspection/export.dart';
 import 'package:get/get.dart';
 
 class WorkPermitLogData extends DataTableSource {
-  // final workPermitController = Get.put(WorkPermitController());
 
   final List<WorkPermitModel> _workPermitLog;
   final int _selectedCount = 0;
@@ -45,7 +44,7 @@ class WorkPermitLogData extends DataTableSource {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(90), color: Colors.green),
         padding: const EdgeInsets.all(8),
-        width: 90,
+        width: 125,
         child: Text(
           workPermitLog.status,
           textAlign: TextAlign.center,

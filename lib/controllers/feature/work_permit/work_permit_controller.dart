@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,12 @@ class WorkPermitController extends GetxController {
     fetchWorkPermitData();
     super.onInit();
   }
+
+  // @override
+  // Future<void> refresh() async {
+  //   isLoadData.value = true;
+  //   fetchWorkPermitData();
+  // }
 
   void onKeywordChange(String value) async {
     if (value == "") {
@@ -60,49 +67,63 @@ class WorkPermitController extends GetxController {
   }
 
   Future<void> fetchWorkPermitData() async {
-    var res =
-        await http.get(Uri.parse('${Constants.apiUrlHse}/api/work-permit'));
-    if (res.statusCode == 200) {
-      final List<dynamic> response = json.decode(res.body);
-      workPermitLog.value =
-          response.map((data) => WorkPermitModel.fromJson(data)).toList();
-      originalWorkPermitLog.value =
-          response.map((data) => WorkPermitModel.fromJson(data)).toList();
-      print('resulttttt: ${res.body}');
-      isLoadData.value = false;
-    } else {
-      CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+    try {
+      var res =
+          await http.get(Uri.parse('${Constants.apiUrlHse}/api/work-permit'));
+      if (res.statusCode == 200) {
+        final List<dynamic> response = json.decode(res.body);
+        workPermitLog.value =
+            response.map((data) => WorkPermitModel.fromJson(data)).toList();
+        originalWorkPermitLog.value =
+            response.map((data) => WorkPermitModel.fromJson(data)).toList();
+        print('resulttttt: ${res.body}');
+        isLoadData.value = false;
+      } else {
+        CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+      }
+      update();
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
-    update();
   }
 
   Future<void> fetchDetailWorkPermit(String workPermitId) async {
-    var res = await http.get(Uri.parse(
-        '${Constants.apiUrlHse}/api/work-permit/detail?workPermitId=$workPermitId'));
-    if (res.statusCode == 200) {
-      final List<dynamic> response = json.decode(res.body);
-      detailWorkPermit.value =
-          response.map((json) => DetailWorkPermit.fromJson(json)).toList();
-      jobClassification.value = response
-          .map((json) => DetailWorkPermit.fromJson(json).jobClassifications)
-          .expand((jobClassifications) => jobClassifications)
-          .toList();
-      jobTools.value = response
-          .map((json) => DetailWorkPermit.fromJson(json).jobTools)
-          .expand((jobTools) => jobTools)
-          .toList();
-      safetyEquipment.value = response
-          .map((json) => DetailWorkPermit.fromJson(json).safetyEquipment)
-          .expand((safetyEquipment) => safetyEquipment)
-          .toList();
-      highRiskArea.value = response
-          .map((json) => DetailWorkPermit.fromJson(json).highRiskArea)
-          .expand((highRiskArea) => highRiskArea)
-          .toList();
-      print(res.body);
-      print(jobClassification);
-    } else {
-      CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+    try {
+      var res = await http.get(Uri.parse(
+          '${Constants.apiUrlHse}/api/work-permit/detail?workPermitId=$workPermitId'));
+      if (res.statusCode == 200) {
+        final List<dynamic> response = json.decode(res.body);
+        detailWorkPermit.value =
+            response.map((json) => DetailWorkPermit.fromJson(json)).toList();
+        jobClassification.value = response
+            .map((json) => DetailWorkPermit.fromJson(json).jobClassifications)
+            .expand((jobClassifications) => jobClassifications)
+            .toList();
+        jobTools.value = response
+            .map((json) => DetailWorkPermit.fromJson(json).jobTools)
+            .expand((jobTools) => jobTools)
+            .toList();
+        safetyEquipment.value = response
+            .map((json) => DetailWorkPermit.fromJson(json).safetyEquipment)
+            .expand((safetyEquipment) => safetyEquipment)
+            .toList();
+        highRiskArea.value = response
+            .map((json) => DetailWorkPermit.fromJson(json).highRiskArea)
+            .expand((highRiskArea) => highRiskArea)
+            .toList();
+        print(res.body);
+        print(jobClassification);
+      } else {
+        CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
+      }
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
     }
   }
 }

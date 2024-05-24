@@ -22,7 +22,7 @@ class WorkerList extends StatelessWidget {
     var date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
 
     workerController.fetchWorkerData(workPermitId);
-    // workerController.fetchActiveWorkerData(workPermitId, date);
+    workerController.fetchActiveWorkerData(workPermitId, date);
     return Scaffold(
         appBar: CommonAppBar(
           title: 'Worker (ID: $workPermitId)',
@@ -68,8 +68,8 @@ class WorkerList extends StatelessWidget {
                             print(date);
                             print(workPermitId);
                           }
-                          // workerController.fetchActiveWorkerData(
-                          //     workPermitId, date);
+                          workerController.fetchActiveWorkerData(
+                              workPermitId, date);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -99,8 +99,13 @@ class WorkerList extends StatelessWidget {
               ),
               Obx(
                 () => (workerController.workerPerDay.isEmpty)
-                    ? const Center(
-                        child: Text('No Active Worker'),
+                    ? Center(
+                        child: Column(
+                          children: [
+                            // Image.asset('assets/images/worker2.png'),
+                            Text('No Active Worker'),
+                          ],
+                        ),
                       )
                     : Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -171,7 +176,7 @@ class WorkerList extends StatelessWidget {
                             controller:
                                 workPermitController.searchFieldController,
                             decoration: const InputDecoration(
-                              hintText: 'Search...',
+                              hintText: 'Search.....',
                             ),
                             onChanged: (String value) {
                               workerController.onKeywordChange(
@@ -192,58 +197,67 @@ class WorkerList extends StatelessWidget {
                         color: Color(0xFF47B347),
                       ),
                     )
-                  : Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: workerController.worker.length,
-                          itemBuilder: ((context, index) {
-                            final worker = workerController.worker[index];
-                            return InkWell(
-                              child: Container(
-                                margin: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      spreadRadius: 3,
-                                      blurRadius: 7,
-                                      blurStyle: BlurStyle.outer)
-                                ], borderRadius: BorderRadius.circular(10)),
-                                child: ListTile(
-                                  title: Text(worker.name,
-                                      style: const TextStyle(
-                                          fontFamily: 'Poppins')),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'NIK: ${worker.nik}',
-                                        style: const TextStyle(
-                                            fontFamily: 'Poppins'),
-                                      ),
-                                      Text(
-                                        'Id: ${worker.id}',
-                                        style: const TextStyle(
-                                            fontFamily: 'Poppins'),
-                                      ),
-                                      Text(
-                                        'Speciality: ${worker.speciality}',
-                                        style: const TextStyle(
-                                            fontFamily: 'Poppins'),
-                                      ),
-                                      Text(
-                                          'Certification: ${worker.certification}',
+                  : (workerController.worker.isEmpty)
+                      ? Center(
+                          child: Column(
+                            children: [
+                              Image.asset('assets/images/worker2.png'),
+                              const Text('No data available'),
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: workerController.worker.length,
+                              itemBuilder: ((context, index) {
+                                final worker = workerController.worker[index];
+                                return InkWell(
+                                  child: Container(
+                                    margin: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 3,
+                                          blurRadius: 7,
+                                          blurStyle: BlurStyle.outer)
+                                    ], borderRadius: BorderRadius.circular(10)),
+                                    child: ListTile(
+                                      title: Text(worker.name,
                                           style: const TextStyle(
                                               fontFamily: 'Poppins')),
-                                    ],
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'NIK: ${worker.nik}',
+                                            style: const TextStyle(
+                                                fontFamily: 'Poppins'),
+                                          ),
+                                          Text(
+                                            'Id: ${worker.id}',
+                                            style: const TextStyle(
+                                                fontFamily: 'Poppins'),
+                                          ),
+                                          Text(
+                                            'Speciality: ${worker.speciality}',
+                                            style: const TextStyle(
+                                                fontFamily: 'Poppins'),
+                                          ),
+                                          Text(
+                                              'Certification: ${worker.certification}',
+                                              style: const TextStyle(
+                                                  fontFamily: 'Poppins')),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
-                          })),
-                    )),
+                                );
+                              })),
+                        )),
             ],
           ),
         ));

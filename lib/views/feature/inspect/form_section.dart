@@ -224,6 +224,7 @@ class _FormSectionState extends State<FormSection> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       questionText,
+                      softWrap: true,
                       style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

@@ -158,6 +158,7 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
         setState(() {
           selectedImage = File(response.file!.path);
         });
+        print('resss: ${response.files}');
       }
     }
 
