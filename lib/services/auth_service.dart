@@ -23,6 +23,7 @@ class AuthService {
       var userModel = UserModel.fromJson(json.decode(res.body));
       user = userModel.name;
       // print('user: ${userModel.name}');
+      print('${Constants.apiUrlHse}');
       if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         await prefs.setString('user', res.body);
         return ConditionalService().authConditionalMessage(res, message);

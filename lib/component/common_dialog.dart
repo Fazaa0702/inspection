@@ -7,8 +7,6 @@ class CommonDialog {
     String title,
     String description,
     VoidCallback onTap,
-    // TextTheme textTheme,
-    // bool withCancel,
   ) {
     return Get.dialog(LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

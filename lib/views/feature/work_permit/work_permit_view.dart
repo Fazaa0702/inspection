@@ -19,23 +19,27 @@ class WorkPermitView extends StatelessWidget {
           Get.offAllNamed(RouteName.home);
         },
       ),
-      body: SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: SafeArea(
-            child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: WorkPermitLog(),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return SizedBox(
+            height: Get.height,
+            width: Get.width,
+            child: SafeArea(
+                child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: WorkPermitLog(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        )),
+              ),
+            )),
+          );
+        }
       ),
     );
   }

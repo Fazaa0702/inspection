@@ -45,6 +45,7 @@ class HomeController extends GetxController {
           'Error', 'Please check your internet connection');
     } catch (e) {
       CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
+      print(e);
     }
   }
 }

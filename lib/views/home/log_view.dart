@@ -12,9 +12,9 @@ class LogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (homeController.isLoading.value) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: const Center(
+        return const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(
             child: CircularProgressIndicator(
               color: Color(0xFF47B347),
             ),

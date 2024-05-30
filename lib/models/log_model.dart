@@ -8,7 +8,7 @@ String logModelToJson(List<LogModel> data) =>
 
 class LogModel {
   final String id;
-  final DateTime dateTime;
+  final String dateTime;
   final String inspectionName;
   final String inspectorName;
   final String buName;
@@ -31,7 +31,7 @@ class LogModel {
 
   factory LogModel.fromJson(Map<String, dynamic> json) => LogModel(
         id: json["id"],
-        dateTime: DateTime.parse(json["dateTime"]),
+        dateTime: json["dateTime"],
         inspectionName: json["inspectionName"],
         inspectorName: json["inspectorName"],
         buName: json["buName"],
@@ -43,8 +43,7 @@ class LogModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "dateTime":
-            "${dateTime.year.toString().padLeft(4, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}",
+        "dateTime": dateTime,
         "inspectionName": inspectionName,
         "inspectorName": inspectorName,
         "buName": buName,

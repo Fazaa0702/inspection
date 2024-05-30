@@ -59,13 +59,11 @@ class WorkerController extends GetxController {
       } else {
         CommonSnackbar.failedSnackbar('Gagal', 'Tidak dapat mengambil data');
       }
-    } on SocketException{
-       CommonSnackbar.failedSnackbar(
-          'Error', 'Please check your internet connection');
-    }
-    catch (e) {
+    } on SocketException {
       CommonSnackbar.failedSnackbar(
-          'Error', 'Terjadi kesalahan saat mengambil data');
+          'Error', 'Please check your internet connection');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -74,7 +72,7 @@ class WorkerController extends GetxController {
     print('iki tanggal: $dateTime');
     try {
       var res = await http.get(Uri.parse(
-          'https://93cb-103-159-203-219.ngrok-free.app/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+          'https://d472-103-159-203-219.ngrok-free.app/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
       if (res.statusCode == 200) {
         final List<dynamic> response = json.decode(res.body);
         activeWorker.value =
@@ -90,11 +88,11 @@ class WorkerController extends GetxController {
         CommonSnackbar.failedSnackbar('Tidak Terhubung Server',
             'Tidak dapat mengambil data active worker');
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
+      print(e);
     }
   }
 }

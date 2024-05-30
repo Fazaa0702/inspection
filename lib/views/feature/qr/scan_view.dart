@@ -14,36 +14,40 @@ class ScanView extends GetView<ScanController> {
             backButton: () {
               Get.offAllNamed(RouteName.inspection);
             }),
-        body: SizedBox(
-          height: Get.height,
-          width: Get.width,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 150, bottom: 100, left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: Image.asset('assets/images/scanView1.png'),
+        body: OrientationBuilder(
+          builder: (context, orientation) {
+            return SizedBox(
+              height: Get.height,
+              width: Get.width,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 150, bottom: 100, left: 20, right: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: Image.asset('assets/images/scanView1.png'),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        const Text(
+                          'Scan a QR code from inspection item',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins'),
+                        )
+                      ],
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 10)),
-                    const Text(
-                      'Scan a QR code from inspection item',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Poppins'),
-                    )
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }
         ));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:einspection/export.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class LogData extends DataTableSource {
   final List<LogModel> _logs;
@@ -13,11 +13,11 @@ class LogData extends DataTableSource {
       return null;
     }
     final log = _logs[index];
-    String formattedDateTime = DateFormat('dd-MM-yyyy').format(log.dateTime);
+    // String formattedDateTime = DateFormat('dd-MM-yyyy').format(log.dateTime);
 
     return DataRow(cells: [
       // DataCell(Text(log.id)),
-      DataCell(Text(formattedDateTime)),
+      DataCell(Text(log.dateTime)),
       DataCell(Text(log.inspectionName)),
       DataCell(Text(log.inspectorName)),
       DataCell(Text(log.buName)),

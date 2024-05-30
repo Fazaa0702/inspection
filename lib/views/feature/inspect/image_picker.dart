@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:einspection/component/component.dart';
 import 'package:flutter/material.dart';
@@ -108,12 +109,14 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
     }
 
     try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final pickedFile =
+          await picker.pickImage(source: ImageSource.gallery, imageQuality: 75);
       if (pickedFile == null) return;
 
       setState(() {
         selectedImage = File(pickedFile.path);
       });
+      print('Size: ${getFileSizeString(bytes: selectedImage!.lengthSync())}');
       String? base64String = imageToBase64(selectedImage);
       if (base64String != null) {
         widget.onImageSelected(base64String);
@@ -136,16 +139,16 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
 
     try {
       final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.camera);
+          await picker.pickImage(source: ImageSource.camera, imageQuality: 75);
       if (pickedFile == null) return;
 
       setState(() {
         selectedImage = File(pickedFile.path);
       });
+      print('Size: ${getFileSizeString(bytes: selectedImage!.lengthSync())}');
       String? base64String = imageToBase64(selectedImage);
       if (base64String != null) {
         widget.onImageSelected(base64String);
-
         print('Base64 Image: $base64String');
       } else {
         print('Failed to convert image to base64');
@@ -175,5 +178,12 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
       print('Error converting image to base64: $e');
       return null;
     }
+  }
+
+  String getFileSizeString({required int bytes, int decimals = 0}) {
+    if (bytes <= 0) return "0 Bytes";
+    const suffixes = ["Bytes", "KB", "MB", "GB", "TB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
 }
