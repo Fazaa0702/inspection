@@ -98,7 +98,7 @@ class _FormSectionState extends State<FormSection> {
                                   departmentId: widget.departmentId.toInt(),
                                   inspectionId: widget.inspectionId.toInt(),
                                   questionAnswers: jsonDataQuestionanswers,
-                                  picItemId: itemData["picItemId"],
+                                  picItemId: itemData["picItemId"] ?? '',
                                   itemId: widget.itemId);
                               formController.submitAnswerCondition(answerModel);
                               print(

@@ -30,7 +30,7 @@ class FormService {
       "DepartmentId": answer["DepartmentId"],
       "InspectionId": answer["InspectionId"],
       "ItemId": answer["ItemId"],
-      "picItemId": answer["picItemId"],
+      "picItemId": answer["picItemId"] ?? '',
       "QuestionAnswers": jsonDecode(answer['QuestionAnswers']),
     });
     final res = await http.post(

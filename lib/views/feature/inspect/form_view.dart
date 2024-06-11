@@ -160,9 +160,11 @@ class _FormViewState extends State<FormView> {
                         const EdgeInsets.only(left: 15, right: 15, top: 15),
                     child: Obx(
                       () => controller.item.isEmpty
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFF47B347),
+                          ? Center(
+                              child: Column(
+                                children: [
+                                  const Text('No item available'),
+                                ],
                               ),
                             )
                           : Center(
@@ -197,7 +199,6 @@ class _FormViewState extends State<FormView> {
                                         itemId = newValue.itemId;
                                       });
                                       controller.questions.clear();
-
                                       controller
                                           .fetchQuestionData(inspectionId);
                                       controller

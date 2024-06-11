@@ -1,51 +1,83 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:einspection/export.dart';
+import 'package:einspection/routes/route_name.dart';
+import 'package:einspection/views/register/password_register_view.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
 class AuthService {
+  var message = '';
+  var loginCode;
+  var userId = '';
   var user = '';
-  Map<String, dynamic> createData(String id) {
-    var data = {
-      "id": id,
-    };
+
+  Map<String, dynamic> createData(String username, String password) {
+    var data = {"username": username, "password": password};
     return data;
+  }
+
+  Map<String, dynamic> requestChangePassword(
+      String userId, String newPassword) {
+    var request = {"userId": userId, "password": newPassword};
+    return request;
   }
 
   Future<String> conditionalStatus(res) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var message = '';
+    // var message = '';
     if (res.statusCode == 200) {
       var userModel = UserModel.fromJson(json.decode(res.body));
+      loginCode = userModel.loginCode;
+      userId = userModel.id;
       user = userModel.name;
-      // print('user: ${userModel.name}');
-      print('${Constants.apiUrlHse}');
+      message = userModel.message;
+      print(loginCode);
+      print(userId);
+      print(user);
       if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         await prefs.setString('user', res.body);
-        return ConditionalService().authConditionalMessage(res, message);
-      } else {
-        CommonSnackbar.failedSnackbar(
-            'Failed', "User don't have any permissions");
-        return 'Anda tidak memiliki akses untuk login';
+        Get.toNamed(RouteName.home);
       }
+      // if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
+      //   return res.body;
+      // }
+      return 'OK';
     } else if (res.statusCode == 400) {
-      CommonSnackbar.failedSnackbar('Failed', 'User not found');
+      var userModel = UserModel.fromJson(json.decode(res.body));
+      loginCode = userModel.loginCode;
+      userId = userModel.userId!;
+      user = userModel.name;
+      message = userModel.message;
+      if (loginCode == 1) {
+        CommonSnackbar.failedSnackbar('Failed', message);
+      } else if (loginCode == 2) {
+        Get.to(() => PasswordRegisterView(
+              userId: userId,
+              message: message,
+            ));
+        print('resssssssssssssss: ${res.body}');
+        print('idddddddd:$message');
+      }
       return 'not found';
     } else {
-      CommonSnackbar.failedSnackbar('Failed', 'Please try again later');
+      CommonSnackbar.failedSnackbar(
+          'Failed', 'Ups your username or password is unvalid');
       return 'error';
     }
   }
 
-  Future<String> loginService(String id) async {
+  Future<String> loginService(String username, String password) async {
     try {
       var url = Uri.parse('${Constants.apiUrlHse}/api/loginApi');
       var headers = {'Content-Type': 'application/json'};
-      var body = json.encode(createData(id));
+      var body = json.encode(createData(username, password));
 
       var res = await http.post(url, body: body, headers: headers);
       print('result : ${res.body}');
@@ -53,11 +85,73 @@ class AuthService {
       print('url: $url');
 
       return conditionalStatus(res);
+    } on SocketException {
+      CommonSnackbar.failedSnackbar(
+          'Error', 'Please check your internet connection');
+      return '';
     } catch (e) {
       if (kDebugMode) {
         print('Error: $e');
       }
       return 'Inputan salah, silahkan coba kembali';
+    }
+  }
+
+  Future<void> changePasswordConditional(res) async {
+    print('bodyyyyyyyy: ${res.body}');
+    if (res.statusCode == 200) {
+      Get.offAllNamed(RouteName.login);
+    } else if (res.statusCode == 400) {
+      var userModel = UserModel.fromJson(json.decode(res.body));
+      loginCode = userModel.loginCode;
+      userId = userModel.userId!;
+      user = userModel.name;
+      message = userModel.message;
+      if (loginCode == 4) {
+        CommonSnackbar.failedSnackbar('Failed', message);
+      } else if (loginCode == 5) {
+        CommonSnackbar.failedSnackbar('Failed', message);
+        print('resssssssssssssss: ${res.body}');
+        print('idddddddd:$message');
+      }
+    }
+  }
+
+  Future<void> changePassword(String userId, String password) async {
+    try {
+      var url =
+          Uri.parse('${Constants.apiUrlHse}/api/loginApi/change-password');
+      var headers = {'Content-Type': 'application/json'};
+      var body = json.encode(requestChangePassword(userId, password));
+      var res = await http.post(url, body: body, headers: headers);
+      changePasswordConditional(res);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error: $e');
+      }
+    }
+  }
+
+  Future<void> unlockAccountConditional(res) async {
+    if (res.statusCode == 200) {
+      CommonSnackbar.successSnackbar(
+          'Success', 'Please wait until admin unlock your account');
+      Get.offAllNamed(RouteName.login);
+    } else {
+      CommonSnackbar.failedSnackbar('Failed', 'Username not found');
+    }
+  }
+
+  Future<void> unlockAccountService(String username) async {
+    try {
+      var url = Uri.parse(
+          '${Constants.apiUrlHse}/api/loginApi/request-unlock-account?username=$username');
+      var res = await http.post(url);
+      unlockAccountConditional(res);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
   }
 

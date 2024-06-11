@@ -37,7 +37,9 @@ class ScanController extends GetxController {
     fdw = FlutterDataWedge(profileName: 'HSEConnect');
     onScanResultListener = fdw.onScanResult.listen((result) async {
       print('Data: ${jsonEncode(result.data)}');
+      print('Data: ${result.data}');
     });
+
     await fdw.initialize();
   }
 }

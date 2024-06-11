@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 
 class CommonSnackbar {
   static failedSnackbar(String title, String message) {
-    Get.closeAllSnackbars();
-    return Get.snackbar(
+    Get.snackbar(
       title,
       message,
       backgroundColor: Colors.red,

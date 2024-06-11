@@ -1,4 +1,4 @@
-import 'package:einspection/controllers/login/login_controller.dart';
+import 'package:einspection/controllers/auth/login_controller.dart';
 import 'package:get/get.dart';
 
 class LoginBinding extends Bindings {

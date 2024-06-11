@@ -10,7 +10,7 @@ class AnswerModel {
   int departmentId;
   int inspectionId;
   String questionAnswers;
-  String picItemId;
+  String? picItemId;
   String? itemId;
 
   AnswerModel(
@@ -18,7 +18,7 @@ class AnswerModel {
       required this.departmentId,
       required this.inspectionId,
       required this.questionAnswers,
-      required this.picItemId,
+      this.picItemId,
       this.itemId});
   factory AnswerModel.fromJson(Map<String, dynamic> json) => AnswerModel(
         userId: json["userId"],

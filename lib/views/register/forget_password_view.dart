@@ -1,18 +1,21 @@
-import 'package:einspection/export.dart';
-import 'package:einspection/views/register/forget_password_view.dart';
-import 'package:einspection/views/register/unlock_account_view.dart';
+import 'package:einspection/controllers/auth/forget_password_controller.dart';
+import 'package:einspection/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({super.key});
+import '../../export.dart';
+
+class ForgetPasswordView extends StatelessWidget {
+  ForgetPasswordView({super.key});
+
+  final controller = Get.put(ForgetPasswordController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: OrientationBuilder(builder: (context, orientation) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: const LinearGradient(
                 colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
           ),
@@ -55,9 +58,27 @@ class LoginView extends GetView<LoginController> {
                             const SizedBox(
                               height: 20,
                             ),
+                            InkWell(
+                                onTap: () => Get.offAllNamed(RouteName.login),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.arrow_back_ios_new),
+                                    Text(
+                                      'Back to Login',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Poppins'),
+                                    ),
+                                  ],
+                                )),
+
+                            const SizedBox(
+                              height: 20,
+                            ),
                             const Center(
                                 child: Text(
-                              'HSE Connect',
+                              'Forget Password',
                               style: TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -75,15 +96,11 @@ class LoginView extends GetView<LoginController> {
                                   fontFamily: 'Poppins'),
                             ),
                             const Padding(padding: EdgeInsets.only(top: 5)),
-
                             SizedBox(
                               height: 45,
                               child: TextFormField(
-                                onChanged: (value) {
-                                  controller.username = value;
-                                },
                                 enableSuggestions: false,
-                                controller: controller.userIdController,
+                                controller: controller.usernameController,
                                 style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -104,7 +121,7 @@ class LoginView extends GetView<LoginController> {
                             ),
                             const Padding(padding: EdgeInsets.only(top: 15)),
                             Text(
-                              'Password',
+                              'New Password',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -116,10 +133,11 @@ class LoginView extends GetView<LoginController> {
                                 child: Obx(
                                   () => TextFormField(
                                     obscureText:
-                                        controller.isPasswordVisible.value,
+                                        controller.isNewPasswordVisible.value,
                                     enableInteractiveSelection: false,
                                     enableSuggestions: false,
-                                    controller: controller.passwordController,
+                                    controller:
+                                        controller.newPasswordController,
                                     style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -129,10 +147,59 @@ class LoginView extends GetView<LoginController> {
                                     decoration: InputDecoration(
                                         suffixIcon: IconButton(
                                             onPressed: () => controller
-                                                .isPasswordVisible
+                                                .isNewPasswordVisible
                                                 .toggle(),
                                             icon: Icon(controller
-                                                    .isPasswordVisible.value
+                                                    .isNewPasswordVisible.value
+                                                ? Icons.visibility_off_outlined
+                                                : Icons.visibility_outlined)),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF47B347)))),
+                                  ),
+                                )),
+                            const Padding(padding: EdgeInsets.only(top: 15)),
+                            Text(
+                              'Confirm Password',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                            const Padding(padding: EdgeInsets.only(top: 5)),
+                            SizedBox(
+                                height: 45,
+                                child: Obx(
+                                  () => TextFormField(
+                                    obscureText: controller
+                                        .isConfirmPasswordVisible.value,
+                                    enableInteractiveSelection: false,
+                                    enableSuggestions: false,
+                                    controller:
+                                        controller.confirmPasswordController,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Poppins'),
+                                    maxLines: 1,
+                                    cursorColor: const Color(0xFF47B347),
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                            onPressed: () => controller
+                                                .isConfirmPasswordVisible
+                                                .toggle(),
+                                            icon: Icon(controller
+                                                    .isConfirmPasswordVisible
+                                                    .value
                                                 ? Icons.visibility_off_outlined
                                                 : Icons.visibility_outlined)),
                                         border: OutlineInputBorder(
@@ -150,79 +217,12 @@ class LoginView extends GetView<LoginController> {
                                   ),
                                 )),
                             const Padding(padding: EdgeInsets.only(top: 5)),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        Get.to(() => ForgetPasswordView());
-                                      },
-                                      child: const Text(
-                                        'Forgot Password ?',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.blue,
-                                            fontFamily: 'Poppins'),
-                                      )),
-                                ],
-                              ),
-                            ),
                             const Padding(padding: EdgeInsets.only(top: 20)),
-                            Obx(
-                              () => controller.isLoading.value
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                        color: Color(0xFF47B347),
-                                      ),
-                                    )
-                                  : CommonButton(
-                                      text: 'Login',
-                                      backgroundColor: Colors.black,
-                                      onPressed: () {
-                                        controller.isLoading.value = true;
-                                        controller.emptyForm();
-                                      }),
-                            ),
-
-                            // const Padding(padding: EdgeInsets.only(top: 5)),
-                            Padding(padding: EdgeInsets.only(top: 10)),
-
-                            SizedBox(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    'Your account is locked ?',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 5)),
-                                  InkWell(
-                                      onTap: () {
-                                        Get.to(() => UnlockAccountView());
-                                      },
-                                      child: const Text(
-                                        'unlocked here',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.blue,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.only(bottom: 10)),
+                            CommonButton(
+                                text: 'Submit',
+                                backgroundColor: Colors.black,
+                                onPressed: () {}),
+                            Padding(padding: EdgeInsets.only(bottom: 20)),
                           ],
                         ),
                       ),
