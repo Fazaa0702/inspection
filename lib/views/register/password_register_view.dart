@@ -180,7 +180,11 @@ class PasswordRegisterView extends StatelessWidget {
                                         fontWeight: FontWeight.w400,
                                         fontFamily: 'Poppins'),
                                     maxLines: 1,
-                                    cursorColor: const Color(0xFF47B347),
+                                    cursorColor:
+                                        controller.newPasswordWarning.value ==
+                                                true
+                                            ? const Color(0xFF47B347)
+                                            : Colors.red,
                                     decoration: InputDecoration(
                                         suffixIcon: IconButton(
                                             onPressed: () => controller

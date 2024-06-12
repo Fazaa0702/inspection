@@ -5,7 +5,6 @@ import 'package:einspection/export.dart';
 import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/register/password_register_view.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +30,6 @@ class AuthService {
 
   Future<String> conditionalStatus(res) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var message = '';
     if (res.statusCode == 200) {
       var userModel = UserModel.fromJson(json.decode(res.body));
       loginCode = userModel.loginCode;
@@ -45,9 +43,6 @@ class AuthService {
         await prefs.setString('user', res.body);
         Get.toNamed(RouteName.home);
       }
-      // if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
-      //   return res.body;
-      // }
       return 'OK';
     } else if (res.statusCode == 400) {
       var userModel = UserModel.fromJson(json.decode(res.body));
@@ -55,20 +50,25 @@ class AuthService {
       userId = userModel.userId!;
       user = userModel.name;
       message = userModel.message;
-      if (loginCode == 1) {
-        CommonSnackbar.failedSnackbar('Failed', message);
-      } else if (loginCode == 2) {
-        Get.to(() => PasswordRegisterView(
-              userId: userId,
-              message: message,
-            ));
-        print('resssssssssssssss: ${res.body}');
-        print('idddddddd:$message');
+      if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
+        if (loginCode == 1) {
+          CommonSnackbar.failedSnackbar('Failed', message);
+        } else if (loginCode == 2) {
+          Get.to(() => PasswordRegisterView(
+                userId: userId,
+                message: message,
+              ));
+          print('resssssssssssssss: ${res.body}');
+          print('idddddddd:$message');
+        }
+      } else {
+        CommonSnackbar.failedSnackbar(
+            'Failed', 'Ups your account not have permission');
       }
       return 'not found';
     } else {
       CommonSnackbar.failedSnackbar(
-          'Failed', 'Ups your username or password is unvalid');
+          'Failed', 'Ups your username or password is invalid');
       return 'error';
     }
   }
@@ -98,7 +98,6 @@ class AuthService {
   }
 
   Future<void> changePasswordConditional(res) async {
-    print('bodyyyyyyyy: ${res.body}');
     if (res.statusCode == 200) {
       Get.offAllNamed(RouteName.login);
     } else if (res.statusCode == 400) {

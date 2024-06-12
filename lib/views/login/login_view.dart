@@ -1,7 +1,7 @@
 import 'package:einspection/export.dart';
-import 'package:einspection/views/register/forget_password_view.dart';
 import 'package:einspection/views/register/unlock_account_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -12,9 +12,9 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
       body: OrientationBuilder(builder: (context, orientation) {
         return Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-                colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
+          decoration: const BoxDecoration(
+            gradient:
+                LinearGradient(colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
           ),
           height: Get.height,
           width: Get.width,
@@ -46,12 +46,7 @@ class LoginView extends GetView<LoginController> {
                             const SizedBox(
                               height: 10,
                             ),
-                            // Center(
-                            //   child: Image.asset(
-                            //     'assets/images/login1.png',
-                            //     width: Get.width,
-                            //   ),
-                            // ),
+
                             const SizedBox(
                               height: 20,
                             ),
@@ -67,7 +62,7 @@ class LoginView extends GetView<LoginController> {
                                 padding: EdgeInsets.only(
                               top: 10,
                             )),
-                            Text(
+                            const Text(
                               'Username',
                               style: TextStyle(
                                   fontSize: 16,
@@ -103,7 +98,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                             const Padding(padding: EdgeInsets.only(top: 15)),
-                            Text(
+                            const Text(
                               'Password',
                               style: TextStyle(
                                   fontSize: 16,
@@ -150,30 +145,30 @@ class LoginView extends GetView<LoginController> {
                                   ),
                                 )),
                             const Padding(padding: EdgeInsets.only(top: 5)),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        Get.to(() => ForgetPasswordView());
-                                      },
-                                      child: const Text(
-                                        'Forgot Password ?',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.blue,
-                                            fontFamily: 'Poppins'),
-                                      )),
-                                ],
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(right: 12.0),
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.end,
+                            //     children: [
+                            //       InkWell(
+                            //           onTap: () {
+                            //             Get.to(() => ForgetPasswordView());
+                            //           },
+                            //           child: const Text(
+                            //             'Forgot Password ?',
+                            //             textAlign: TextAlign.end,
+                            //             style: TextStyle(
+                            //                 fontSize: 12,
+                            //                 color: Colors.blue,
+                            //                 fontFamily: 'Poppins'),
+                            //           )),
+                            //     ],
+                            //   ),
+                            // ),
                             const Padding(padding: EdgeInsets.only(top: 20)),
                             Obx(
                               () => controller.isLoading.value
-                                  ? Center(
+                                  ? const Center(
                                       child: CircularProgressIndicator(
                                         color: Color(0xFF47B347),
                                       ),
@@ -188,7 +183,7 @@ class LoginView extends GetView<LoginController> {
                             ),
 
                             // const Padding(padding: EdgeInsets.only(top: 5)),
-                            Padding(padding: EdgeInsets.only(top: 10)),
+                            const Padding(padding: EdgeInsets.only(top: 20)),
 
                             SizedBox(
                               child: Row(
@@ -198,13 +193,14 @@ class LoginView extends GetView<LoginController> {
                                   const Text(
                                     'Your account is locked ?',
                                     style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       color: Colors.black,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Padding(padding: EdgeInsets.only(left: 5)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 5)),
                                   InkWell(
                                       onTap: () {
                                         Get.to(() => UnlockAccountView());
@@ -213,7 +209,7 @@ class LoginView extends GetView<LoginController> {
                                         'unlocked here',
                                         textAlign: TextAlign.end,
                                         style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 14,
                                           color: Colors.blue,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -222,7 +218,7 @@ class LoginView extends GetView<LoginController> {
                                 ],
                               ),
                             ),
-                            Padding(padding: EdgeInsets.only(bottom: 10)),
+                            const Padding(padding: EdgeInsets.only(bottom: 10)),
                           ],
                         ),
                       ),

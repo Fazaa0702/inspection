@@ -72,7 +72,7 @@ class WorkerController extends GetxController {
     print('iki tanggal: $dateTime');
     try {
       var res = await http.get(Uri.parse(
-          'https://d472-103-159-203-219.ngrok-free.app/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+          'http://10.83.34.5:8090/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
       if (res.statusCode == 200) {
         final List<dynamic> response = json.decode(res.body);
         activeWorker.value =

@@ -1,5 +1,3 @@
-import 'package:einspection/routes/route_name.dart';
-import 'package:einspection/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -49,15 +47,6 @@ class PasswordRegisterController extends GetxController {
       return [false, "Password cannot contains ' character"];
     }
     return [true, "Password is valid"];
-  }
-
-  void onChanged(password) async {
-    if (password.length > 0) {
-      newPasswordWarning.value = true;
-      newPasswordValidate.value = passwordValidate(password);
-    } else {
-      newPasswordWarning.value = false;
-    }
   }
 
   void registerPassword(String userId) async {

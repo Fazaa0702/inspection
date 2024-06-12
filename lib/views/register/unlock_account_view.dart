@@ -1,3 +1,4 @@
+
 import 'package:einspection/controllers/auth/unlock_account_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,7 @@ class UnlockAccountView extends StatelessWidget {
                                 padding: EdgeInsets.only(
                               top: 10,
                             )),
-                            Text(
+                            const Text(
                               'Username',
                               style: TextStyle(
                                   fontSize: 16,
@@ -123,7 +124,7 @@ class UnlockAccountView extends StatelessWidget {
                             const Padding(padding: EdgeInsets.only(top: 20)),
                             Obx(
                               () => controller.isLoading.value
-                                  ? Center(
+                                  ? const Center(
                                       child: CircularProgressIndicator(
                                         color: Color(0xFF47B347),
                                       ),
@@ -136,7 +137,7 @@ class UnlockAccountView extends StatelessWidget {
                                       }),
                             ),
 
-                            Padding(padding: EdgeInsets.only(bottom: 20)),
+                            const Padding(padding: EdgeInsets.only(bottom: 20)),
                           ],
                         ),
                       ),
