@@ -68,50 +68,44 @@ class _FormSectionState extends State<FormSection> {
                         text: 'Submit',
                         onPressed: () {
                           print('itemiddddd: ${widget.itemId}');
-                          if (_formKey.currentState!.validate()) {
-                            CommonDialog().confirmDialog(
-                                'Confirm',
-                                'Are you sure ?',
-                                'The data you entered will be sent on the web',
-                                () async {
-                              final SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
 
-                              var dataUser = prefs.getString("user").toString();
-                              Map<String, dynamic> userData =
-                                  json.decode(dataUser);
-                              List<Map<String, dynamic>> answersMapList =
-                                  formController.answers
-                                      .map((obj) => obj.toJson())
-                                      .toList();
-
-                              String jsonDataQuestionanswers =
-                                  jsonEncode(answersMapList);
-                              var itemData = json.decode(a);
-                              print(
-                                  'Pengecekannnnn: ${itemData["jumlahPengecekan"]}');
-                              print("data user : ${userData['id']}");
-                              print(
-                                  "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
-                              late AnswerModel answerModel = AnswerModel(
-                                  userId: userData['id'],
-                                  departmentId: widget.departmentId.toInt(),
-                                  inspectionId: widget.inspectionId.toInt(),
-                                  questionAnswers: jsonDataQuestionanswers,
-                                  picItemId: itemData["picItemId"] ?? '',
-                                  itemId: widget.itemId);
-                              formController.submitAnswerCondition(answerModel);
-                              print(
-                                  'Answers: ${jsonEncode(formController.answers)}');
-                              print('piccc: ${itemData["picItemId"]}');
-                              CommonSnackbar.successSnackbar(
-                                  'Success', 'The answer has been sent');
-                              Get.offAllNamed(RouteName.home);
-                            });
-                          } else {
-                            CommonSnackbar.failedSnackbar(
-                                'Gagal', 'Semua pertanyaan harus terjawab');
-                          }
+                          CommonDialog().confirmDialog(
+                              'Confirm',
+                              'Are you sure ?',
+                              'The data you entered will be sent on the web',
+                              () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            var dataUser = prefs.getString("user").toString();
+                            Map<String, dynamic> userData =
+                                json.decode(dataUser);
+                            List<Map<String, dynamic>> answersMapList =
+                                formController.answers
+                                    .map((obj) => obj.toJson())
+                                    .toList();
+                            String jsonDataQuestionanswers =
+                                jsonEncode(answersMapList);
+                            var itemData = json.decode(a);
+                            print(
+                                'Pengecekannnnn: ${itemData["jumlahPengecekan"]}');
+                            print("data user : ${userData['id']}");
+                            print(
+                                "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
+                            late AnswerModel answerModel = AnswerModel(
+                                userId: userData['id'],
+                                departmentId: widget.departmentId.toInt(),
+                                inspectionId: widget.inspectionId.toInt(),
+                                questionAnswers: jsonDataQuestionanswers,
+                                picItemId: itemData["picItemId"] ?? '',
+                                itemId: widget.itemId);
+                            print(
+                                'Answers: ${jsonEncode(formController.answers)}');
+                            formController.submitAnswerCondition(answerModel);
+                            print('itemIDDDD: ${widget.itemId}');
+                            print('PICitemIDDDD: ${itemData["picItemId"]}');
+                            print('piccc: ${itemData["picItemId"]}');
+                            Get.offAllNamed(RouteName.home);
+                          });
                         }))
             ],
           )),
@@ -177,6 +171,7 @@ class _FormSectionState extends State<FormSection> {
     switch (questionType) {
       case 'Text':
         return CommonFormField(
+          width: Get.width,
           initValue: initValue,
           question: questionText,
           readOnly: (initValue == itemData["location"] ||

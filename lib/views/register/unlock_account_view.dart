@@ -1,4 +1,3 @@
-
 import 'package:einspection/controllers/auth/unlock_account_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,7 @@ class UnlockAccountView extends StatelessWidget {
       body: OrientationBuilder(builder: (context, orientation) {
         return Container(
           decoration: const BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
                 colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
           ),
           height: Get.height,
@@ -79,7 +78,7 @@ class UnlockAccountView extends StatelessWidget {
                             ),
                             const Center(
                                 child: Text(
-                              'Unlock Account',
+                              'Reset Password',
                               style: TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,

@@ -52,20 +52,14 @@ class PasswordRegisterController extends GetxController {
   void registerPassword(String userId) async {
     newPassword = newPasswordController.text;
     confirmPassword = confirmPasswordController.text;
-    if (confirmPassword == newPassword) {
-      if (newPassword == '' || confirmPassword == '') {
-        CommonSnackbar.failedSnackbar(
-            'Failed', 'All form field must be filled');
-      }
-      if (newPassword != '' && confirmPassword != '') {
-        await authService.changePassword(userId, confirmPassword);
-        CommonSnackbar.successSnackbar('Success', 'Password has been changed');
-        print(userId);
-        print(confirmPassword);
-        // Get.toNamed(RouteName.login);
-      }
-    } else {
-      CommonSnackbar.failedSnackbar('Failed', 'Invalid Password');
+
+    if (newPassword == '' || confirmPassword == '') {
+      CommonSnackbar.failedSnackbar('Failed', 'All form field must be filled');
+    }
+    if (newPassword != '' && confirmPassword != '') {
+      await authService.changePassword(userId, confirmPassword);
+      print(userId);
+      print(confirmPassword);
     }
   }
 }

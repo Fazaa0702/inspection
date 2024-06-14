@@ -42,14 +42,24 @@ class _FormViewState extends State<FormView> {
         body: OrientationBuilder(builder: (context, orientation) {
           return SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 15, bottom: 10),
+                    child: Text(
+                      'Departments',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Poppins'),
+                    ),
+                  ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     child: Obx(
                       () => controller.dept.isEmpty
                           ? const Center(
@@ -62,14 +72,14 @@ class _FormViewState extends State<FormView> {
                                 isExpanded: true,
                                 decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
+                                      borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(
                                           color: Color(0xFF47B347))),
                                   hintText: 'Departments',
                                   hintStyle:
                                       const TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                                 items: controller.dept.map((DeptModel dept) {
@@ -100,120 +110,160 @@ class _FormViewState extends State<FormView> {
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 15, right: 15, top: 15),
-                      child: Obx(
-                        () => controller.inspect.isEmpty
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xFF47B347),
-                                ),
-                              )
-                            : Center(
-                                child: DropdownButtonFormField<InspectionModel>(
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                            color: Color(0xFF47B347))),
-                                    hintText: 'Inspections',
-                                    hintStyle: const TextStyle(
-                                        color: Colors.grey,
-                                        overflow: TextOverflow.clip),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              'Inspection List',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Poppins'),
+                            ),
+                          ),
+                          Obx(
+                            () => controller.inspect.isEmpty
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xFF47B347),
                                     ),
-                                  ),
-                                  items: controller.inspect
-                                      .map((InspectionModel inspect) {
-                                    return DropdownMenuItem<InspectionModel>(
-                                      value: inspect,
-                                      child: SizedBox(
-                                        width: Get.width * 0.75,
-                                        child: Text(
-                                          inspect.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
+                                  )
+                                : Center(
+                                    child: DropdownButtonFormField<
+                                        InspectionModel>(
+                                      decoration: InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                color: Color(0xFF47B347))),
+                                        hintText: 'Inspection List',
+                                        hintStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            overflow: TextOverflow.clip),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (InspectionModel? newValue) {
-                                    if (newValue != null) {
-                                      setState(() {
-                                        inspectionId = newValue.id;
-                                      });
-                                      print('insID: $inspectionId');
-                                      print('DeptID: $departmentId');
-                                      controller.questions.clear();
-                                      controller.item.clear();
-                                      controller.answers.clear();
+                                      items: controller.inspect
+                                          .map((InspectionModel inspect) {
+                                        return DropdownMenuItem<
+                                            InspectionModel>(
+                                          value: inspect,
+                                          child: SizedBox(
+                                            width: Get.width * 0.75,
+                                            child: Text(
+                                              inspect.name,
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (InspectionModel? newValue) {
+                                        if (newValue != null) {
+                                          setState(() {
+                                            inspectionId = newValue.id;
+                                          });
+                                          print('insID: $inspectionId');
+                                          print('DeptID: $departmentId');
+                                          controller.questions.clear();
+                                          controller.item.clear();
+                                          controller.answers.clear();
 
-                                      controller.fetchItemData(
-                                          inspectionId, departmentId);
-                                    }
-                                  },
+                                          controller.fetchItemData(
+                                              inspectionId, departmentId);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (inspectionId != 0)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 15),
+                      child: Obx(
+                        () => controller.item.isEmpty
+                            ? const Center(
+                                child: Column(
+                                  children: [
+                                    Text('No item available'),
+                                  ],
+                                ),
+                              )
+                            : SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        'Items',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'Poppins'),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: DropdownButtonFormField<ItemModel>(
+                                        decoration: InputDecoration(
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xFF47B347))),
+                                          hintText: 'Items',
+                                          hintStyle: const TextStyle(
+                                              color: Colors.grey),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        items: controller.item
+                                            .map((ItemModel item) {
+                                          return DropdownMenuItem<ItemModel>(
+                                            value: item,
+                                            child: Text(item.itemName),
+                                          );
+                                        }).toList(),
+                                        onChanged: (ItemModel? newValue) {
+                                          CommonDialog().confirmDialog(
+                                              'Confirm',
+                                              'Is the selected data correct ?',
+                                              'Changes can delete the data you have entered previously',
+                                              () {
+                                            if (newValue != null) {
+                                              setState(() {
+                                                a = jsonEncode(newValue);
+                                                itemId = newValue.itemId;
+                                              });
+                                              controller.questions.clear();
+                                              controller.fetchQuestionData(
+                                                  inspectionId);
+                                              controller.fetchOptionConditions(
+                                                  inspectionId);
+                                              print('itemID: $itemId');
+                                              print('DeptID: $departmentId');
+                                              print('InsID: $inspectionId');
+                                              Get.back();
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                       ),
                     ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, top: 15),
-                    child: Obx(
-                      () => controller.item.isEmpty
-                          ? Center(
-                              child: Column(
-                                children: [
-                                  const Text('No item available'),
-                                ],
-                              ),
-                            )
-                          : Center(
-                              child: DropdownButtonFormField<ItemModel>(
-                                decoration: InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: const BorderSide(
-                                          color: Color(0xFF47B347))),
-                                  hintText: 'Items',
-                                  hintStyle:
-                                      const TextStyle(color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                ),
-                                items: controller.item.map((ItemModel item) {
-                                  return DropdownMenuItem<ItemModel>(
-                                    value: item,
-                                    child: Text(item.itemName),
-                                  );
-                                }).toList(),
-                                onChanged: (ItemModel? newValue) {
-                                  CommonDialog().confirmDialog(
-                                      'Confirm',
-                                      'Is the selected data correct ?',
-                                      'Changes can delete the data you have entered previously',
-                                      () {
-                                    if (newValue != null) {
-                                      setState(() {
-                                        a = jsonEncode(newValue);
-                                        itemId = newValue.itemId;
-                                      });
-                                      controller.questions.clear();
-                                      controller
-                                          .fetchQuestionData(inspectionId);
-                                      controller
-                                          .fetchOptionConditions(inspectionId);
-                                      print('itemID: $itemId');
-                                      print('DeptID: $departmentId');
-                                      print('InsID: $inspectionId');
-                                      Get.back();
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                    ),
-                  ),
                   FormSection(
                     departmentId: departmentId,
                     inspectionId: inspectionId,

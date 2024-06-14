@@ -206,7 +206,7 @@ class LoginView extends GetView<LoginController> {
                                         Get.to(() => UnlockAccountView());
                                       },
                                       child: const Text(
-                                        'unlocked here',
+                                        'reset password',
                                         textAlign: TextAlign.end,
                                         style: TextStyle(
                                           fontSize: 14,

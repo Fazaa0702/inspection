@@ -31,7 +31,7 @@ class LogModel {
 
   factory LogModel.fromJson(Map<String, dynamic> json) => LogModel(
         id: json["id"],
-        dateTime: json["dateTime"],
+        dateTime: json["dateTime"] ?? '',
         inspectionName: json["inspectionName"],
         inspectorName: json["inspectorName"],
         buName: json["buName"],

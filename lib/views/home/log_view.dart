@@ -35,7 +35,7 @@ class LogView extends StatelessWidget {
               },
               rowsPerPage: homeController.rowsPerPage.value,
               columns: const [
-                // DataColumn(label: Text('Id')),
+                DataColumn(label: Text('Id')),
                 DataColumn(label: Text('Time')),
                 DataColumn(label: Text('Inspection')),
                 DataColumn(label: Text('Ispector')),

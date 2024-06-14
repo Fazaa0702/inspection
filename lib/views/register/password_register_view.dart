@@ -247,6 +247,16 @@ class PasswordRegisterView extends StatelessWidget {
                                 height: 45,
                                 child: Obx(
                                   () => TextFormField(
+                                    // onChanged: (value) {
+                                    //   value = controller
+                                    //       .confirmPasswordController.text;
+                                    //   if (value !=
+                                    //       controller
+                                    //           .newPasswordController.text) {
+                                    //     controller.newPasswordWarning.value =
+                                    //         false;
+                                    //   }
+                                    // },
                                     obscureText: controller
                                         .isConfirmPasswordVisible.value,
                                     enableSuggestions: false,
@@ -288,8 +298,9 @@ class PasswordRegisterView extends StatelessWidget {
                                 text: 'Submit',
                                 backgroundColor: Colors.black,
                                 onPressed: () {
-                                  if (controller.newPasswordWarning.value ==
-                                      true) {
+                                  if (controller.newPasswordController.text ==
+                                      controller
+                                          .confirmPasswordController.text) {
                                     CommonDialog().confirmDialog(
                                         'Confirm',
                                         'Are you sure to change your password ?',

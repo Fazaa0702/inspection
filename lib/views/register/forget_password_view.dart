@@ -16,8 +16,8 @@ class ForgetPasswordView extends StatelessWidget {
       body: OrientationBuilder(builder: (context, orientation) {
         return Container(
           decoration: const BoxDecoration(
-            gradient: const LinearGradient(
-                colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
+            gradient:
+                LinearGradient(colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
           ),
           height: Get.height,
           width: Get.width,
@@ -88,7 +88,7 @@ class ForgetPasswordView extends StatelessWidget {
                                 padding: EdgeInsets.only(
                               top: 10,
                             )),
-                            Text(
+                            const Text(
                               'Username',
                               style: TextStyle(
                                   fontSize: 16,
@@ -120,7 +120,7 @@ class ForgetPasswordView extends StatelessWidget {
                               ),
                             ),
                             const Padding(padding: EdgeInsets.only(top: 15)),
-                            Text(
+                            const Text(
                               'New Password',
                               style: TextStyle(
                                   fontSize: 16,
@@ -168,7 +168,7 @@ class ForgetPasswordView extends StatelessWidget {
                                   ),
                                 )),
                             const Padding(padding: EdgeInsets.only(top: 15)),
-                            Text(
+                            const Text(
                               'Confirm Password',
                               style: TextStyle(
                                   fontSize: 16,
@@ -222,7 +222,7 @@ class ForgetPasswordView extends StatelessWidget {
                                 text: 'Submit',
                                 backgroundColor: Colors.black,
                                 onPressed: () {}),
-                            Padding(padding: EdgeInsets.only(bottom: 20)),
+                            const Padding(padding: EdgeInsets.only(bottom: 20)),
                           ],
                         ),
                       ),

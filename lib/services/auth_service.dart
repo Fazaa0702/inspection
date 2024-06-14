@@ -52,7 +52,8 @@ class AuthService {
       message = userModel.message;
       if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         if (loginCode == 1) {
-          CommonSnackbar.failedSnackbar('Failed', message);
+          CommonSnackbar.failedSnackbar(
+              'Failed', '$message, Please reset your password');
         } else if (loginCode == 2) {
           Get.to(() => PasswordRegisterView(
                 userId: userId,
@@ -99,6 +100,7 @@ class AuthService {
 
   Future<void> changePasswordConditional(res) async {
     if (res.statusCode == 200) {
+      CommonSnackbar.successSnackbar('Success', 'Password has been changed');
       Get.offAllNamed(RouteName.login);
     } else if (res.statusCode == 400) {
       var userModel = UserModel.fromJson(json.decode(res.body));
@@ -108,6 +110,7 @@ class AuthService {
       message = userModel.message;
       if (loginCode == 4) {
         CommonSnackbar.failedSnackbar('Failed', message);
+        Get.back();
       } else if (loginCode == 5) {
         CommonSnackbar.failedSnackbar('Failed', message);
         print('resssssssssssssss: ${res.body}');

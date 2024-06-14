@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:einspection/export.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
+import '../routes/route_name.dart';
 
 class FormService {
   Future<List<QuestionModel>> getQuestions(int inspectionId) async {
@@ -17,6 +19,7 @@ class FormService {
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
       print("result: $data");
+
       return data.map((json) => QuestionModel.fromJson(json)).toList();
     } else {
       CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
@@ -41,9 +44,12 @@ class FormService {
     print('resbody : ${res.body}');
     print("json data = ${jsonData}");
     print("answerrrrrrrrrsssssss: ${answer["picItemId"]}");
+    print('statusCodeee = ${res.statusCode}');
     if (res.statusCode == 200) {
-      return 'Sukses';
+      CommonSnackbar.successSnackbar('Success', 'Your answer has been sent');
+      print("sukses : oke");
     } else {
+      CommonSnackbar.failedSnackbar('failed', 'Your answer cannot sent');
       print("errror : ${e}");
     }
   }

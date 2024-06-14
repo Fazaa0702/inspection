@@ -13,10 +13,11 @@ class LogData extends DataTableSource {
       return null;
     }
     final log = _logs[index];
-    // String formattedDateTime = DateFormat('dd-MM-yyyy').format(log.dateTime);
+    // String formattedDateTime =
+    //     DateFormat('dd-MM-yyyy HH:mm').format(log.dateTime);
 
     return DataRow(cells: [
-      // DataCell(Text(log.id)),
+      DataCell(Text(log.id)),
       DataCell(Text(log.dateTime)),
       DataCell(Text(log.inspectionName)),
       DataCell(Text(log.inspectorName)),

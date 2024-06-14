@@ -40,54 +40,59 @@ class _ImagePickerSectionState extends State<ImagePickerSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFormField(
-          readOnly: true,
-          controller: widget.textEditingController,
-          onTap: () {
-            showModalBottomSheet<void>(
-                useSafeArea: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CommonFeatureButton(
-                            buttonColor: const Color(0xFFFDF0CC),
-                            onPressed: getImageFromCamera,
-                            image: 'assets/images/formButton1.png',
-                            text: 'Camera',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          CommonFeatureButton(
-                            buttonColor: const Color(0xFFD4F4FE),
-                            onPressed: getImageFromGallery,
-                            image: 'assets/images/formButton2.png',
-                            text: 'Gallery',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ],
+        SizedBox(
+          width: Get.width * 0.90,
+          child: TextFormField(
+            readOnly: true,
+            controller: widget.textEditingController,
+            onTap: () {
+              showModalBottomSheet<void>(
+                  useSafeArea: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CommonFeatureButton(
+                              buttonColor: const Color(0xFFFDF0CC),
+                              onPressed: getImageFromCamera,
+                              image: 'assets/images/formButton1.png',
+                              text: 'Camera',
+                              fontWeight: FontWeight.w600,
+                            ),
+                            CommonFeatureButton(
+                              buttonColor: const Color(0xFFD4F4FE),
+                              onPressed: getImageFromGallery,
+                              image: 'assets/images/formButton2.png',
+                              text: 'Gallery',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                });
-          },
-          style: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w400, fontFamily: 'Poppins'),
-          cursorColor: const Color(0xFF47B347),
-          decoration: InputDecoration(
-              hintText: hintText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Color(0xFF47B347)))),
+                    );
+                  });
+            },
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Poppins'),
+            cursorColor: const Color(0xFF47B347),
+            decoration: InputDecoration(
+                hintText: hintText,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Color(0xFF47B347)))),
+          ),
         ),
         if (selectedImage != null)
           Padding(
