@@ -52,8 +52,8 @@ class AuthService {
       message = userModel.message;
       if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
         if (loginCode == 1) {
-          CommonSnackbar.failedSnackbar(
-              'Failed', '$message, Please reset your password');
+          CommonSnackbar.failedSnackbar('Failed',
+              'Ups your account is locked, please reset your password');
         } else if (loginCode == 2) {
           Get.to(() => PasswordRegisterView(
                 userId: userId,
@@ -137,7 +137,7 @@ class AuthService {
   Future<void> unlockAccountConditional(res) async {
     if (res.statusCode == 200) {
       CommonSnackbar.successSnackbar(
-          'Success', 'Please wait until admin unlock your account');
+          'Success', 'Please wait until admin reset your password');
       Get.offAllNamed(RouteName.login);
     } else {
       CommonSnackbar.failedSnackbar('Failed', 'Username not found');

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:einspection/routes/route_name.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,7 +52,6 @@ class FormController extends GetxController {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      // CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
       print(e);
     }
   }
@@ -96,7 +94,6 @@ class FormController extends GetxController {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      // CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
       print(e);
     }
   }
@@ -111,7 +108,6 @@ class FormController extends GetxController {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      // CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
       print(e);
     }
   }
@@ -133,7 +129,6 @@ class FormController extends GetxController {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      // CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
       print(e);
     }
   }
@@ -141,23 +136,11 @@ class FormController extends GetxController {
   Future<void> submitAnswerCondition(AnswerModel answerModel) async {
     try {
       print('aaaannnnssswwweeerrr: ${answerModel.toJson()}');
-
       await _formService.submitAnswerService(answerModel.toJson());
-      // print("success value : $success");
-      // if (success) {
-      //   CommonSnackbar.successSnackbar('Success', 'The answer has been sent');
-      //   Get.offAllNamed(RouteName.home);
-      //   print('Data terkirim ke database');
-      // } else {
-      //   CommonSnackbar.failedSnackbar('Failed', 'The answers cannot sent');
-      //   Get.offAllNamed(RouteName.home);
-      //   print('Gagal mengirim data ke database');
-      // }
     } on SocketException {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      // CommonSnackbar.failedSnackbar('Error', 'An unexpected error occurred');
       print(e);
     }
   }

@@ -48,7 +48,8 @@ class WorkerController extends GetxController {
   Future<void> fetchWorkerData(String workPermitId) async {
     try {
       var res = await http.get(Uri.parse(
-          '${Constants.apiUrlHse}/api/work-permit/worker?workPermitId=$workPermitId'));
+          '${Constants.apiUrlIsc}/api/work-permit/worker?workPermitId=$workPermitId'));
+      print('iscServer: ${Constants.apiUrlIsc}');
       if (res.statusCode == 200) {
         final List<dynamic> response = json.decode(res.body);
         worker.assignAll(
@@ -72,7 +73,7 @@ class WorkerController extends GetxController {
     print('iki tanggal: $dateTime');
     try {
       var res = await http.get(Uri.parse(
-          'http://10.83.34.5:8090/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+          '${Constants.apiUrlIsc}/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
       if (res.statusCode == 200) {
         final List<dynamic> response = json.decode(res.body);
         activeWorker.value =
@@ -85,8 +86,7 @@ class WorkerController extends GetxController {
         print('value = $workerPerDay');
       } else {
         print('${res.statusCode}');
-        CommonSnackbar.failedSnackbar('Tidak Terhubung Server',
-            'Tidak dapat mengambil data active worker');
+        CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
       }
     } on SocketException {
       CommonSnackbar.failedSnackbar(

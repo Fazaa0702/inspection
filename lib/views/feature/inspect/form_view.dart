@@ -95,6 +95,7 @@ class _FormViewState extends State<FormView> {
                                           departmentId = newValue.id;
                                         })
                                       : null;
+
                                   controller.item.clear();
                                   controller.questions.clear();
                                   controller.inspect.clear();

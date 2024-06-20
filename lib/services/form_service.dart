@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:einspection/export.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
-import '../routes/route_name.dart';
 
 class FormService {
   Future<List<QuestionModel>> getQuestions(int inspectionId) async {
@@ -49,7 +47,7 @@ class FormService {
       CommonSnackbar.successSnackbar('Success', 'Your answer has been sent');
       print("sukses : oke");
     } else {
-      CommonSnackbar.failedSnackbar('failed', 'Your answer cannot sent');
+      // CommonSnackbar.failedSnackbar('failed', 'Your answer cannot sent');
       print("errror : ${e}");
     }
   }

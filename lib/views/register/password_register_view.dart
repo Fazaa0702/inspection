@@ -153,7 +153,6 @@ class PasswordRegisterView extends StatelessWidget {
                                 ),
                               ],
                             ),
-
                             const Padding(
                                 padding: EdgeInsets.only(
                               top: 10,
@@ -225,15 +224,6 @@ class PasswordRegisterView extends StatelessWidget {
                                     },
                                   ),
                                 )),
-                            // Obx(() => Text(
-                            //       controller.warningText.value,
-                            //       style: TextStyle(
-                            //           color:
-                            //               controller.newPasswordWarning.value ==
-                            //                       true
-                            //                   ? Color(0xFF47B347)
-                            //                   : Colors.red),
-                            //     )),
                             const Padding(padding: EdgeInsets.only(top: 15)),
                             const Text(
                               'Confirm Password',
@@ -247,16 +237,6 @@ class PasswordRegisterView extends StatelessWidget {
                                 height: 45,
                                 child: Obx(
                                   () => TextFormField(
-                                    // onChanged: (value) {
-                                    //   value = controller
-                                    //       .confirmPasswordController.text;
-                                    //   if (value !=
-                                    //       controller
-                                    //           .newPasswordController.text) {
-                                    //     controller.newPasswordWarning.value =
-                                    //         false;
-                                    //   }
-                                    // },
                                     obscureText: controller
                                         .isConfirmPasswordVisible.value,
                                     enableSuggestions: false,

@@ -1,7 +1,6 @@
 import 'package:einspection/export.dart';
 import 'package:einspection/views/register/unlock_account_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -46,7 +45,6 @@ class LoginView extends GetView<LoginController> {
                             const SizedBox(
                               height: 10,
                             ),
-
                             const SizedBox(
                               height: 20,
                             ),
@@ -70,7 +68,6 @@ class LoginView extends GetView<LoginController> {
                                   fontFamily: 'Poppins'),
                             ),
                             const Padding(padding: EdgeInsets.only(top: 5)),
-
                             SizedBox(
                               height: 45,
                               child: TextFormField(
@@ -145,26 +142,6 @@ class LoginView extends GetView<LoginController> {
                                   ),
                                 )),
                             const Padding(padding: EdgeInsets.only(top: 5)),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(right: 12.0),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.end,
-                            //     children: [
-                            //       InkWell(
-                            //           onTap: () {
-                            //             Get.to(() => ForgetPasswordView());
-                            //           },
-                            //           child: const Text(
-                            //             'Forgot Password ?',
-                            //             textAlign: TextAlign.end,
-                            //             style: TextStyle(
-                            //                 fontSize: 12,
-                            //                 color: Colors.blue,
-                            //                 fontFamily: 'Poppins'),
-                            //           )),
-                            //     ],
-                            //   ),
-                            // ),
                             const Padding(padding: EdgeInsets.only(top: 20)),
                             Obx(
                               () => controller.isLoading.value
@@ -181,10 +158,7 @@ class LoginView extends GetView<LoginController> {
                                         controller.emptyForm();
                                       }),
                             ),
-
-                            // const Padding(padding: EdgeInsets.only(top: 5)),
                             const Padding(padding: EdgeInsets.only(top: 20)),
-
                             SizedBox(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
