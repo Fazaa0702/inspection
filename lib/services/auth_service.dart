@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,8 +15,10 @@ import '../constants.dart';
 class AuthService {
   var message = '';
   var loginCode;
+
   var userId = '';
   var user = '';
+  // UserModel? userModel;
 
   Map<String, dynamic> createData(String username, String password) {
     var data = {"username": username, "password": password};
@@ -39,8 +42,12 @@ class AuthService {
       print(loginCode);
       print(userId);
       print(user);
-      if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
+      if (userModel.userLevelId == 2 ||
+          userModel.userLevelId == 0 ||
+          userModel.userLevelId == 6) {
         await prefs.setString('user', res.body);
+        CommonSnackbar.successSnackbar(
+            'Success', 'Welcome ${userModel.name} to HSE Connect', false);
         Get.toNamed(RouteName.home);
       }
       return 'OK';
@@ -50,7 +57,9 @@ class AuthService {
       userId = userModel.userId!;
       user = userModel.name;
       message = userModel.message;
-      if (userModel.userLevelId == 2 || userModel.userLevelId == 0) {
+      if (userModel.userLevelId == 2 ||
+          userModel.userLevelId == 0 ||
+          userModel.userLevelId == 6) {
         if (loginCode == 1) {
           CommonSnackbar.failedSnackbar('Failed',
               'Ups your account is locked, please reset your password');
@@ -69,7 +78,7 @@ class AuthService {
       return 'not found';
     } else {
       CommonSnackbar.failedSnackbar(
-          'Failed', 'Ups your username or password is invalid');
+          '${res.statusCode}', 'not Connected with server');
       return 'error';
     }
   }
@@ -80,7 +89,9 @@ class AuthService {
       var headers = {'Content-Type': 'application/json'};
       var body = json.encode(createData(username, password));
 
-      var res = await http.post(url, body: body, headers: headers);
+      var res = await http
+          .post(url, body: body, headers: headers)
+          .timeout(const Duration(seconds: 10));
       print('result : ${res.body}');
       print('body: $body');
       print('url: $url');
@@ -90,9 +101,17 @@ class AuthService {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
       return '';
+    } on http.ClientException catch (e) {
+      print('client exception: $e');
+      return '';
+    } on TimeoutException {
+      CommonSnackbar.failedSnackbar(
+          'Connection time out', 'Please check your internet connection');
+      return '';
     } catch (e) {
       if (kDebugMode) {
         print('Error: $e');
+        return '';
       }
       return 'Inputan salah, silahkan coba kembali';
     }
@@ -100,7 +119,8 @@ class AuthService {
 
   Future<void> changePasswordConditional(res) async {
     if (res.statusCode == 200) {
-      CommonSnackbar.successSnackbar('Success', 'Password has been changed');
+      CommonSnackbar.successSnackbar(
+          'Success', 'Password has been changed', false);
       Get.offAllNamed(RouteName.login);
     } else if (res.statusCode == 400) {
       var userModel = UserModel.fromJson(json.decode(res.body));
@@ -125,8 +145,15 @@ class AuthService {
           Uri.parse('${Constants.apiUrlHse}/api/loginApi/change-password');
       var headers = {'Content-Type': 'application/json'};
       var body = json.encode(requestChangePassword(userId, password));
-      var res = await http.post(url, body: body, headers: headers);
+      var res = await http
+          .post(url, body: body, headers: headers)
+          .timeout(const Duration(seconds: 10));
       changePasswordConditional(res);
+    } on http.ClientException catch (e) {
+      print('client exception: $e');
+    } on TimeoutException {
+      CommonSnackbar.failedSnackbar(
+          'Connection time out', 'Please check your internet connection');
     } catch (e) {
       if (kDebugMode) {
         print('Error: $e');
@@ -137,7 +164,7 @@ class AuthService {
   Future<void> unlockAccountConditional(res) async {
     if (res.statusCode == 200) {
       CommonSnackbar.successSnackbar(
-          'Success', 'Please wait until admin reset your password');
+          'Success', 'Please wait until admin reset your password', false);
       Get.offAllNamed(RouteName.login);
     } else {
       CommonSnackbar.failedSnackbar('Failed', 'Username not found');
@@ -148,8 +175,13 @@ class AuthService {
     try {
       var url = Uri.parse(
           '${Constants.apiUrlHse}/api/loginApi/request-unlock-account?username=$username');
-      var res = await http.post(url);
+      var res = await http.post(url).timeout(const Duration(seconds: 10));
       unlockAccountConditional(res);
+    } on http.ClientException catch (e) {
+      print('client exception: $e');
+    } on TimeoutException {
+      CommonSnackbar.failedSnackbar(
+          'Connection time out', 'Please check your internet connection');
     } catch (e) {
       if (kDebugMode) {
         print('Error: $e');

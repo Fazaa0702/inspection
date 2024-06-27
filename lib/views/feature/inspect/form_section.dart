@@ -92,19 +92,24 @@ class _FormSectionState extends State<FormSection> {
                             print(
                                 "ini value dept n inspect : ${widget.departmentId}, ${widget.inspectionId}");
                             late AnswerModel answerModel = AnswerModel(
-                                userId: userData['id'],
-                                departmentId: widget.departmentId.toInt(),
-                                inspectionId: widget.inspectionId.toInt(),
-                                questionAnswers: jsonDataQuestionanswers,
-                                picItemId: itemData["picItemId"] ?? '',
-                                itemId: widget.itemId);
+                              userId: userData['id'],
+                              departmentId: widget.departmentId.toInt(),
+                              inspectionId: widget.inspectionId.toInt(),
+                              itemId: widget.itemId,
+                              picItemId: itemData["picItemId"] ?? '',
+                              questionAnswers: jsonDataQuestionanswers,
+                            );
                             print(
                                 'Answers: ${jsonEncode(formController.answers)}');
                             formController.submitAnswerCondition(answerModel);
                             print('itemIDDDD: ${widget.itemId}');
                             print('PICitemIDDDD: ${itemData["picItemId"]}');
                             print('piccc: ${itemData["picItemId"]}');
-                            Get.offAllNamed(RouteName.home);
+                            Get.back();
+                            CommonSnackbar.successSnackbar('Succes',
+                                'Please wait until your data sended', false);
+
+                            // Get.offAllNamed(RouteName.home);
                           });
                         }))
             ],

@@ -95,7 +95,9 @@ class _FormViewState extends State<FormView> {
                                           departmentId = newValue.id;
                                         })
                                       : null;
-
+                                  if (inspectionId != 0) {
+                                    inspectionId = 0;
+                                  }
                                   controller.item.clear();
                                   controller.questions.clear();
                                   controller.inspect.clear();
@@ -174,9 +176,11 @@ class _FormViewState extends State<FormView> {
                                           controller.questions.clear();
                                           controller.item.clear();
                                           controller.answers.clear();
-
                                           controller.fetchItemData(
                                               inspectionId, departmentId);
+                                        }
+                                        if (itemId != '') {
+                                          itemId = '';
                                         }
                                       },
                                     ),

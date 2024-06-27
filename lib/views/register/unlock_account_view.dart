@@ -16,8 +16,8 @@ class UnlockAccountView extends StatelessWidget {
       body: OrientationBuilder(builder: (context, orientation) {
         return Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
+            gradient:
+                LinearGradient(colors: [Color(0xFF47B347), Color(0xFF7FCC1E)]),
           ),
           height: Get.height,
           width: Get.width,
@@ -49,12 +49,6 @@ class UnlockAccountView extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            // Center(
-                            //   child: Image.asset(
-                            //     'assets/images/login1.png',
-                            //     width: Get.width,
-                            //   ),
-                            // ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -72,7 +66,6 @@ class UnlockAccountView extends StatelessWidget {
                                     ),
                                   ],
                                 )),
-
                             const SizedBox(
                               height: 20,
                             ),
@@ -135,7 +128,6 @@ class UnlockAccountView extends StatelessWidget {
                                         controller.unlockAccount();
                                       }),
                             ),
-
                             const Padding(padding: EdgeInsets.only(bottom: 20)),
                           ],
                         ),

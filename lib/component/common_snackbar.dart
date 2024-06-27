@@ -15,11 +15,12 @@ class CommonSnackbar {
     );
   }
 
-  static successSnackbar(String title, String message) {
+  static successSnackbar(String title, String message, bool? progressIndicator) {
     return Get.snackbar(
       title,
       message,
       backgroundColor: const Color(0xFF1F991F),
+      showProgressIndicator: progressIndicator ?? false,
       colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
       margin: const EdgeInsets.all(20),

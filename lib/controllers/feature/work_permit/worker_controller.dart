@@ -13,8 +13,8 @@ class WorkerController extends GetxController {
   var worker = <WorkerModel>[].obs;
   var originalWorker = <WorkerModel>[].obs;
   var isLoadWorkerData = true.obs;
-  var activeWorker = <ActiveWorkerModel>[].obs;
-  var workerPerDay = <WorkerActive>[].obs;
+  // var activeWorker = <ActiveWorkerModel>[].obs;
+  var workerActive = <WorkerActive>[].obs;
   var selectedDate = Rx<DateTime?>(DateTime.now());
   var searchFieldController = TextEditingController();
 
@@ -48,7 +48,7 @@ class WorkerController extends GetxController {
   Future<void> fetchWorkerData(String workPermitId) async {
     try {
       var res = await http.get(Uri.parse(
-          '${Constants.apiUrlIsc}/api/work-permit/worker?workPermitId=$workPermitId'));
+          '${Constants.apiUrlHse}/api/work-permit/worker?workPermitId=$workPermitId'));
       print('iscServer: ${Constants.apiUrlIsc}');
       if (res.statusCode == 200) {
         final List<dynamic> response = json.decode(res.body);
@@ -70,20 +70,27 @@ class WorkerController extends GetxController {
 
   Future<void> fetchActiveWorkerData(
       String workPermitId, String dateTime) async {
+    var encodeWorkPermitId = Uri.encodeComponent(workPermitId);
+    print(encodeWorkPermitId);
     print('iki tanggal: $dateTime');
+    print('');
     try {
       var res = await http.get(Uri.parse(
-          '${Constants.apiUrlIsc}/api/WorkPermit/ActiveWorker/$workPermitId/$dateTime'));
+          'http://10.83.34.6:8091/api/WorkPermit/ActiveWorker/$encodeWorkPermitId/$dateTime'));
       if (res.statusCode == 200) {
+        print(res.body);
         final List<dynamic> response = json.decode(res.body);
-        activeWorker.value =
-            response.map((data) => ActiveWorkerModel.fromJson(data)).toList();
-        workerPerDay.value = response
-            .map((data) => ActiveWorkerModel.fromJson(data).worker)
-            .expand((workerPerDay) => workerPerDay)
+        print('ressss: $response');
+        workerActive.value = response
+            .map((json) => ActiveWorkerModel.fromJson(json).worker)
+            .expand((worker) => worker)
             .toList();
-        print('active workerrr: ${res.body}');
-        print('value = $workerPerDay');
+        print('worker active $workerActive');
+        // var workerPerDay = ActiveWorkerModel.fromJson(json.decode(res.body));
+        // workerActive.value = workerPerDay.worker;
+
+        print('active workerrr: ${workerActive}');
+        print('');
       } else {
         print('${res.statusCode}');
         CommonSnackbar.failedSnackbar('Failed', 'Not connected with server');
@@ -92,7 +99,7 @@ class WorkerController extends GetxController {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
     } catch (e) {
-      print(e);
+      print('errorrr $e');
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_datawedge/flutter_datawedge.dart';
 import 'package:flutter_datawedge/models/scan_result.dart';
@@ -9,6 +8,7 @@ class ScanController extends GetxController {
   late StreamSubscription<ScanResult> onScanResultListener;
   List<ScanResult> scanResults = [];
   late FlutterDataWedge fdw;
+  var itemId = '';
 
   final scannerMode = false.obs;
 
@@ -36,10 +36,13 @@ class ScanController extends GetxController {
   Future<void> initScanner() async {
     fdw = FlutterDataWedge(profileName: 'HSEConnect');
     onScanResultListener = fdw.onScanResult.listen((result) async {
-      print('Data: ${jsonEncode(result.data)}');
+      // print('Data: ${jsonEncode(result.data)}');
       print('Data: ${result.data}');
+      itemId = result.data;
+      print('Dataaaa: $itemId');
     });
 
     await fdw.initialize();
   }
+  
 }

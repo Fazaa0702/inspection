@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -112,7 +113,7 @@ class FormController extends GetxController {
     }
   }
 
-  Future<void> fetchItemData(int inspectionId, int departmentId) async {
+  Future<void> fetchItemData(int? inspectionId, int? departmentId) async {
     try {
       final res = await http.get(Uri.parse(
           '${Constants.apiUrlHse}/api/ApiItem/inspection?inspectionId=$inspectionId&departmentId=$departmentId'));
@@ -140,8 +141,13 @@ class FormController extends GetxController {
     } on SocketException {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
+    } on http.ClientException catch (e) {
+      print('client exception: $e');
+    } on TimeoutException {
+      CommonSnackbar.failedSnackbar(
+          'Connection time out', 'Please check your internet connection');
     } catch (e) {
-      print(e);
+      print('tes: $e');
     }
   }
 

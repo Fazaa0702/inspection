@@ -22,7 +22,7 @@ class WorkerList extends StatelessWidget {
     var date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
 
     workerController.fetchWorkerData(workPermitId);
-    // workerController.fetchActiveWorkerData(workPermitId, date);
+    workerController.fetchActiveWorkerData(workPermitId, date);
     return Scaffold(
         appBar: CommonAppBar(
           title: 'Worker (ID: $workPermitId)',
@@ -67,11 +67,12 @@ class WorkerList extends StatelessWidget {
                                   .format(pickedTime)
                                   .toString();
                               print('Date: $date');
+
                               print(date);
                               print(workPermitId);
                             }
-                            // workerController.fetchActiveWorkerData(
-                            //     workPermitId, date);
+                            workerController.fetchActiveWorkerData(
+                                workPermitId, date);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -100,7 +101,7 @@ class WorkerList extends StatelessWidget {
                   ),
                 ),
                 Obx(
-                  () => (workerController.workerPerDay.isEmpty)
+                  () => (workerController.workerActive.isEmpty)
                       ? const Center(
                           child: Column(
                             children: [
@@ -114,10 +115,10 @@ class WorkerList extends StatelessWidget {
                           child: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: workerController.workerPerDay.length,
+                              itemCount: workerController.workerActive.length,
                               itemBuilder: ((context, index) {
                                 final workerActive =
-                                    workerController.workerPerDay[index];
+                                    workerController.workerActive[index];
                                 return InkWell(
                                   child: Container(
                                     margin: const EdgeInsets.all(8),
@@ -142,12 +143,12 @@ class WorkerList extends StatelessWidget {
                                                 fontFamily: 'Poppins'),
                                           ),
                                           Text(
-                                            'Speciality: ${workerActive.inTime}',
+                                            'Time in: ${workerActive.inTime}',
                                             style: const TextStyle(
                                                 fontFamily: 'Poppins'),
                                           ),
                                           Text(
-                                              'Certification: ${workerActive.outTime}',
+                                              'Time out: ${workerActive.outTime}',
                                               style: const TextStyle(
                                                   fontFamily: 'Poppins')),
                                         ],

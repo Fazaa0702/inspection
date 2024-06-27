@@ -32,8 +32,8 @@ class LoginController extends GetxController {
   Future<void> enterHome() async {
     if (message == '') {
       isLoading.value = false;
-      CommonSnackbar.successSnackbar(
-          'Success', 'Welcome to HSE Connect ${user.value}');
+      // CommonSnackbar.successSnackbar(
+      //     'Success', 'Welcome to HSE Connect ${user.value}');
       // Get.offAllNamed(RouteName.home);
       // Get.to(() => PasswordRegisterView(username: username));
       print('user: $user');

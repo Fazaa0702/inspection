@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:einspection/export.dart';
+import 'package:einspection/routes/route_name.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -12,7 +14,7 @@ class FormService {
       Uri.parse(
           '${Constants.apiUrlHse}/api/inspection/question?inspectionId=$inspectionId'),
       headers: {'Content-Type': 'application/json'},
-    );
+    ).timeout(const Duration(seconds: 10));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
@@ -37,18 +39,21 @@ class FormService {
     final res = await http.post(
         Uri.parse('${Constants.apiUrlHse}/api/inspectionResult'),
         body: jsonData,
-        headers: {'Content-Type': 'application/json'});
+        headers: {
+          'Content-Type': 'application/json'
+        }).timeout(const Duration(seconds: 10));
 
     print('resbody : ${res.body}');
     print("json data = ${jsonData}");
     print("answerrrrrrrrrsssssss: ${answer["picItemId"]}");
     print('statusCodeee = ${res.statusCode}');
     if (res.statusCode == 200) {
-      CommonSnackbar.successSnackbar('Success', 'Your answer has been sent');
+      CommonSnackbar.successSnackbar('Success', 'Your answer has been sent', false);
+      Get.offAllNamed(RouteName.home);
       print("sukses : oke");
     } else {
-      // CommonSnackbar.failedSnackbar('failed', 'Your answer cannot sent');
-      print("errror : ${e}");
+      CommonSnackbar.failedSnackbar('failed', 'Your answer cannot sent');
+      print("errror : ${res.statusCode}");
     }
   }
 }
