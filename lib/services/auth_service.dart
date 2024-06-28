@@ -31,7 +31,7 @@ class AuthService {
     return request;
   }
 
-  Future<String> conditionalStatus(res) async {
+  Future<void> conditionalStatus(res) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (res.statusCode == 200) {
       var userModel = UserModel.fromJson(json.decode(res.body));
@@ -50,7 +50,6 @@ class AuthService {
             'Success', 'Welcome ${userModel.name} to HSE Connect', false);
         Get.toNamed(RouteName.home);
       }
-      return 'OK';
     } else if (res.statusCode == 400) {
       var userModel = UserModel.fromJson(json.decode(res.body));
       loginCode = userModel.loginCode;
@@ -75,15 +74,13 @@ class AuthService {
         CommonSnackbar.failedSnackbar(
             'Failed', 'Ups your account not have permission');
       }
-      return 'not found';
     } else {
       CommonSnackbar.failedSnackbar(
-          '${res.statusCode}', 'not Connected with server');
-      return 'error';
+          '${res.statusCode}', 'Ups invalid username or password');
     }
   }
 
-  Future<String> loginService(String username, String password) async {
+  Future<void> loginService(String username, String password) async {
     try {
       var url = Uri.parse('${Constants.apiUrlHse}/api/loginApi');
       var headers = {'Content-Type': 'application/json'};
@@ -96,24 +93,19 @@ class AuthService {
       print('body: $body');
       print('url: $url');
 
-      return conditionalStatus(res);
+      conditionalStatus(res);
     } on SocketException {
       CommonSnackbar.failedSnackbar(
           'Error', 'Please check your internet connection');
-      return '';
     } on http.ClientException catch (e) {
       print('client exception: $e');
-      return '';
     } on TimeoutException {
       CommonSnackbar.failedSnackbar(
           'Connection time out', 'Please check your internet connection');
-      return '';
     } catch (e) {
       if (kDebugMode) {
         print('Error: $e');
-        return '';
       }
-      return 'Inputan salah, silahkan coba kembali';
     }
   }
 

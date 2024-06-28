@@ -23,7 +23,7 @@ class LoginController extends GetxController {
 
   void login() async {
     if (username != '' && password != '') {
-      message = await authService.loginService(username, password);
+      await authService.loginService(username, password);
       user.value = authService.user.toUpperCase();
       enterHome();
     }

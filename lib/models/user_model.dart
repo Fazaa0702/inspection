@@ -6,7 +6,6 @@ class UserModel {
   final String password;
   final int departmentId;
   final int userLevelId;
-  final int workPermitRoleId;
   final String message;
   final int? loginCode;
   final String? userId;
@@ -19,7 +18,6 @@ class UserModel {
     required this.password,
     required this.departmentId,
     required this.userLevelId,
-    required this.workPermitRoleId,
     required this.message,
     this.loginCode,
     this.userId,
@@ -33,7 +31,6 @@ class UserModel {
         password: json["password"] ?? '',
         departmentId: json["departmentId"] ?? 0,
         userLevelId: json["userLevelId"] ?? 0,
-        workPermitRoleId: json["workPermitRoleId"] ?? 0,
         message: json["message"] ?? '',
         loginCode: json["loginCode"],
         userId: json["userId"],
@@ -47,7 +44,6 @@ class UserModel {
         "password": password,
         "departmentId": departmentId,
         "userLevelId": userLevelId,
-        "workPermitRoleId": workPermitRoleId,
         "message": message,
         "loginCode": loginCode,
         "userId": userId,

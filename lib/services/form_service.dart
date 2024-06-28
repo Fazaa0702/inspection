@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:einspection/export.dart';
 import 'package:einspection/routes/route_name.dart';
@@ -48,7 +47,8 @@ class FormService {
     print("answerrrrrrrrrsssssss: ${answer["picItemId"]}");
     print('statusCodeee = ${res.statusCode}');
     if (res.statusCode == 200) {
-      CommonSnackbar.successSnackbar('Success', 'Your answer has been sent', false);
+      CommonSnackbar.successSnackbar(
+          'Success', 'Your answer has been sent', false);
       Get.offAllNamed(RouteName.home);
       print("sukses : oke");
     } else {

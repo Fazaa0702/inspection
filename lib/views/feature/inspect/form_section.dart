@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:einspection/export.dart';
-import 'package:einspection/routes/route_name.dart';
 import 'package:einspection/views/feature/inspect/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
